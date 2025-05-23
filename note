@@ -1,4 +1,5 @@
-Lệnh pull trước khi sửa để up to date: git pull origin main
+Lệnh pull trước khi sửa để up to date: 
+      git pull origin main
 
 Các bước update file sau khi sửa lên github
 Bước 1: git add .

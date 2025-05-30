@@ -34,11 +34,12 @@ $flowers = [
         body { font-family: Arial, sans-serif; background: #f8f8f8; margin: 0; }
         header { 
             background: #FFE8EE; 
-            background-image: url('assets/img/image-bg-main.png');
-            background-size: cover;
-            background-position: center;
+            background-image: url('assets/img/home_banner.png');
+            background-repeat: no-repeat;
+            background-size: 900px 900px;
+            background-position: right;
             color: black; 
-            padding: 50px 0px 50px 50px; 
+            padding: 130px 0px 130px 50px; 
             position: relative;
         }
         .container { max-width: 1000px; margin: 30px auto; background: #fff; padding: 30px; border-radius: 8px; }
@@ -55,11 +56,11 @@ $flowers = [
 <body>
     <?php include 'includes/header.php'; ?>
     <header>
-        <h1>Blossom</h1>
+        <h1>Blossom Flower Shop</h1>
         <p style="font-family: 'Charmonman';">A bouquet of love</p>
         <p>Welcome to our flower shop! Explore our beautiful collection of flowers.</p>
         <button class="buy-btn">Purchase</button>
-        <span> Read more </span>
+        <span style="padding-left: 2%;"> Read more </span>
     </header>
     <div class="container">
         <h2>Our Flowers</h2>

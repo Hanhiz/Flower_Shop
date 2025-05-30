@@ -1,4 +1,4 @@
-
+<?php
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,16 +18,16 @@
     <div class="max-w-7xl mx-auto flex items-center justify-between">
       <!-- Logo -->
       <div class="flex-shrink-0">
-        <img src="./assets/img/web_logo.png" alt="Blossom Logo" class="h-24 w-auto">
+        <img src="../assets/img/web_logo.png" alt="Blossom Logo" class="h-24 w-auto">
       </div>
 
       <!-- Social icons -->
-      <div class="flex items-center space-x-6">
-        <a href="#"><img src="./assets/img/ig.png" alt="Instagram" class="h-10 w-10 hover:opacity-70 transition"></a>
-        <a href="#"><img src="./assets/img/facebook.png" alt="Facebook" class="h-10 w-10 hover:opacity-70 transition"></a>
-        <a href="#"><img src="./assets/img/x.png" alt="X" class="h-10 w-10 hover:opacity-70 transition"></a>
-        <a href="#"><img src="./assets/img/youtube.png" alt="YouTube" class="h-10 w-10 hover:opacity-70 transition"></a>
-        <a href="#"><img src="./assets/img/email.png" alt="Email" class="h-10 w-10 hover:opacity-70 transition"></a>
+      <div class="flex items-center space-x-8">
+        <a href="#"><img src="../assets/img/ig.png" alt="Instagram" class="h-12 w-12 hover:opacity-70 transition"></a>
+        <a href="#"><img src="../assets/img/facebook.png" alt="Facebook" class="h-12 w-12 hover:opacity-70 transition"></a>
+        <a href="#"><img src="../assets/img/x.png" alt="X" class="h-12 w-12 hover:opacity-70 transition"></a>
+        <a href="#"><img src="../assets/img/youtube.png" alt="YouTube" class="h-12 w-12 hover:opacity-70 transition"></a>
+        <a href="#"><img src="../assets/img/email.png" alt="Email" class="h-12 w-12 hover:opacity-70 transition"></a>
       </div>
     </div>
   </div>
@@ -37,7 +37,7 @@
     <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
 
       <!-- Shop -->
-      <div>
+      <div class="text-left">
         <h3 class="text-lg font-semibold mb-3">Shop</h3>
         <ul class="space-y-1 text-sm">
           <li><a href="#">All Bouquets</a></li>
@@ -49,7 +49,7 @@
       </div>
 
       <!-- About -->
-      <div>
+      <div class="text-left">
         <h3 class="text-lg font-semibold mb-3">About</h3>
         <ul class="space-y-1 text-sm">
           <li><a href="#">Our Story</a></li>
@@ -62,7 +62,7 @@
       </div>
 
       <!-- Same-day Delivery -->
-      <div>
+      <div class="text-left">
         <h3 class="text-lg font-semibold mb-3">Same-day Delivery</h3>
         <div class="grid grid-cols-2 gap-x-4 text-sm">
           <ul class="space-y-1">
@@ -81,7 +81,7 @@
       </div>
 
       <!-- Next-day Delivery -->
-      <div>
+      <div class="text-left">
         <h3 class="text-lg font-semibold mb-3">Next-day Delivery</h3>
         <div class="grid grid-cols-2 gap-x-4 text-sm">
           <ul class="space-y-1">

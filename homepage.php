@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <link href='https://fonts.googleapis.com/css?family=Charmonman' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Inria Serif' rel='stylesheet'>
     <title>Flower Shop</title>
     <style>
         html {
@@ -12,8 +13,8 @@
             width: 100%;
         }
         body { 
-            font-family: Arial, sans-serif; 
-            background: #f8f8f8; 
+            font-family: Montserrat; 
+            background-color: #f8f8f8; 
             margin: 0; 
         }
         header { 
@@ -34,10 +35,18 @@
             line-height: 1.5; 
             width: 50%;
         }
+        .containerb { 
+            clear: both;
+            width: 80%; 
+            background: #fff; 
+            margin: 0 auto;
+            padding: 20px 10%;
+
+        }
         .container { 
+            clear: both;
             width: 100%; 
             background: #fff; 
-            border-radius: 8px; 
             margin: 0 auto;
             padding: 20px 0px;
         }
@@ -115,10 +124,50 @@
         .buy-btn:hover { 
             background: #d1436c; 
         }
+        .bottomleft {
+            position: absolute;
+            bottom: 8px;
+            left: 12px;
+            font-size: 20px;
+            color: white;
+            font-family: 'Inria Serif', serif;
+            width: 60%;
+        }
+
         footer { 
+            clear: both;
             text-align: center; 
             color: #888; 
             margin: 40px 0 10px; 
+        }
+        .container1 {
+            width: 49%;
+            position: relative;
+            float: left;
+            margin: 0 0.5%;
+        }
+        .container2 {
+            width: 33%;
+            position: relative;
+            float: left;
+            margin: 0 0.1%;
+        }
+        .collection1 {
+            margin-top: 20px;
+        }
+        .collection1::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+        .containerc {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px 10%;
+            background: #fff;
+            color: #333;
+            font-size: 16px;
+            line-height: 1.6;
         }
     </style>
 </head>
@@ -151,9 +200,51 @@
             </div>
         </div>
     </div>
-    <footer>
-        <?php include 'includes/footer.php'; ?>
-        &copy; <?php echo date('Y'); ?> Flower Shop. All rights reserved.
-    </footer>
+    <div class="containerb">
+        <center>
+            <h3>Discover</h3>
+            <h2><img src="assets/img/flower_5768957.png" width=1.4%> Our Collection <img src="assets/img/flower_5768957.png" width=1.4%></h2>
+        </center>
+        <div class="collection1">
+            <div class="container1">
+                <img src="assets/img/collection1.png" alt="Bouquet 1" style="width: 100%; object-fit: cover; border-radius: 8px;">
+                <div class="bottomleft">Collection<br><span style="font-size: 20pt;"><b>Anniversary Flowers</b></span></div>
+            </div>
+            <div class="container1">
+                <img src="assets/img/collection2.png" alt="Bouquet 2" style="width: 100%; object-fit: cover; border-radius: 8px;">
+                <div class="bottomleft">Collection<br><span style="font-size: 20pt;"><b>Birthday Flowers</b></span></div>
+            </div>
+            <div class="container2">
+                <img src="assets/img/collection3.png" alt="Bouquet 3" style="width: 100%; height: 770px; object-fit: cover; border-radius: 8px;">
+                <div class="bottomleft">Collection<br><span style="font-size: 20pt;"><b>International Woman’s Day Flowers</b></span></div>
+            </div>
+            <div class="container2">
+                <img src="assets/img/collection4.png" alt="Bouquet 4" style="width: 100%; height: 770px; object-fit: cover; border-radius: 8px;">
+                <div class="bottomleft">Collection<br><span style="font-size: 20pt;"><b>Teacher’s Day Flowers</b></span></div>
+            </div>
+            <div class="container2">
+                <img src="assets/img/collection5.png" alt="Bouquet 5" style="width: 100%; height: 770px; object-fit: cover; border-radius: 8px;">
+                <div class="bottomleft">Collection<br><span style="font-size: 20pt;"><b>Parents’ Day Flowers</b></span></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="containerc">
+        <h2>ABOUT FLOWER DELIVERY WITH BLOSSOM FLOWER SHOP </h2>
+        <h3>Celebrate a special occasion or send a thoughtful message with an impressive bouquet of flowers.</h3>
+        <p>BLOSSOM FLOWER SHOP is one-of-a-kind florist with efficient flower delivery service. We craft our flower bouquets with the freshest flowers and package them carefully to ensure both our customers and their recipients are 100% satisfied.
+
+        Our wide variety of floral arrangements means you can order online the perfect gift for any occasion. Send classic red roses for an anniversary or a bright assorted bouquet for a loved one's birthday.
+
+        Additionally, our flowers are ideal for a thank you gift, a get well soon gesture, congratulating someone on a promotion, or celebrating the birth of a new baby. And if you forget to mark your calendar for Valentine's Day or Mother's Day, don't worry — we're pros at last-minute deliveries.
+
+        Need some inspiration? Browse the Occasion tab on our website to see what bouquets our florists recommend. Once you've made your choice, all you need to do is order our flowers online and we'll get started on your flower delivery right away.</p>
+        <p>We also offer same-day flower delivery for those who need a last-minute gift. Simply place your order before our cut-off time and we'll ensure your flowers arrive on the same day.</p>
+        <p>At BLOSSOM FLOWER SHOP, we take pride in our customer service and quality. Our team is dedicated to making sure your flower delivery experience is seamless and enjoyable. Whether you're sending flowers to a loved one or treating yourself, we guarantee you'll be satisfied with our service.</p>
+        <p>So why wait? Order your flowers online today and let us help you make someone's day special with a beautiful bouquet from BLOSSOM FLOWER SHOP.</p>
+
+    </div>
+    <?php include 'includes/footer.php'; ?>
+    
 </body>
 </html>

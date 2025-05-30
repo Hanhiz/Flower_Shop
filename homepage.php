@@ -28,10 +28,19 @@ $flowers = [
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link href='https://fonts.googleapis.com/css?family=Charmonman' rel='stylesheet'>
     <title>Flower Shop</title>
     <style>
         body { font-family: Arial, sans-serif; background: #f8f8f8; margin: 0; }
-        header { background: #e75480; color: #fff; padding: 20px 0; text-align: center; }
+        header { 
+            background: #FFE8EE; 
+            background-image: url('assets/img/image-bg-main.png');
+            background-size: cover;
+            background-position: center;
+            color: black; 
+            padding: 50px 0px 50px 50px; 
+            position: relative;
+        }
         .container { max-width: 1000px; margin: 30px auto; background: #fff; padding: 30px; border-radius: 8px; }
         .flowers { display: flex; flex-wrap: wrap; gap: 30px; justify-content: center; }
         .flower { background: #fafafa; border: 1px solid #eee; border-radius: 8px; width: 220px; text-align: center; box-shadow: 0 2px 8px #eee; }
@@ -46,8 +55,11 @@ $flowers = [
 <body>
     <?php include 'includes/header.php'; ?>
     <header>
-        <h1>Welcome to the Flower Shop</h1>
-        <p>Fresh flowers delivered to your door</p>
+        <h1>Blossom</h1>
+        <p style="font-family: 'Charmonman';">A bouquet of love</p>
+        <p>Welcome to our flower shop! Explore our beautiful collection of flowers.</p>
+        <button class="buy-btn">Purchase</button>
+        <span> Read more </span>
     </header>
     <div class="container">
         <h2>Our Flowers</h2>

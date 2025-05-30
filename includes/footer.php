@@ -18,16 +18,16 @@
     <div class="max-w-7xl mx-auto flex items-center justify-between">
       <!-- Logo -->
       <div class="flex-shrink-0">
-        <img src="../assets/img/web_logo.png" alt="Blossom Logo" class="h-24 w-auto">
+        <img src="./assets/img/web_logo.png" alt="Blossom Logo" class="h-24 w-auto">
       </div>
 
       <!-- Social icons -->
       <div class="flex items-center space-x-6">
-        <a href="#"><img src="../assets/img/ig.png" alt="Instagram" class="h-10 w-10 hover:opacity-70 transition"></a>
-        <a href="#"><img src="../assets/img/facebook.png" alt="Facebook" class="h-10 w-10 hover:opacity-70 transition"></a>
-        <a href="#"><img src="../assets/img/x.png" alt="X" class="h-10 w-10 hover:opacity-70 transition"></a>
-        <a href="#"><img src="../assets/img/youtube.png" alt="YouTube" class="h-10 w-10 hover:opacity-70 transition"></a>
-        <a href="#"><img src="../assets/img/email.png" alt="Email" class="h-10 w-10 hover:opacity-70 transition"></a>
+        <a href="#"><img src="./assets/img/ig.png" alt="Instagram" class="h-10 w-10 hover:opacity-70 transition"></a>
+        <a href="#"><img src="./assets/img/facebook.png" alt="Facebook" class="h-10 w-10 hover:opacity-70 transition"></a>
+        <a href="#"><img src="./assets/img/x.png" alt="X" class="h-10 w-10 hover:opacity-70 transition"></a>
+        <a href="#"><img src="./assets/img/youtube.png" alt="YouTube" class="h-10 w-10 hover:opacity-70 transition"></a>
+        <a href="#"><img src="./assets/img/email.png" alt="Email" class="h-10 w-10 hover:opacity-70 transition"></a>
       </div>
     </div>
   </div>

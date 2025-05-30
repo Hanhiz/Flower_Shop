@@ -76,6 +76,7 @@ $flowers = [
         </div>
     </div>
     <footer>
+        <?php include 'includes/footer.php'; ?>
         &copy; <?php echo date('Y'); ?> Flower Shop. All rights reserved.
     </footer>
 </body>

@@ -60,11 +60,12 @@ $flowers = [
             width: 50%;
         }
         .container { 
-            max-width: 1000px; 
+            width: 100%; 
             margin: 30px auto; 
             background: #fff; 
             padding: 30px; 
             border-radius: 8px; 
+            margin: 0 auto;
         }
         .flowers { 
             display: flex; 
@@ -113,19 +114,19 @@ $flowers = [
 <body>
     <?php include 'includes/header.php'; ?>
     <header>
-        <img src="assets/img/home_banner.jpg" alt="Flower Shop" style="width: 40%; height: 500px; object-fit: cover; justify-content: right; border-radius: 8px; position: absolute; right: 0; top: 0px;">
+        <img src="assets/img/home_banner.jpg" alt="Flower Shop" style="width: 40%; height: 500px; object-fit: cover; justify-content: right; border-radius: 8px; position: absolute; right: 0; top: 0px; margin-right: 50px;">
         <h1>Blossom Flower Shop</h1>
         <p style="font-family: 'Charmonman';">A bouquet of love</p>
         <p>Welcome to our flower shop! Explore our beautiful collection of flowers.
         We offer a wide variety of fresh flowers for every occasion.
         From elegant roses to vibrant sunflowers, we have something for everyone.</p>
         <button class="buy-btn">Purchase</button>
-        <span style="padding-left: 2%;"> Read more </span>
-        <br><br><br>
-        <p>Get a discount on your first order!</p>
+        <span style="padding-left: 2%; font-size: 12pt"><b>Read more</b></span>
+        <br><br><br><br><br>
+        <p style="font-size: 12pt; font-family: Montserrat;"><b>Get a discount on your first order!</b></p>
     </header>
     <div class="container">
-        <h2>Our Flowers</h2>
+        <h2>Our Bestsellers</h2>
         <div class="flowers">
             <?php foreach ($flowers as $flower): ?>
                 <div class="flower">

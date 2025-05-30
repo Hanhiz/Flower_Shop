@@ -1,4 +1,4 @@
-
+<?php
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,20 +14,20 @@
 <body class="text-gray-900">
 
   <!-- Top footer: Logo & Social icons -->
-  <div class="footer-bg px-8 py-6">
+  <div class="footer-bg px-8 py-3">
     <div class="max-w-7xl mx-auto flex items-center justify-between">
       <!-- Logo -->
       <div class="flex-shrink-0">
-        <img src="./assets/img/web_logo.png" alt="Blossom Logo" class="h-24 w-auto">
+        <img src="./assets/img/web_logo.png" alt="Blossom Logo" class="h-16 w-auto">
       </div>
 
       <!-- Social icons -->
-      <div class="flex items-center space-x-8">
-        <a href="#"><img src="./assets/img/ig.png" alt="Instagram" class="h-12 w-12 hover:opacity-70 transition"></a>
-        <a href="#"><img src="./assets/img/facebook.png" alt="Facebook" class="h-12 w-12 hover:opacity-70 transition"></a>
-        <a href="#"><img src="./assets/img/x.png" alt="X" class="h-12 w-12 hover:opacity-70 transition"></a>
-        <a href="#"><img src="./assets/img/youtube.png" alt="YouTube" class="h-12 w-12 hover:opacity-70 transition"></a>
-        <a href="#"><img src="./assets/img/email.png" alt="Email" class="h-12 w-12 hover:opacity-70 transition"></a>
+      <div class="flex items-center space-x-5">
+        <a href="#"><img src="./assets/img/ig.png" alt="Instagram" class="h-8 w-8 hover:opacity-70 transition"></a>
+        <a href="#"><img src="./assets/img/facebook.png" alt="Facebook" class="h-8 w-8 hover:opacity-70 transition"></a>
+        <a href="#"><img src="./assets/img/x.png" alt="X" class="h-8 w-8 hover:opacity-70 transition"></a>
+        <a href="#"><img src="./assets/img/youtube.png" alt="YouTube" class="h-8 w-8 hover:opacity-70 transition"></a>
+        <a href="#"><img src="./assets/img/email.png" alt="Email" class="h-8 w-8 hover:opacity-70 transition"></a>
       </div>
     </div>
   </div>

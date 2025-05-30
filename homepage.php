@@ -85,7 +85,7 @@
             background: #e75480; 
             color: #fff; 
             border: none; 
-            padding: 10px 20px; 
+            padding: 15px 20px; 
             border-radius: 4px; 
             cursor: pointer; 
         }
@@ -96,7 +96,7 @@
             background: #fafafa; 
             border: 1px solid #eee; 
             border-radius: 8px; 
-            width: 220px; 
+            width: 30%; 
             text-align: center; 
             box-shadow: 0 2px 8px #eee; 
         }
@@ -169,6 +169,21 @@
             font-size: 16px;
             line-height: 1.6;
         }
+        .circle-button {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: none;
+            background-color: #FFC0CB;
+            color: white;
+            text-align: center;
+            line-height: 48px; /* vertically center text */
+            font-size: 18px;
+            cursor: pointer;
+        }
+        .circle-button:hover {
+            background-color: #FF69B4;
+        }
     </style>
 </head>
 <body>
@@ -193,11 +208,11 @@
                 Our selection of best selling bouquets by Blossom Flower Shop. Send a beautiful bouquet today.<br>
                 <button>Shop Bestsellers</button>
             </div>
-            <div class="flowers">
-                <img src="assets/img/hoa1.png" alt="Red Roses" class="flower">
-                <img src="assets/img/hoa2.png" alt="Tulips" class="flower">
-                <img src="assets/img/hoa3.png" alt="Sunflowers" class="flower">
+            <button onclick="prevFlower()" class="circle-button"><</button>
+            <div class="flowers" id="flowers-slideshow">
+                <!-- Images will be injected by JavaScript -->
             </div>
+            <button onclick="nextFlower()" class="circle-button">></button>
         </div>
     </div>
     <div class="containerb">
@@ -245,6 +260,49 @@
 
     </div>
     <?php include 'includes/footer.php'; ?>
-    
+    <script>
+        const imageCount = 5;
+        const images = [];
+        for (let i = 1; i <= imageCount; i++) {
+            images.push({
+                src: `assets/img/hoa${i}.png`,
+                alt: `Hoa ${i}`
+            });
+        }
+        let current = 0;
+        const imagesPerSlide = 3;
+        const slideshow = document.getElementById('flowers-slideshow');
+
+        function renderSlide() {
+            slideshow.innerHTML = '';
+            for (let i = 0; i < imagesPerSlide; i++) {
+                const idx = (current + i) % imageCount;
+                const img = document.createElement('img');
+                img.src = images[idx].src;
+                img.alt = images[idx].alt;
+                img.className = 'flower';
+                slideshow.appendChild(img);
+            }
+        }
+
+        function nextFlower() {
+            current = (current + 1) % imageCount;
+            renderSlide();
+        }
+
+        function prevFlower() {
+            current = (current - 1 + imageCount) % imageCount;
+            renderSlide();
+        }
+
+        // Auto-slide every 3 seconds
+        let autoSlide = setInterval(nextFlower, 3000);
+
+        // Pause on hover
+        slideshow.addEventListener('mouseenter', () => clearInterval(autoSlide));
+        slideshow.addEventListener('mouseleave', () => autoSlide = setInterval(nextFlower, 3000));
+
+        renderSlide();
+    </script>
 </body>
 </html>

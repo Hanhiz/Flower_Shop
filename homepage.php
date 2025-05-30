@@ -1,29 +1,3 @@
-<?php
-// Simple Flower Shop Homepage
-
-$flowers = [
-    [
-        'name' => 'Red Roses',
-        'price' => 25.00,
-        'image' => 'https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80'
-    ],
-    [
-        'name' => 'Tulips',
-        'price' => 18.00,
-        'image' => 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80'
-    ],
-    [
-        'name' => 'Sunflowers',
-        'price' => 20.00,
-        'image' => 'https://images.unsplash.com/photo-1465101178521-c1a9136a3b99?auto=format&fit=crop&w=400&q=80'
-    ],
-    [
-        'name' => 'Lilies',
-        'price' => 22.00,
-        'image' => 'https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80'
-    ]
-];
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -35,6 +9,7 @@ $flowers = [
             scroll-behavior: smooth;
             margin: 0;
             padding: 0;
+            width: 100%;
         }
         body { 
             font-family: Arial, sans-serif; 
@@ -45,33 +20,68 @@ $flowers = [
             width: 100%;
             background: #FFE8EE; 
             color: black; 
-            padding: 130px 0px 20px 50px; 
+            padding: 130px 0px 20px 0px; 
             position: relative;
         }
         header h1 { 
             font-size: 48px; 
-            margin: 0; 
+            margin: 0 30px; 
             font-weight: bold; 
         }
         header p { 
             font-size: 20px; 
-            margin: 10px 0; 
+            margin: 10px 30px; 
             line-height: 1.5; 
             width: 50%;
         }
         .container { 
             width: 100%; 
-            margin: 30px auto; 
             background: #fff; 
-            padding: 30px; 
             border-radius: 8px; 
             margin: 0 auto;
+            padding: 20px 0px;
+        }
+        .container h2 { 
+            margin: 0 30px;
+        }
+        .bestsellers { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 30px; 
+            width: 100%;
         }
         .flowers { 
             display: flex; 
             flex-wrap: wrap; 
             gap: 30px; 
-            justify-content: center; 
+            width: 60%; 
+            justify-content: right;
+            margin-right: 20px;
+        }
+
+        .bestsellers-text { 
+            font-size: 15px; 
+            width: 40%;
+            color: #e75480; 
+            margin-left: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px; 
+            margin-top: auto;
+        }
+
+        .bestsellers-text button {
+            width: 160px; 
+            background: #e75480; 
+            color: #fff; 
+            border: none; 
+            padding: 10px 20px; 
+            border-radius: 4px; 
+            cursor: pointer; 
+        }
+        .bestsellers-text button:hover { 
+            background: #d1436c; 
         }
         .flower { 
             background: #fafafa; 
@@ -100,6 +110,7 @@ $flowers = [
             padding: 10px 20px; 
             border-radius: 4px; 
             cursor: pointer; 
+            margin: 0px 20px;
         }
         .buy-btn:hover { 
             background: #d1436c; 
@@ -127,15 +138,17 @@ $flowers = [
     </header>
     <div class="container">
         <h2>Our Bestsellers</h2>
-        <div class="flowers">
-            <?php foreach ($flowers as $flower): ?>
-                <div class="flower">
-                    <img src="<?php echo htmlspecialchars($flower['image']); ?>" alt="<?php echo htmlspecialchars($flower['name']); ?>">
-                    <h3><?php echo htmlspecialchars($flower['name']); ?></h3>
-                    <p>$<?php echo number_format($flower['price'], 2); ?></p>
-                    <button class="buy-btn">Buy Now</button>
-                </div>
-            <?php endforeach; ?>
+        
+        <div class="bestsellers">
+            <div class="bestsellers-text">
+                Our selection of best selling bouquets by Blossom Flower Shop. Send a beautiful bouquet today.<br>
+                <button>Shop Bestsellers</button>
+            </div>
+            <div class="flowers">
+                <img src="assets/img/hoa1.png" alt="Red Roses" class="flower">
+                <img src="assets/img/hoa2.png" alt="Tulips" class="flower">
+                <img src="assets/img/hoa3.png" alt="Sunflowers" class="flower">
+            </div>
         </div>
     </div>
     <footer>

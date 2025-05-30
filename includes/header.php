@@ -15,7 +15,7 @@
             background: #FAD1CC;
             display: flex;
             align-items: center;
-            justify-content: flex-start; /* Đưa các phần tử về bên trái */
+            justify-content: flex-start;
             padding: 0 40px;
             height: 70px;
             font-family: 'Montserrat', Arial, sans-serif;
@@ -23,7 +23,7 @@
         .header-left {
             display: flex;
             align-items: center;
-            gap: 40px; /* Khoảng cách giữa logo và menu */
+            gap: 40px;
             flex: 1;
         }
         .logo {
@@ -51,11 +51,11 @@
         }
         .nav a {
             text-decoration: none;
-            color: #222;
-            font-size: 18px;
-            font-weight: 700;
+            color: #3c3c3c;
+            font-size: 14px;
+            font-weight: 100; /* Montserrat Thin */
             letter-spacing: 1px;
-            font-family: 'Montserrat', Arial, sans-serif;
+            font-family: 'Montserrat', Verdana;
             padding: 8px 0;
             display: inline-block;
             transition: color 0.2s;
@@ -106,21 +106,36 @@
             display: flex;
             align-items: center;
             gap: 30px;
+            margin-left: 60px; /* Thêm dòng này để đẩy header-actions sang trái gần menu hơn */
         }
         .call {
             display: flex;
-            align-items: center;
-            font-size: 15px;
+            align-items: center;         
+            text-decoration: none;
+            color: #3c3c3c;
+            font-size: 14px;
+            font-weight: 100; /* Montserrat Thin */
+            letter-spacing: 1px;
+            font-family: 'Montserrat', Verdana;
             color: #444;
+        }
+        .call-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+            font-size: 10px;
+            font-weight: 100; /* Montserrat Thin */
+            color: #6f6f6f;
         }
         .call-icon {
             margin-right: 7px;
-            font-size: 18px;
+            font-size: 25px;
         }
         .call-number {
-            font-weight: bold;
-            margin-left: 5px;
-            color: #222;
+            margin-left: 0;
+            color: #3c3c3c;
+            font-family: 'Montserrat', Verdana;
+            font-size: 14px;
         }
         .icon-heart {
             font-size: 28px;
@@ -131,6 +146,11 @@
             font-size: 17px;
             color: #222;
             text-decoration: none;
+            color: #3c3c3c;
+            font-size: 14px;
+            font-weight: 100; /* Montserrat Thin */
+            letter-spacing: 1px;
+            font-family: 'Montserrat', Verdana;
             font-weight: 500;
             display: flex;
             align-items: center;
@@ -139,6 +159,8 @@
             color: #e74c3c;
             font-size: 22px;
             margin-right: 5px;
+            align-self: center;
+            line-height: 1;
         }
     </style>
     <!-- Font Awesome for icons -->
@@ -182,11 +204,13 @@
         <div class="header-actions">
             <div class="call">
                 <span class="call-icon"><i class="fa fa-phone"></i></span>
-                <span>Call to order</span>
-                <span class="call-number">+84 9001090</span>
+                <div class="call-text">
+                    <span>CALL TO ORDER</span>
+                    <span class="call-number">+84 9001090</span>
+                </div>
             </div>
             <span class="icon-heart"><i class="fa-regular fa-heart"></i></span>
-            <a href="#" class="sign-in"><span class="dot">•</span>SIGN-IN</a>
+            <a href="#" class="sign-in"><span class="dot">•</span><b>SIGN-IN</b></a>
         </div>
     </div>
 </body>

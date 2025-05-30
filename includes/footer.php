@@ -14,27 +14,26 @@
 <body class="text-gray-900">
 
   <!-- Top footer: Logo & Social icons -->
-  <div class="footer-bg px-8 py-3">
+  <div class="footer-bg px-8 pt-6 pb-2">
     <div class="max-w-7xl mx-auto flex items-center justify-between">
       <!-- Logo -->
       <div class="flex-shrink-0">
         <img src="./assets/img/web_logo.png" alt="Blossom Logo" class="h-16 w-auto">
       </div>
-
       <!-- Social icons -->
-      <div class="flex items-center space-x-5">
-        <a href="#"><img src="./assets/img/ig.png" alt="Instagram" class="h-8 w-8 hover:opacity-70 transition"></a>
-        <a href="#"><img src="./assets/img/facebook.png" alt="Facebook" class="h-8 w-8 hover:opacity-70 transition"></a>
-        <a href="#"><img src="./assets/img/x.png" alt="X" class="h-8 w-8 hover:opacity-70 transition"></a>
-        <a href="#"><img src="./assets/img/youtube.png" alt="YouTube" class="h-8 w-8 hover:opacity-70 transition"></a>
-        <a href="#"><img src="./assets/img/email.png" alt="Email" class="h-8 w-8 hover:opacity-70 transition"></a>
+      <div class="flex items-center space-x-4">
+        <a href="#"><img src="./assets/img/ig.png" alt="Instagram" class="h-7 w-7 hover:opacity-70 transition"></a>
+        <a href="#"><img src="./assets/img/facebook.png" alt="Facebook" class="h-7 w-7 hover:opacity-70 transition"></a>
+        <a href="#"><img src="./assets/img/x.png" alt="X" class="h-7 w-7 hover:opacity-70 transition"></a>
+        <a href="#"><img src="./assets/img/youtube.png" alt="YouTube" class="h-7 w-7 hover:opacity-70 transition"></a>
+        <a href="#"><img src="./assets/img/email.png" alt="Email" class="h-7 w-7 hover:opacity-70 transition"></a>
       </div>
     </div>
   </div>
 
   <!-- Footer main -->
-  <footer class="footer-bg px-8 py-12">
-    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
+  <footer class="footer-bg px-8 pt-2 pb-8">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
 
       <!-- Shop -->
       <div class="text-left">
@@ -104,7 +103,7 @@
     </div>
 
     <!-- Bottom links -->
-    <div class="mt-8 border-t pt-4 text-xs text-center text-gray-600 space-x-4">
+    <div class="mt-6 border-t pt-3 text-xs text-center text-gray-600 space-x-6">
       <a href="#" class="hover:underline">Sitemap</a>
       <a href="#" class="hover:underline">Accessibility Statement</a>
       <a href="#" class="hover:underline">Term & Condition</a>

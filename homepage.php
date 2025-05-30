@@ -44,6 +44,7 @@ $flowers = [
     </style>
 </head>
 <body>
+    <?php include 'includes/header.php'; ?>
     <header>
         <h1>Welcome to the Flower Shop</h1>
         <p>Fresh flowers delivered to your door</p>

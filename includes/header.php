@@ -1,9 +1,10 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Flower Shop</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
     <style>
         body { margin: 0; }
         .header-top {
@@ -11,13 +12,19 @@
             height: 8px;
         }
         .header-main {
-            background: #fcd6d6;
+            background: #FAD1CC;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: flex-start; /* Đưa các phần tử về bên trái */
             padding: 0 40px;
             height: 70px;
-            font-family: Arial, sans-serif;
+            font-family: 'Montserrat', Arial, sans-serif;
+        }
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 40px; /* Khoảng cách giữa logo và menu */
+            flex: 1;
         }
         .logo {
             display: flex;
@@ -34,21 +41,66 @@
             margin-right: 20px;
             border: 1px solid #eee;
         }
-        .logo-text {
-            font-family: 'Brush Script MT', cursive;
-            font-size: 22px;
-            color: #b97a56;
-        }
         .nav {
             display: flex;
             gap: 40px;
+            position: relative;
+        }
+        .nav-item {
+            position: relative;
         }
         .nav a {
             text-decoration: none;
             color: #222;
             font-size: 18px;
-            font-weight: 500;
+            font-weight: 700;
             letter-spacing: 1px;
+            font-family: 'Montserrat', Arial, sans-serif;
+            padding: 8px 0;
+            display: inline-block;
+            transition: color 0.2s;
+        }
+        .nav a::after {
+            content: "";
+            display: block;
+            height: 2px;
+            width: 0;
+            background: #b97a56;
+            transition: width 0.3s;
+            margin: 0 auto;
+        }
+        .nav a:hover, .nav a:focus {
+            color: #b97a56;
+        }
+        .nav a:hover::after, .nav a:focus::after {
+            width: 100%;
+        }
+        /* Dropdown styles */
+        .dropdown {
+            display: none;
+            position: absolute;
+            left: 0;
+            top: 100%;
+            background: #fff;
+            min-width: 160px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+            border-radius: 4px;
+            z-index: 10;
+        }
+        .dropdown a {
+            color: #222;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: 500;
+            display: block;
+            background: none;
+        }
+        .dropdown a:hover {
+            background: #FAD1CC;
+            color: #b97a56;
+        }
+        .nav-item:hover .dropdown {
+            display: block;
         }
         .header-actions {
             display: flex;
@@ -95,17 +147,38 @@
 <body>
     <div class="header-top"></div>
     <div class="header-main">
-        <div class="logo">
-            <div class="logo-img">
-                <!-- Bạn có thể thay bằng <img src="logo.png" ...> -->
-                <span class="logo-text">Blossom</span>
+        <div class="header-left">
+            <div class="logo">
+                <div class="logo-img" style="background:none; border:none;">
+                    <img src="assets/img/web_logo.png" alt="Blossom Logo" style="width:60px; height:60px; object-fit:contain;">
+                </div>
             </div>
+            <nav class="nav">
+                <div class="nav-item">
+                    <a href="#">BOUQUET</a>
+                    <div class="dropdown">
+                        <a href="#">Roses</a>
+                        <a href="#">Lilies</a>
+                        <a href="#">Sunflowers</a>
+                    </div>
+                </div>
+                <div class="nav-item">
+                    <a href="#">COLLECTION</a>
+                    <div class="dropdown">
+                        <a href="#">Birthday</a>
+                        <a href="#">Anniversary</a>
+                        <a href="#">Congratulations</a>
+                    </div>
+                </div>
+                <div class="nav-item">
+                    <a href="#">OUR STORY</a>
+                    <div class="dropdown">
+                        <a href="#">About Us</a>
+                        <a href="#">Our Team</a>
+                    </div>
+                </div>
+            </nav>
         </div>
-        <nav class="nav">
-            <a href="#">BOUQUET</a>
-            <a href="#">COLLECTION</a>
-            <a href="#">OUR STORY</a>
-        </nav>
         <div class="header-actions">
             <div class="call">
                 <span class="call-icon"><i class="fa fa-phone"></i></span>

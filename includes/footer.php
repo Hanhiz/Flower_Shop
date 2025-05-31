@@ -2,11 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <link href='https://fonts.googleapis.com/css?family=Abel' rel='stylesheet'>
   <title>Blossom Footer</title>
   <style>
     body {
       margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
+      font-family: 'Abel';
       color: #000; /* Đổi màu chữ thành đen */
       background: #FAD1CC;
     }

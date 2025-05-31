@@ -4,9 +4,9 @@ $servername = "localhost";
 $username = "root";
 $pass = "";
 $dbname = "flowershop";
-$mysql = new mysqli($servername, $username, $pass, $dbname);
+$conn = new mysqli($servername, $username, $pass, $dbname);
 
-if ($mysql->connect_error) {
-    die("Connection failed: " . $mysql->connect_error);
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
 }
 ?>

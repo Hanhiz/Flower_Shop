@@ -102,7 +102,7 @@
         }
         .flower img { 
             width: 100%; 
-            height: 180px; 
+            height: 280px; 
             object-fit: cover; 
             border-radius: 8px 8px 0 0; 
         }
@@ -260,15 +260,34 @@
 
     </div>
     <?php include 'includes/footer.php'; ?>
-    <script>
-        const imageCount = 5;
-        const images = [];
-        for (let i = 1; i <= imageCount; i++) {
-            images.push({
-                src: `assets/img/hoa${i}.png`,
-                alt: `Hoa ${i}`
-            });
+    <?php
+    include 'connectdb.php';
+
+    $sql = "
+        SELECT 
+            p.name, 
+            p.image, 
+            p.price, 
+            SUM(oi.quantity) AS total_sales
+        FROM products p
+        LEFT JOIN order_items oi ON p.id = oi.product_id
+        WHERE p.status = 1
+        GROUP BY p.id
+        ORDER BY total_sales DESC
+        LIMIT 5
+    ";
+    $result = $conn->query($sql);
+
+    $flowers = [];
+    if ($result && $result->num_rows > 0) {
+        while($row = $result->fetch_assoc()) {
+            $flowers[] = $row;
         }
+    }
+    ?>
+    <script>
+        // PHP to JS: encode the $flowers array
+        const flowers = <?php echo json_encode($flowers); ?>;
         let current = 0;
         const imagesPerSlide = 3;
         const slideshow = document.getElementById('flowers-slideshow');
@@ -276,22 +295,27 @@
         function renderSlide() {
             slideshow.innerHTML = '';
             for (let i = 0; i < imagesPerSlide; i++) {
-                const idx = (current + i) % imageCount;
-                const img = document.createElement('img');
-                img.src = images[idx].src;
-                img.alt = images[idx].alt;
-                img.className = 'flower';
-                slideshow.appendChild(img);
+                const idx = (current + i) % flowers.length;
+                const flower = flowers[idx];
+                // Create a flower card
+                const div = document.createElement('div');
+                div.className = 'flower';
+                div.innerHTML = `
+                    <img src="assets/img/${flower.image}" alt="${flower.name}">
+                    <h3>${flower.name}</h3>
+                    <p>${Number(flower.price).toLocaleString()} VND</p>
+                `;
+                slideshow.appendChild(div);
             }
         }
 
         function nextFlower() {
-            current = (current + 1) % imageCount;
+            current = (current + 1) % flowers.length;
             renderSlide();
         }
 
         function prevFlower() {
-            current = (current - 1 + imageCount) % imageCount;
+            current = (current - 1 + flowers.length) % flowers.length;
             renderSlide();
         }
 

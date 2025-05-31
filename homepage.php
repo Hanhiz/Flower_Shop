@@ -254,10 +254,59 @@
         Additionally, our flowers are ideal for a thank you gift, a get well soon gesture, congratulating someone on a promotion, or celebrating the birth of a new baby. And if you forget to mark your calendar for Valentine's Day or Mother's Day, don't worry — we're pros at last-minute deliveries.
 
         Need some inspiration? Browse the Occasion tab on our website to see what bouquets our florists recommend. Once you've made your choice, all you need to do is order our flowers online and we'll get started on your flower delivery right away.</p>
+        <h3>Types of Flower Bouquets We Offer</h3>
+        <p>With our extensive selection of flower arrangements, you're sure to find the perfect blooms for your loved one. Here are the types of bouquets we offer:
+
+        Roses: Surprise your loved one with a timeless bouquet of roses in a color they'll adore, whether it's elegant white, brilliant red, soft pink, or striking purple.
+
+        Peonies: Our soft and delicate peony arrangements add simplicity and elegance to homes and offices.
+
+        Tulips: Vibrant tulips add the perfect touch of color and joy to any space they occupy.
+
+        Mixed bouquets: While one variety is beautiful on its own, consider a mixed bouquet of assorted flowers — the more the merrier!
+        </p>
+        <h3>Why Order Flowers from Blossom Flower Shop?</h3>
+        <p>Here are three of the many reasons you should order and send flowers through Blossom Flower Shop.</p>
+
+        <b>1. Farm Fresh Flowers</b><br>
+
+        Thanks to Blossom Flower Shop, you don't have to travel to Europe to find stunning arrangements. We source our flowers during their peak growing seasons from the top eco-friendly farms in countries such as Ecuador and Holland. Through our partnerships with these farms, we can provide you with fresh, beautiful, and quality blooms year-round.
+
+        <br><br><b>2. Bouquets Hand-Crafted with Love</b><br>
+
+        We treat every order that comes to our shop with the utmost care and attention. Our skilled artisans hand-tie each bouquet with an exquisite French touch, hydrate the stems to ensure optimal freshness, then package your bouquet in our unique signature gift box.
+
+        <br><br><b>3. Delivery across the US & Same-Day Flower Delivery</b><br>
+
+        At Blossom Flower Shop, we pride ourselves on quick and efficient delivery services. We deliver our bouquets nationwide. For last minute purchases, we also offer same-day delivery in select cities: NYC, Chicago, Los Angeles, Austin, Washington D.C., and Miami. Check our flower delivery zones to see how soon we can deliver our flowers near you.
+        
+        <h3>Frequently Asked Questions About Rose Flower Delivery</h3>
+        <p>Below are some common questions regarding Blossom flower shop delivery.</p>
+
+        <b>How Much Is Flower Delivery?</b><br>
+
+        Our delivery fees vary from 5.000₫ for smaller arrangements to 30.000₫ for a couple of our largest bouquets. The large majority of our bouquets are $16 delivery.
+
+        <br><br><b>What Payment Methods Do You Accept?</b><br>
+
+        We currently accept Visa, Mastercard, debit and credit card payments. You can also check out online using banking.
+
+        <br><br><b>How Do You Package Bouquets?</b><br>
+
+        We store our bouquets in water-filled travel vases to keep them hydrated and package them in our signature pink gift boxes for shipping and delivery.
+
+        <br><br><b>How Do I Know When My Order Is on the Way?</b><br>
+
+        Once your order leaves our shop, we'll send you a photo of your arrangement to notify you that it's on the way. After that, you can follow it with our online order tracking feature.
+
+        <br><br><b>How Long Will My Bouquet Last?</b><br>
+
+        While this usually depends on the variety you choose, most of our bouquets will stay fresh for around five days.
+        
+        <h3>Order Flowers Online Today</h3>
         <p>We also offer same-day flower delivery for those who need a last-minute gift. Simply place your order before our cut-off time and we'll ensure your flowers arrive on the same day.</p>
         <p>At BLOSSOM FLOWER SHOP, we take pride in our customer service and quality. Our team is dedicated to making sure your flower delivery experience is seamless and enjoyable. Whether you're sending flowers to a loved one or treating yourself, we guarantee you'll be satisfied with our service.</p>
         <p>So why wait? Order your flowers online today and let us help you make someone's day special with a beautiful bouquet from BLOSSOM FLOWER SHOP.</p>
-
     </div>
     <?php include 'includes/footer.php'; ?>
     <?php

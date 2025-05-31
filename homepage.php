@@ -249,21 +249,21 @@
         <h3>Celebrate a special occasion or send a thoughtful message with an impressive bouquet of flowers.</h3>
         <p>BLOSSOM FLOWER SHOP is one-of-a-kind florist with efficient flower delivery service. We craft our flower bouquets with the freshest flowers and package them carefully to ensure both our customers and their recipients are 100% satisfied.
 
-        Our wide variety of floral arrangements means you can order online the perfect gift for any occasion. Send classic red roses for an anniversary or a bright assorted bouquet for a loved one's birthday.
+        <br><br>Our wide variety of floral arrangements means you can order online the perfect gift for any occasion. Send classic red roses for an anniversary or a bright assorted bouquet for a loved one's birthday.
 
-        Additionally, our flowers are ideal for a thank you gift, a get well soon gesture, congratulating someone on a promotion, or celebrating the birth of a new baby. And if you forget to mark your calendar for Valentine's Day or Mother's Day, don't worry — we're pros at last-minute deliveries.
+        <br><br>Additionally, our flowers are ideal for a thank you gift, a get well soon gesture, congratulating someone on a promotion, or celebrating the birth of a new baby. And if you forget to mark your calendar for Valentine's Day or Mother's Day, don't worry — we're pros at last-minute deliveries.
 
-        Need some inspiration? Browse the Occasion tab on our website to see what bouquets our florists recommend. Once you've made your choice, all you need to do is order our flowers online and we'll get started on your flower delivery right away.</p>
+        <br><br>Need some inspiration? Browse the Occasion tab on our website to see what bouquets our florists recommend. Once you've made your choice, all you need to do is order our flowers online and we'll get started on your flower delivery right away.</p>
         <h3>Types of Flower Bouquets We Offer</h3>
         <p>With our extensive selection of flower arrangements, you're sure to find the perfect blooms for your loved one. Here are the types of bouquets we offer:
 
-        Roses: Surprise your loved one with a timeless bouquet of roses in a color they'll adore, whether it's elegant white, brilliant red, soft pink, or striking purple.
+        <span><br><br><b>Roses</b></span>: Surprise your loved one with a timeless bouquet of roses in a color they'll adore, whether it's elegant white, brilliant red, soft pink, or striking purple.
 
-        Peonies: Our soft and delicate peony arrangements add simplicity and elegance to homes and offices.
+        <span><br><b>Peonies</b></span>: Our soft and delicate peony arrangements add simplicity and elegance to homes and offices.
 
-        Tulips: Vibrant tulips add the perfect touch of color and joy to any space they occupy.
+        <span><br><b>Tulips</b></span>: Vibrant tulips add the perfect touch of color and joy to any space they occupy.
 
-        Mixed bouquets: While one variety is beautiful on its own, consider a mixed bouquet of assorted flowers — the more the merrier!
+        <span><br><b>Mixed bouquets</b></span>: While one variety is beautiful on its own, consider a mixed bouquet of assorted flowers — the more the merrier!
         </p>
         <h3>Why Order Flowers from Blossom Flower Shop?</h3>
         <p>Here are three of the many reasons you should order and send flowers through Blossom Flower Shop.</p>

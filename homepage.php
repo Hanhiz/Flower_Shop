@@ -314,6 +314,7 @@
 
     $sql = "
         SELECT 
+            p.id,
             p.name, 
             p.image, 
             p.price, 
@@ -346,13 +347,14 @@
             for (let i = 0; i < imagesPerSlide; i++) {
                 const idx = (current + i) % flowers.length;
                 const flower = flowers[idx];
-                // Create a flower card
                 const div = document.createElement('div');
                 div.className = 'flower';
                 div.innerHTML = `
-                    <img src="assets/img/${flower.image}" alt="${flower.name}">
-                    <h3>${flower.name}</h3>
-                    <p>${Number(flower.price).toLocaleString()} VND</p>
+                    <a href="product_details.php?id=${flower.id}" style="text-decoration:none;color:inherit;">
+                        <img src="assets/img/${flower.image}" alt="${flower.name}">
+                        <h3>${flower.name}</h3>
+                        <p>${Number(flower.price).toLocaleString()} VND</p>
+                    </a>
                 `;
                 slideshow.appendChild(div);
             }

@@ -5,7 +5,7 @@
   <link href='https://fonts.googleapis.com/css?family=Abel' rel='stylesheet'>
   <title>Blossom Footer</title>
   <style>
-    body {
+    footer {
       margin: 0;
       font-family: 'Abel';
       color: #000; /* Đổi màu chữ thành đen */
@@ -142,6 +142,7 @@
   </style>
 </head>
 <body>
+  <footer>
   <div class="footer-bg">
     <!-- Top footer: Logo & Social icons -->
     <div class="footer-top">
@@ -226,5 +227,6 @@
       <a href="#">Privacy Policy</a>
     </div>
   </div>
+  </footer>
 </body>
 </html>

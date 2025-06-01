@@ -137,8 +137,8 @@
             font-family: 'Montserrat', Verdana;
             font-size: 14px;
         }
-        .icon-heart {
-            font-size: 28px;
+        .icon-cart {
+            font-size: 24px;
             color: #222;
             margin-right: 10px;
         }
@@ -208,7 +208,7 @@
                     <span class="call-number">+84 9001090</span>
                 </div>
             </div>
-            <span class="icon-heart"><i class="fa-regular fa-heart"></i></span>
+            <span class="icon-cart"><i class="fa-solid fa-cart-shopping"></i></i></span>
             <a href="#" class="sign-in"><span class="dot">•</span><b>SIGN-IN</b></a>
         </div>
     </div>

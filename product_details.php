@@ -1,5 +1,5 @@
 <?php
-// filepath: d:\Xampp\htdocs\flower_shop\views\customer\product_details.php
+session_start();
 include 'connectdb.php';
 
 // Get product ID from URL
@@ -23,6 +23,28 @@ if ($card_result && $card_result->num_rows > 0) {
         $cards[] = $row;
     }
 }
+
+if (isset($_POST['add_to_cart'])) {
+    if (!isset($_SESSION['user_id'])) {
+        echo "<script>alert('You need to log in first!'); window.location='login.php';</script>";
+        exit;
+    }
+    $user_id = $_SESSION['user_id'];
+    $quantity = isset($_POST['quantity']) ? intval($_POST['quantity']) : 1;
+    $service_id = isset($_POST['card']) ? intval($_POST['card']) : null;
+
+    // Insert into cart_items
+    $stmt = $conn->prepare("INSERT INTO cart_items (user_id, product_id, quantity, service_id) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("iiii", $user_id, $product_id, $quantity, $service_id);
+    if ($stmt->execute()) {
+        echo "<script>alert('Add to cart successfully!'); window.location='cart.php';</script>";
+        exit;
+    } else {
+        echo "<script>alert('Failed to add to cart.');</script>";
+    }
+}
+
+$shipping_fee = 20000;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -157,19 +179,28 @@ if ($card_result && $card_result->num_rows > 0) {
             </div>
             <p style="margin-top:15px;">Card message (optional):</p>
             <textarea name="card_message" rows="3" style="width:100%; border-radius:4px; border:1px solid #ccc; padding:8px;" placeholder="Leave your message here..."></textarea>
+            <p style="margin-top:15px; font-size: 18px;">Shipping Fee: 
+                <b id="shipping-fee" data-fee="<?php echo $shipping_fee; ?>"><?php echo number_format($shipping_fee); ?> VND</b>
+            </p>
             <p style="margin-top:15px;">Total Price:</p>
             <p style="font-size:20px;color:#e75480;">
                 <b id="total-price" data-price="<?php echo $product['price']; ?>">
                     <?php echo number_format($product['price']); ?> VND
                 </b>
             </p>
-            <input 
-                type="submit" 
-                value="🛒 Add to Cart" 
-                style="width:30%; background-color:#FFB5C0; color:black; padding:14px 20px; border:none; border-radius:4px; cursor:pointer;"
-                onclick="updateTotal();"
-            >
-            
+            <form method="post" id="cart-form">
+                <input 
+                    type="submit" 
+                    name="add_to_cart"
+                    value="🛒 Add to Cart" 
+                    style="width:30%; background-color:#FFB5C0; color:black; padding:14px 20px; border:none; border-radius:4px; cursor:pointer;"
+                >
+                <button 
+                    type="button"
+                    id="checkout-btn"
+                    style="width:30%; background-color:#e75480; color:white; padding:14px 20px; border:none; border-radius:4px; cursor:pointer; margin-left:10px;"
+                >Checkout</button>
+            </form>
         </div>
             <a href="homepage.php">Back to Shop</a>
         </div>
@@ -179,7 +210,8 @@ if ($card_result && $card_result->num_rows > 0) {
             const qty = parseInt(document.getElementById('quantity').value) || 1;
             const cardRadio = document.querySelector('input[name="card"]:checked');
             const cardPrice = cardRadio ? parseInt(cardRadio.getAttribute('data-card-price')) : 0;
-            const total = price * qty + cardPrice;
+            const shippingFee = parseInt(document.getElementById('shipping-fee').getAttribute('data-fee')) || 0;
+            const total = price * qty + cardPrice + shippingFee;
             document.getElementById('total-price').textContent = total.toLocaleString() + ' VND';
         }
 
@@ -206,6 +238,18 @@ if ($card_result && $card_result->num_rows > 0) {
             });
         });
         updateTotal();
+
+        document.getElementById('checkout-btn').addEventListener('click', function() {
+            const productId = <?php echo $product_id; ?>;
+            const quantity = document.getElementById('quantity').value || 1;
+            const card = document.querySelector('input[name="card"]:checked');
+            const cardId = card ? card.value : '';
+            const message = encodeURIComponent(document.querySelector('textarea[name="card_message"]').value || '');
+            let url = `pay.php?id=${productId}&quantity=${quantity}`;
+            if (cardId) url += `&card=${cardId}`;
+            if (message) url += `&message=${message}`;
+            window.location.href = url;
+        });
         </script>
     </body>
     <?php include 'includes/footer.php'; ?>

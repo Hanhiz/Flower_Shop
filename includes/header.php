@@ -170,9 +170,11 @@
     <div class="header-main">
         <div class="header-left">
             <div class="logo">
-                <div class="logo-img" style="background:none; border:none;">
-                    <img src="assets/img/web_logo.png" alt="Blossom Logo" style="width:60px; height:60px; object-fit:contain;">
-                </div>
+                <a href="/flower_shop/homepage.php" style="background:none; border:none; display:inline-block;">
+                    <div class="logo-img" style="background:none; border:none;">
+                        <img src="assets/img/web_logo.png" alt="Blossom Logo" style="width:60px; height:60px; object-fit:contain;">
+                    </div>
+                </a>
             </div>
             <nav class="nav">
                 <div class="nav-item">

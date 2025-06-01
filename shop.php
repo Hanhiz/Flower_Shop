@@ -18,6 +18,10 @@ if (!empty($_GET['max_price'])) {
     $where .= " AND price <= ?";
     $params[] = intval($_GET['max_price']);
 }
+if (!empty($_GET['collection_id'])) {
+    $where .= " AND collection_id = ?";
+    $params[] = intval($_GET['collection_id']);
+}
 
 $sql = "SELECT id, name, image, price, description FROM products $where ORDER BY created_at DESC";
 $stmt = $conn->prepare($sql);
@@ -29,6 +33,14 @@ if ($params) {
 }
 $stmt->execute();
 $result = $stmt->get_result();
+
+$collections = [];
+$col_result = $conn->query("SELECT id, name FROM collections");
+if ($col_result && $col_result->num_rows > 0) {
+    while ($row = $col_result->fetch_assoc()) {
+        $collections[] = $row;
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -142,6 +154,13 @@ $result = $stmt->get_result();
         .product-card-link:active {
             color: inherit;
         }
+        input[type="number"], select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
         @media (max-width: 900px) {
             .shop-main { flex-direction: column; }
             .sidebar { width: 100%; margin-right: 0; margin-bottom: 20px; }
@@ -159,6 +178,7 @@ $result = $stmt->get_result();
         <form class="sidebar" method="get" action="shop.php">
             <h3 style="margin-top:0;">Filter by Price</h3>
             <input type="hidden" name="search" value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
+            <input type="hidden" name="collection_id" value="<?php echo isset($_GET['collection_id']) ? intval($_GET['collection_id']) : ''; ?>">
             <div style="margin-bottom:12px;">
                 <label>Min price:</label>
                 <input type="number" name="min_price" placeholder="Min" min="0" value="<?php echo isset($_GET['min_price']) ? intval($_GET['min_price']) : ''; ?>">
@@ -166,6 +186,17 @@ $result = $stmt->get_result();
             <div style="margin-bottom:12px;">
                 <label>Max price:</label>
                 <input type="number" name="max_price" placeholder="Max" min="0" value="<?php echo isset($_GET['max_price']) ? intval($_GET['max_price']) : ''; ?>">
+            </div>
+            <div style="margin-bottom:18px;">
+                <label for="collection_id"><b>Occasion:</b></label>
+                <select name="collection_id" id="collection_id" style="width:100%;padding:6px;border-radius:4px;">
+                    <option value="">All</option>
+                    <?php foreach ($collections as $col): ?>
+                        <option value="<?php echo $col['id']; ?>" <?php if(isset($_GET['collection_id']) && $_GET['collection_id'] == $col['id']) echo 'selected'; ?>>
+                            <?php echo htmlspecialchars($col['name']); ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
             </div>
             <button type="submit" style="width: auto;">Apply Filter</button>
         </form>

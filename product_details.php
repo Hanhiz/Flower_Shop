@@ -245,7 +245,7 @@ $shipping_fee = 20000;
             const card = document.querySelector('input[name="card"]:checked');
             const cardId = card ? card.value : '';
             const message = encodeURIComponent(document.querySelector('textarea[name="card_message"]').value || '');
-            let url = `pay.php?id=${productId}&quantity=${quantity}`;
+            let url = `./views/customer/pay.php?id=${productId}&quantity=${quantity}`;
             if (cardId) url += `&card=${cardId}`;
             if (message) url += `&message=${message}`;
             window.location.href = url;

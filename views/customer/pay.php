@@ -37,10 +37,10 @@ $total += $shipping_fee;
 $user_fullname = $user_phone = $user_address = '';
 if (isset($_SESSION['user_id'])) {
     $uid = $_SESSION['user_id'];
-    $user_result = $conn->query("SELECT fullname, phone, address FROM users WHERE id = $uid LIMIT 1");
+    $user_result = $conn->query("SELECT full_name, phone, address FROM users WHERE id = $uid LIMIT 1");
     if ($user_result && $user_result->num_rows > 0) {
         $user = $user_result->fetch_assoc();
-        $user_fullname = $user['fullname'];
+        $user_fullname = $user['full_name'];
         $user_phone = $user['phone'];
         $user_address = $user['address'];
     }
@@ -134,7 +134,7 @@ if (isset($_SESSION['user_id'])) {
 <body>
     <?php include '../../includes/header.php'; ?>
     <br>
-    <a href="../../cart.php" style="text-decoration: none; color: #333; margin-left: 2%;">Cart</a> > Payment
+    <a href="cart.php" style="text-decoration: none; color: #333; margin-left: 2%;">Cart</a> > Payment
     <h1>Complete Your Payment</h1>
     <div class="pay-container">
         <!-- Left: Customer Info -->

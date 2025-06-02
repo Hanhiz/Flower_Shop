@@ -1,3 +1,6 @@
+<?php
+// filepath: d:\Xampp\htdocs\flower_shop\includes\header.php
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -210,8 +213,12 @@
                     <span class="call-number">+84 9001090</span>
                 </div>
             </div>
-            <span class="icon-cart"><i class="fa-solid fa-cart-shopping"></i></i></span>
-            <a href="#" class="sign-in"><span class="dot">•</span><b>SIGN-IN</b></a>
+            <span class="icon-cart"><i class="fa-solid fa-cart-shopping"></i></span>
+            <?php if (isset($_SESSION['user_id'])): ?>
+                <a href="/flower_shop/views/auth/logout.php" class="sign-in"><span class="dot">•</span><b>LOGOUT</b></a>
+            <?php else: ?>
+                <a href="/flower_shop/views/auth/login.php" class="sign-in"><span class="dot">•</span><b>SIGN-IN</b></a>
+            <?php endif; ?>
         </div>
     </div>
 </body>

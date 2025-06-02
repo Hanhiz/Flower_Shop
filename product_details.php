@@ -26,7 +26,7 @@ if ($card_result && $card_result->num_rows > 0) {
 
 if (isset($_POST['add_to_cart'])) {
     if (!isset($_SESSION['user_id'])) {
-        echo "<script>alert('You need to log in first!'); window.location='login.php';</script>";
+        echo "<script>alert('You need to log in first!'); window.location='./views/auth/login.php';</script>";
         exit;
     }
     $user_id = $_SESSION['user_id'];
@@ -37,7 +37,7 @@ if (isset($_POST['add_to_cart'])) {
     $stmt = $conn->prepare("INSERT INTO cart_items (user_id, product_id, quantity, service_id) VALUES (?, ?, ?, ?)");
     $stmt->bind_param("iiii", $user_id, $product_id, $quantity, $service_id);
     if ($stmt->execute()) {
-        echo "<script>alert('Add to cart successfully!'); window.location='cart.php';</script>";
+        echo "<script>alert('Add to cart successfully!'); window.location='./views/customer/cart.php';</script>";
         exit;
     } else {
         echo "<script>alert('Failed to add to cart.');</script>";

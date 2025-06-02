@@ -125,6 +125,7 @@ if (session_status() === PHP_SESSION_NONE) {
             border-radius: 4px; 
             cursor: pointer; 
             margin: 0px 20px;
+            text-decoration: none;
         }
         .buy-btn:hover { 
             background: #d1436c; 
@@ -200,12 +201,12 @@ if (session_status() === PHP_SESSION_NONE) {
         <p>Welcome to our flower shop! Explore our beautiful collection of flowers.
         We offer a wide variety of fresh flowers for every occasion.
         From elegant roses to vibrant sunflowers, we have something for everyone.</p>
-        <button class="buy-btn">Purchase</button>
+        <a href="shop.php" class="buy-btn">Purchase</a>
         <span style="padding-left: 2%; font-size: 12pt"><b>Read more</b></span>
         <br><br><br><br><br>
         <p style="font-size: 12pt; font-family: Montserrat;"><b>Get a discount on your first order!</b></p>
     </header>
-    <div class="container">
+    <div class="container" id="bouquet">
         <h2>Our Bestsellers</h2>
         
         <div class="bestsellers">
@@ -220,7 +221,7 @@ if (session_status() === PHP_SESSION_NONE) {
             <button onclick="nextFlower()" class="circle-button">></button>
         </div>
     </div>
-    <div class="containerb">
+    <div class="containerb" id="collection">
         <center>
             <h3>Discover</h3>
             <h2><img src="assets/img/flower_5768957.png" width=1.4%> Our Collection <img src="assets/img/flower_5768957.png" width=1.4%></h2>
@@ -249,7 +250,7 @@ if (session_status() === PHP_SESSION_NONE) {
         </div>
     </div>
 
-    <div class="containerc">
+    <div class="containerc" id="about">
         <h2>ABOUT FLOWER DELIVERY WITH BLOSSOM FLOWER SHOP </h2>
         <h3>Celebrate a special occasion or send a thoughtful message with an impressive bouquet of flowers.</h3>
         <p>BLOSSOM FLOWER SHOP is one-of-a-kind florist with efficient flower delivery service. We craft our flower bouquets with the freshest flowers and package them carefully to ensure both our customers and their recipients are 100% satisfied.

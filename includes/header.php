@@ -181,7 +181,7 @@
             </div>
             <nav class="nav">
                 <div class="nav-item">
-                    <a href="#">BOUQUET</a>
+                    <a href="#bouquet">BOUQUET</a>
                     <div class="dropdown">
                         <a href="#">Roses</a>
                         <a href="#">Lilies</a>
@@ -189,7 +189,7 @@
                     </div>
                 </div>
                 <div class="nav-item">
-                    <a href="#">COLLECTION</a>
+                    <a href="#collection">COLLECTION</a>
                     <div class="dropdown">
                         <a href="#">Birthday</a>
                         <a href="#">Anniversary</a>
@@ -197,7 +197,7 @@
                     </div>
                 </div>
                 <div class="nav-item">
-                    <a href="#">OUR STORY</a>
+                    <a href="#about">OUR STORY</a>
                     <div class="dropdown">
                         <a href="#">About Us</a>
                         <a href="#">Our Team</a>
@@ -213,7 +213,17 @@
                     <span class="call-number">+84 9001090</span>
                 </div>
             </div>
-            <span class="icon-cart"><i class="fa-solid fa-cart-shopping"></i></span>
+            <span class="icon-cart" style="cursor:pointer;"
+                onclick="
+                    <?php if (isset($_SESSION['user_id'])): ?>
+                        window.location.href='/flower_shop/views/customer/cart.php';
+                    <?php else: ?>
+                        alert('You need to log in first!');
+                    <?php endif; ?>
+                "
+            >
+                <i class="fa-solid fa-cart-shopping"></i>
+            </span>
             <?php if (isset($_SESSION['user_id'])): ?>
                 <a href="/flower_shop/views/auth/logout.php" class="sign-in"><span class="dot">•</span><b>LOGOUT</b></a>
             <?php else: ?>

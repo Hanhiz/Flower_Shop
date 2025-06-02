@@ -175,7 +175,7 @@
             <div class="logo">
                 <a href="/flower_shop/homepage.php" style="background:none; border:none; display:inline-block;">
                     <div class="logo-img" style="background:none; border:none;">
-                        <img src="assets/img/web_logo.png" alt="Blossom Logo" style="width:60px; height:60px; object-fit:contain;">
+                        <img src="/flower_shop/assets/img/web_logo.png" alt="Blossom Logo" style="width:60px; height:60px; object-fit:contain;">
                     </div>
                 </a>
             </div>

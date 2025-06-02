@@ -35,46 +35,189 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     $stmt->close();
 }
-?>
+include '../../includes/header.php'; ?>
+
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Login - Blossom Flower Shop</title>
-    <style>
-        body { background: #f8f8f8; font-family: Arial, sans-serif; }
-        .login-container {
-            max-width: 400px; margin: 60px auto; background: #fff;
-            border-radius: 10px; box-shadow: 0 2px 12px #eee; padding: 32px;
-        }
-        h2 { color: #e75480; text-align: center; }
-        input[type="text"], input[type="password"] {
-            width: 100%; padding: 10px; margin-bottom: 18px; border-radius: 5px; border: 1px solid #ccc;
-        }
-        button {
-            width: 100%; background: #e75480; color: #fff; border: none; border-radius: 5px;
-            padding: 12px 0; font-size: 18px; cursor: pointer; transition: background 0.2s;
-        }
-        button:hover { background: #d84372; }
-        .error { color: #d84372; text-align: center; margin-bottom: 12px; }
-    </style>
-</head>
-<body>
-    <div class="login-container">
-        <h2>Login</h2>
+<div class="login-bg">
+    <div class="login-box">
+        <div class="login-title">SIGN IN</div>
         <?php if ($error): ?>
             <div class="error"><?php echo htmlspecialchars($error); ?></div>
         <?php endif; ?>
         <form method="post" action="login.php?redirect=<?php echo urlencode($redirect); ?>">
-            <input type="text" name="email" placeholder="Email" required autofocus>
-            <input type="password" name="password" placeholder="Password" required>
-            <button type="submit">Login</button>
+            <label class="login-label" for="email">Email</label>
+            <input class="login-input" type="text" name="email" id="email" required autofocus>
+            <label class="login-label" for="password">Password</label>
+            <input class="login-input" type="password" name="password" id="password" required>
+            <div class="login-row">
+                <div>
+                    <input class="login-checkbox" type="checkbox" id="remember" name="remember">
+                    <label for="remember" style="font-size:12px; color:#222;">Remember me</label>
+                </div>
+                <a href="#" class="login-link">Forgot your password?</a>
+            </div>
+            <button class="login-btn" type="submit">Login</button>
         </form>
-        <div style="text-align:center; margin-top:18px;">
-            <a href="register.php" style="color:#e75480;">Don't have an account? Register</a>
+        <hr class="login-divider">
+        <div class="login-new-title">New customer ?</div>
+        <div class="login-discount">
+            <span>Free and easy, enjoy a discount every 3 orders!</span>
+            <span class="login-discount-icon"><i class="fa-solid fa-seedling"></i></span>
         </div>
+        <form action="register.php" method="get">
+            <button class="login-create-btn" type="submit">Create my account</button>
+        </form>
     </div>
-    <p>Alo, cái này tui chỉ làm demo thôi, để thử mấy cái sau cho tiện.</p>
-    <p>Ai làm phần này có gì chỉnh lại css các kiểu giúp tui nhe hehe :))</p>
-</body>
-</html>
+</div>
+
+<style>
+.login-bg {
+    height: calc(100vh - 70px);
+    min-height: unset;
+    background: url('https://www.odealarose.com/media/cache/1920_1080_webp/build/images/flower-delivery.webp') center center/cover no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding-top: 0;
+}
+.login-modal-bg {
+    position: fixed;
+    inset: 0;
+    background: rgba(255,255,255,0.7);
+    z-index: 0;
+}
+.login-box {
+    position: relative;
+    z-index: 1;
+    background: #fff;
+    border: 1px solid #222;
+    border-radius: 0;
+    max-width: 370px;
+    width: 100%;
+    margin: 48px auto;
+    padding: 36px 32px 28px 32px;
+    box-sizing: border-box;
+    box-shadow: 0 2px 12px #eee;
+}
+.login-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-align: left;
+    margin-bottom: 28px;
+}
+.login-label {
+    font-size: 13px;
+    color: #222;
+    margin-bottom: 3px;
+    display: block;
+    font-weight: 400;
+}
+.login-input {
+    width: 100%;
+    padding: 8px 10px;
+    margin-bottom: 18px;
+    border-radius: 0;
+    border: 1px solid #222;
+    font-size: 15px;
+    font-family: 'Montserrat', Arial, sans-serif;
+    background: #fff;
+    box-sizing: border-box;
+}
+.login-input:focus {
+    outline: none;
+    border-color: #e75480;
+}
+.login-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+.login-link {
+    font-size: 12px;
+    color: #222;
+    text-decoration: underline;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+.login-link:hover {
+    color: #e75480;
+}
+.login-checkbox {
+    margin-right: 6px;
+}
+.login-btn {
+    width: 100%;
+    background: #222;
+    color: #fff;
+    border: none;
+    border-radius: 24px;
+    padding: 12px 0;
+    font-size: 16px;
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+    margin: 18px 0 18px 0;
+    transition: background 0.2s;
+}
+.login-btn:hover {
+    background: #e75480;
+}
+.login-divider {
+    border: none;
+    border-top: 1px solid #eee;
+    margin: 18px 0;
+}
+.login-new-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-style: italic;
+    color: #222;
+    margin-bottom: 10px;
+}
+.login-discount {
+    background: #fad1cc;
+    color: #b97a56;
+    font-size: 14px;
+    border-radius: 6px;
+    padding: 14px 12px 14px 16px;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.login-discount-icon {
+    font-size: 18px;
+}
+.login-create-btn {
+    width: 100%;
+    background: #fff;
+    color: #222;
+    border: 1.5px solid #222;
+    border-radius: 24px;
+    padding: 12px 0;
+    font-size: 16px;
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+.login-create-btn:hover {
+    background: #e75480;
+    color: #fff;
+    border-color: #e75480;
+}
+.error {
+    color: #e75480;
+    text-align: center;
+    margin-bottom: 12px;
+    font-size: 14px;
+}
+.header-main {
+    z-index: 20;
+    position: relative;
+}
+</style>

@@ -1,0 +1,86 @@
+<?php
+// filepath: d:\Xampp\htdocs\flower_shop\views\admin\mana_products.php
+session_start();
+include '../../connectdb.php';
+
+// Optional: Check if user is admin
+// if (!isset($_SESSION['is_admin']) || !$_SESSION['is_admin']) {
+//     header("Location: ../../homepage.php");
+//     exit;
+// }
+
+// Handle delete action
+if (isset($_POST['delete_id'])) {
+    $del_id = intval($_POST['delete_id']);
+    $conn->query("DELETE FROM products WHERE id = $del_id");
+    header("Location: mana_products.php");
+    exit;
+}
+
+// Fetch all products
+$result = $conn->query("SELECT * FROM products ORDER BY created_at DESC");
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin - Manage Products</title>
+    <style>
+        body { background: #f8f8f8; font-family: Arial, sans-serif; }
+        .container { max-width: 1100px; margin: 40px auto; background: #fff; border-radius: 10px; box-shadow: 0 2px 12px #eee; padding: 32px; }
+        h2 { color: #e75480; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px; text-align: center; border-bottom: 1px solid #eee; }
+        th { background: #faf6f8; color: #e75480; }
+        img { width: 60px; height: 60px; object-fit: cover; border-radius: 6px; }
+        .action-btn {
+            background: #e75480; color: #fff; border: none; border-radius: 4px;
+            padding: 6px 14px; cursor: pointer; transition: background 0.2s;
+        }
+        .action-btn:hover { background: #d84372; }
+        .add-btn {
+            background: #4CAF50; color: #fff; border: none; border-radius: 4px;
+            padding: 8px 18px; cursor: pointer; margin-bottom: 18px; float: right;
+        }
+        .add-btn:hover { background: #388e3c; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Product Management</h2>
+        <a href="add_product.php" class="add-btn">+ Add Product</a>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Price (VND)</th>
+                <th>Status</th>
+                <th>Created At</th>
+                <th>Actions</th>
+            </tr>
+            <?php while ($row = $result->fetch_assoc()): ?>
+            <tr>
+                <td><?php echo $row['id']; ?></td>
+                <td>
+                    <?php if ($row['image']): ?>
+                        <img src="../../assets/img/<?php echo htmlspecialchars($row['image']); ?>" alt="">
+                    <?php endif; ?>
+                </td>
+                <td><?php echo htmlspecialchars($row['name']); ?></td>
+                <td><?php echo number_format($row['price']); ?></td>
+                <td><?php echo $row['status'] ? 'Active' : 'Inactive'; ?></td>
+                <td><?php echo $row['created_at']; ?></td>
+                <td>
+                    <a href="edit_product.php?id=<?php echo $row['id']; ?>" class="action-btn" style="background:#2196F3;">Edit</a>
+                    <form method="post" action="" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this product?');">
+                        <input type="hidden" name="delete_id" value="<?php echo $row['id']; ?>">
+                        <button type="submit" class="action-btn" style="background:#e75480;">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            <?php endwhile; ?>
+        </table>
+    </div>
+</body>
+</html>

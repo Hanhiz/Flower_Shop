@@ -1,4 +1,3 @@
-Resolve merge conflict and update login page UI
 <?php
 // filepath: d:\Xampp\htdocs\flower_shop\views\auth\login.php
 session_start();

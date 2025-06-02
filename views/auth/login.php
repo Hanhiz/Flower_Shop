@@ -1,3 +1,4 @@
+Resolve merge conflict and update login page UI
 <?php
 // filepath: d:\Xampp\htdocs\flower_shop\views\auth\login.php
 session_start();
@@ -16,16 +17,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim($_POST['email'] ?? '');
     $password = $_POST['password'] ?? '';
 
-    $stmt = $conn->prepare("SELECT id, password FROM users WHERE email = ?");
+    $stmt = $conn->prepare("SELECT id, password, role FROM users WHERE email = ?");
     $stmt->bind_param("s", $email);
     $stmt->execute();
     $stmt->store_result();
     if ($stmt->num_rows === 1) {
-        $stmt->bind_result($user_id, $db_password);
+        $stmt->bind_result($user_id, $db_password, $role);
         $stmt->fetch();
         if ($password === $db_password) {
             $_SESSION['user_id'] = $user_id;
-            header("Location: $redirect");
+            $_SESSION['role'] = $role;
+            if ($role === 'admin') {
+                header("Location: /flower_shop/views/admin/dashboard.php");
+            } else {
+                header("Location: $redirect");
+            }
             exit;
         } else {
             $error = "Incorrect password.";

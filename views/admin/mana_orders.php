@@ -41,7 +41,27 @@ if (isset($_GET['order_id'])) {
     <meta charset="UTF-8">
     <title>Admin - Manage Orders</title>
     <style>
-        body { background: #f8f8f8; font-family: Arial, sans-serif; }
+        body { background: #f8f8f8; font-family: Arial, sans-serif; margin: 0; padding: 0; }
+        .admin-navbar {
+            background: #e75480;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            height: 60px;
+        }
+        .admin-navbar a {
+            color: #fff;
+            text-decoration: none;
+            padding: 0 32px;
+            font-size: 18px;
+            line-height: 60px;
+            display: block;
+            transition: background 0.2s;
+        }
+        .admin-navbar a:hover, .admin-navbar a.active {
+            background: #d84372;
+        }
         .container { max-width: 1100px; margin: 40px auto; background: #fff; border-radius: 10px; box-shadow: 0 2px 12px #eee; padding: 32px; }
         h2 { color: #e75480; }
         table { width: 100%; border-collapse: collapse; margin-top: 20px; }
@@ -59,6 +79,12 @@ if (isset($_GET['order_id'])) {
     </style>
 </head>
 <body>
+    <nav class="admin-navbar">
+        <a href="dashboard.php">Dashboard</a>
+        <a href="mana_orders.php" class="active">Manage Orders</a>
+        <a href="mana_products.php">Manage Products</a>
+        <a href="mana_reviews.php">Manage Reviews</a>
+    </nav>
     <div class="container">
         <h2>Order Management</h2>
         <?php if (isset($_GET['order_id'])): ?>

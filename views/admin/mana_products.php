@@ -3,11 +3,11 @@
 session_start();
 include '../../connectdb.php';
 
-// Optional: Check if user is admin
-// if (!isset($_SESSION['is_admin']) || !$_SESSION['is_admin']) {
-//     header("Location: ../../homepage.php");
-//     exit;
-// }
+// Check if user is admin
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
+    header("Location: ../../homepage.php");
+    exit;
+}
 
 // Handle delete action
 if (isset($_POST['delete_id'])) {
@@ -26,7 +26,27 @@ $result = $conn->query("SELECT * FROM products ORDER BY created_at DESC");
     <meta charset="UTF-8">
     <title>Admin - Manage Products</title>
     <style>
-        body { background: #f8f8f8; font-family: Arial, sans-serif; }
+        body { background: #f8f8f8; font-family: Arial, sans-serif; margin: 0; padding: 0; }
+        .admin-navbar {
+            background: #e75480;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            height: 60px;
+        }
+        .admin-navbar a {
+            color: #fff;
+            text-decoration: none;
+            padding: 0 32px;
+            font-size: 18px;
+            line-height: 60px;
+            display: block;
+            transition: background 0.2s;
+        }
+        .admin-navbar a:hover, .admin-navbar a.active {
+            background: #d84372;
+        }
         .container { max-width: 1100px; margin: 40px auto; background: #fff; border-radius: 10px; box-shadow: 0 2px 12px #eee; padding: 32px; }
         h2 { color: #e75480; }
         table { width: 100%; border-collapse: collapse; margin-top: 20px; }
@@ -46,6 +66,12 @@ $result = $conn->query("SELECT * FROM products ORDER BY created_at DESC");
     </style>
 </head>
 <body>
+    <nav class="admin-navbar">
+        <a href="dashboard.php">Dashboard</a>
+        <a href="mana_orders.php">Manage Orders</a>
+        <a href="mana_products.php" class="active">Manage Products</a>
+        <a href="mana_reviews.php">Manage Reviews</a>
+    </nav>
     <div class="container">
         <h2>Product Management</h2>
         <a href="add_product.php" class="add-btn">+ Add Product</a>

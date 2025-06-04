@@ -57,7 +57,7 @@ $shipping_fee = 20000;
             body {
                 clear: both;
                 margin: 0;
-                background-color: #f0ede6;
+                background-color: #fff;
                 font-family: Arial, sans-serif;
             }
             .product-detail {
@@ -82,14 +82,14 @@ $shipping_fee = 20000;
             }
             .product-detail img {
                 width: 100%;
-                max-width: 350px;
+                max-width: 500px;
                 display: block;
                 margin: 20px auto;
                 border-radius: 8px;
             }
             .product-detail p {
-                font-size: 20px;
-                color: #e75480;
+                font-size: 16px;
+                color: #000;
             }
             .product-detail a {
                 display: inline-block;
@@ -114,8 +114,7 @@ $shipping_fee = 20000;
             }
             .card label {
                 border: 2px solid #ccc;
-                border-radius: 8px;
-                padding: 10px;
+                border-radius: 2px;
                 width: 150px;
                 cursor: pointer;
                 transition: border-color 0.2s, box-shadow 0.2s;
@@ -124,23 +123,30 @@ $shipping_fee = 20000;
                 border-color: #e75480;
                 box-shadow: 0 0 8px #e75480;
             }
+            .card label img {
+                width: 100%;
+                height: auto;
+                border-radius: 2px 2px 0 0;
+            }
         </style>
     </head>
     <body>
         <?php include 'includes/header.php'; ?>
+        <br>
+        <a href="homepage.php" style="text-decoration: none; margin-left: 2%; color: #000;">Home</a> / <a href="shop.php" style="text-decoration: none; color: #000">All Bouquets</a> / <a href="product_details.php?id=<?php echo $product_id; ?>" style="text-decoration: none; color: #000;"><?php echo htmlspecialchars($product['name']); ?></a>
         <div class="product-detail">
             <div class="product-detail-left">
             <h2><?php echo htmlspecialchars($product['name']); ?></h2>
-            <div style="position:relative; width:100%; max-width:350px; margin:20px auto;">
-                <img src="assets/img/<?php echo htmlspecialchars($product['image']); ?>" alt="<?php echo htmlspecialchars($product['name']); ?>" style="width:100%; max-width:350px; display:block; border-radius:8px;">
+            <div style="position:relative; width:100%; max-width:500px; margin:20px auto;">
+                <img src="assets/img/<?php echo htmlspecialchars($product['image']); ?>" alt="<?php echo htmlspecialchars($product['name']); ?>" style="width:100%; max-width:500px; display:block; border-radius:2px;">
                 <span style="
                     position:absolute;
-                    left:0;
-                    bottom:0;
+                    right:0;
+                    top:0;
                     background:rgba(231,84,128,0.9);
                     color:#fff;
                     padding:8px 16px;
-                    border-bottom-left-radius:8px;
+                    border-top-right-radius:2px;
                     font-size:20px;
                     font-weight:bold;
                 ">
@@ -149,46 +155,47 @@ $shipping_fee = 20000;
             </div>
         </div>
         <div class="product-detail-right">
-            <p><?php echo nl2br(htmlspecialchars($product['description'])); ?></p>
-            <p>Quantity:</p>
-            <input 
-                type="number" 
-                id="quantity" 
-                name="quantity" 
-                value="1" 
-                min="1" 
-                style="width: 60px; padding: 5px; border-radius: 4px; border: 1px solid #ccc;"
-            >
-            <p>Pick a card (optional):</p>
-            <div class="card">
-                <?php foreach ($cards as $card): ?>
-                    <label data-card-id="<?php echo $card['id']; ?>" style="text-align:center; display: inline-block;">
-                        <input 
-                            type="radio" 
-                            name="card" 
-                            value="<?php echo $card['id']; ?>" 
-                            data-card-price="<?php echo $card['price']; ?>"
-                        >
-                        <div>
-                            <img src="assets/img/<?php echo htmlspecialchars($card['image']); ?>" alt="<?php echo htmlspecialchars($card['name']); ?>" style="width:150px; height:auto; display:block; margin:auto;">
-                            <div><?php echo htmlspecialchars($card['name']); ?></div>
-                            <div style="color:#e75480;"><?php echo number_format($card['price']); ?> VND</div>
-                        </div>
-                    </label>
-                <?php endforeach; ?>
-            </div>
-            <p style="margin-top:15px;">Card message (optional):</p>
-            <textarea name="card_message" rows="3" style="width:100%; border-radius:4px; border:1px solid #ccc; padding:8px;" placeholder="Leave your message here..."></textarea>
-            <p style="margin-top:15px; font-size: 18px;">Shipping Fee: 
-                <b id="shipping-fee" data-fee="<?php echo $shipping_fee; ?>"><?php echo number_format($shipping_fee); ?> VND</b>
-            </p>
-            <p style="margin-top:15px;">Total Price:</p>
-            <p style="font-size:20px;color:#e75480;">
-                <b id="total-price" data-price="<?php echo $product['price']; ?>">
-                    <?php echo number_format($product['price']); ?> VND
-                </b>
-            </p>
+            <p><?php echo nl2br(htmlspecialchars($product['description'])); ?>
             <form method="post" id="cart-form">
+                <p>Quantity:
+                    <input 
+                        type="number" 
+                        id="quantity" 
+                        name="quantity" 
+                        value="1" 
+                        min="1" 
+                        style="width: 60px; padding: 5px; border-radius: 4px; border: 1px solid #ccc;"
+                    >
+                </p>
+                <p>Pick a card (optional):</p>
+                <div class="card">
+                    <?php foreach ($cards as $card): ?>
+                        <label data-card-id="<?php echo $card['id']; ?>" style="text-align:center; display: inline-block; border-radius: 2px;">
+                            <input 
+                                type="radio" 
+                                name="card" 
+                                value="<?php echo $card['id']; ?>" 
+                                data-card-price="<?php echo $card['price']; ?>"
+                            >
+                            <div>
+                                <img src="assets/img/<?php echo htmlspecialchars($card['image']); ?>" alt="<?php echo htmlspecialchars($card['name']); ?>" style="width:150px; height:auto; display:block; margin:0;">
+                                <div><?php echo htmlspecialchars($card['name']); ?></div>
+                                <div style="color:#e75480;">+ <?php echo number_format($card['price']); ?> VND</div>
+                            </div>
+                        </label>
+                    <?php endforeach; ?>
+                </div>
+                <p style="margin-top:15px;">Card message (optional):</p>
+                <input type="text" name="card_message" style="width:100%; border-radius:4px; border:1px solid #ccc; padding:8px;" placeholder="Leave your message here..."></input>
+                <p style="margin-top:15px; font-size: 18px;">Shipping Fee: 
+                    <b id="shipping-fee" data-fee="<?php echo $shipping_fee; ?>"><?php echo number_format($shipping_fee); ?> VND</b>
+                </p>
+                <p style="margin-top:15px;">Total Price:</p>
+                <p style="font-size:20px;color:#e75480;">
+                    <b id="total-price" data-price="<?php echo $product['price']; ?>">
+                        <?php echo number_format($product['price']); ?> VND
+                    </b>
+                </p>
                 <input 
                     type="submit" 
                     name="add_to_cart"
@@ -202,7 +209,7 @@ $shipping_fee = 20000;
                 >Checkout</button>
             </form>
         </div>
-            <a href="homepage.php">Back to Shop</a>
+            
         </div>
         <script>
         function updateTotal() {
@@ -244,7 +251,7 @@ $shipping_fee = 20000;
             const quantity = document.getElementById('quantity').value || 1;
             const card = document.querySelector('input[name="card"]:checked');
             const cardId = card ? card.value : '';
-            const message = encodeURIComponent(document.querySelector('textarea[name="card_message"]').value || '');
+            const message = encodeURIComponent(document.querySelector('text[name="card_message"]').value || '');
             let url = `./views/customer/pay.php?id=${productId}&quantity=${quantity}`;
             if (cardId) url += `&card=${cardId}`;
             if (message) url += `&message=${message}`;

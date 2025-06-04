@@ -155,7 +155,7 @@ if (isset($_SESSION['user_id'])) {
                 <input type="hidden" name="card_id" value="<?php echo $card_id; ?>">
                 <input type="hidden" name="card_message" value="<?php echo $card_message; ?>">
                 <input type="hidden" name="total" value="<?php echo $total; ?>">
-                <br><button type="submit">Pay Now</button>
+                <br><button type="submit" disabled>Pay Now</button>
             </form>
         </div>
         <!-- Right: Payment Info -->
@@ -224,6 +224,17 @@ if (isset($_SESSION['user_id'])) {
         if(document.querySelector('input[name="payment_method"]:checked')?.value === 'bank_transfer') {
             document.getElementById('bank-info').style.display = 'block';
         }
+        // Enable/disable Pay Now button based on checkboxes
+        function updatePayButton() {
+            const terms = document.querySelector('input[name="terms"]');
+            const privacy = document.querySelector('input[name="privacy"]');
+            const payBtn = document.querySelector('.pay-left button[type="submit"]');
+            payBtn.disabled = !(terms.checked && privacy.checked);
+        }
+        document.querySelector('input[name="terms"]').addEventListener('change', updatePayButton);
+        document.querySelector('input[name="privacy"]').addEventListener('change', updatePayButton);
+        // Initialize on page load
+        updatePayButton();
     </script>
 </body>
 </html>

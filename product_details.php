@@ -32,10 +32,11 @@ if (isset($_POST['add_to_cart'])) {
     $user_id = $_SESSION['user_id'];
     $quantity = isset($_POST['quantity']) ? intval($_POST['quantity']) : 1;
     $service_id = isset($_POST['card']) ? intval($_POST['card']) : null;
+    $card_message = isset($_POST['card_message']) ? $_POST['card_message'] : '';
 
     // Insert into cart_items
-    $stmt = $conn->prepare("INSERT INTO cart_items (user_id, product_id, quantity, service_id) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("iiii", $user_id, $product_id, $quantity, $service_id);
+    $stmt = $conn->prepare("INSERT INTO cart_items (user_id, product_id, quantity, service_id, card_message) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("iiiis", $user_id, $product_id, $quantity, $service_id, $card_message);
     if ($stmt->execute()) {
         echo "<script>alert('Add to cart successfully!'); window.location='./views/customer/cart.php';</script>";
         exit;

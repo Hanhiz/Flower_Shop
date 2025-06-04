@@ -3,36 +3,63 @@
 session_start();
 include '../../connectdb.php';
 
-// Example: Get product, quantity, card, message from GET or session (adjust as needed)
-$product_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
-$quantity = isset($_GET['quantity']) ? intval($_GET['quantity']) : 1;
-$card_id = isset($_GET['card']) ? intval($_GET['card']) : null;
-$card_message = isset($_GET['message']) ? htmlspecialchars($_GET['message']) : '';
-
-$product = null;
-$card = null;
 $shipping_fee = 30000;
-
-if ($product_id) {
-    $result = $conn->query("SELECT name, price, image FROM products WHERE id = $product_id");
-    if ($result && $result->num_rows > 0) {
-        $product = $result->fetch_assoc();
-    }
-}
-if ($card_id) {
-    $result = $conn->query("SELECT name, price, image FROM services WHERE id = $card_id");
-    if ($result && $result->num_rows > 0) {
-        $card = $result->fetch_assoc();
-    }
-}
 $total = 0;
-if ($product) {
-    $total += $product['price'] * $quantity;
+$cart_products = [];
+$card_message = '';
+
+if (isset($_POST['checkout_items'])) {
+    // Coming from cart, multiple items
+    $checkout_items = explode(',', $_POST['checkout_items']);
+    $user_id = $_SESSION['user_id'];
+    $ids = implode(',', array_map('intval', $checkout_items));
+    $sql = "
+        SELECT ci.id as cart_id, p.name as product_name, p.image as product_image, p.price as product_price,
+               ci.quantity, s.name as card_name, s.price as card_price, s.image as card_image, ci.card_message
+        FROM cart_items ci
+        JOIN products p ON ci.product_id = p.id
+        LEFT JOIN services s ON ci.service_id = s.id
+        WHERE ci.user_id = $user_id AND ci.id IN ($ids)
+    ";
+    $result = $conn->query($sql);
+    if ($result && $result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $cart_products[] = $row;
+            $subtotal = $row['product_price'] * $row['quantity'] + ($row['card_price'] ?? 0);
+            $total += $subtotal;
+        }
+    }
+    $total += $shipping_fee;
+} else {
+    // Fallback: single product (old logic)
+    $product_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+    $quantity = isset($_GET['quantity']) ? intval($_GET['quantity']) : 1;
+    $card_id = isset($_GET['card']) ? intval($_GET['card']) : null;
+    $card_message = isset($_GET['message']) ? htmlspecialchars($_GET['message']) : '';
+
+    $product = null;
+    $card = null;
+
+    if ($product_id) {
+        $result = $conn->query("SELECT name, price, image FROM products WHERE id = $product_id");
+        if ($result && $result->num_rows > 0) {
+            $product = $result->fetch_assoc();
+        }
+    }
+    if ($card_id) {
+        $result = $conn->query("SELECT name, price, image FROM services WHERE id = $card_id");
+        if ($result && $result->num_rows > 0) {
+            $card = $result->fetch_assoc();
+        }
+    }
+    if ($product) {
+        $total += $product['price'] * $quantity;
+    }
+    if ($card) {
+        $total += $card['price'];
+    }
+    $total += $shipping_fee;
 }
-if ($card) {
-    $total += $card['price'];
-}
-$total += $shipping_fee;
 
 $user_fullname = $user_phone = $user_address = '';
 if (isset($_SESSION['user_id'])) {
@@ -155,6 +182,7 @@ if (isset($_SESSION['user_id'])) {
                 <input type="hidden" name="card_id" value="<?php echo $card_id; ?>">
                 <input type="hidden" name="card_message" value="<?php echo $card_message; ?>">
                 <input type="hidden" name="total" value="<?php echo $total; ?>">
+                <input type="hidden" name="checkout_items" value="<?php echo implode(',', array_filter([$product_id, $card_id])); ?>">
                 <br><button type="submit" disabled>Pay Now</button>
             </form>
         </div>
@@ -162,34 +190,34 @@ if (isset($_SESSION['user_id'])) {
         <div class="pay-right">
             <h2>Your order</h2>
             <hr>
-            <?php if ($product): ?>
-                <div class="summary-item">
-                    <div style="display:flex;align-items:center;">
-                        <img src="../../assets/img/<?php echo htmlspecialchars($product['image']); ?>" alt="<?php echo htmlspecialchars($product['name']); ?>">
-                        <div>
-                            <div><?php echo htmlspecialchars($product['name']); ?></div>
-                            <div>Quantity: <?php echo $quantity; ?></div>
+            <?php if (!empty($cart_products)): ?>
+                <?php foreach ($cart_products as $item): ?>
+                    <div class="summary-item">
+                        <div style="display:flex;align-items:center;">
+                            <img src="../../assets/img/<?php echo htmlspecialchars($item['product_image']); ?>" alt="<?php echo htmlspecialchars($item['product_name']); ?>">
+                            <div>
+                                <div><?php echo htmlspecialchars($item['product_name']); ?></div>
+                                <div>Quantity: <?php echo $item['quantity']; ?></div>
+                            </div>
                         </div>
+                        <div><?php echo number_format($item['product_price'] * $item['quantity']); ?> VND</div>
                     </div>
-                    <div><?php echo number_format($product['price'] * $quantity); ?> VND</div>
-                </div>
-            <?php endif; ?>
-            
-            <?php if ($card): ?>
-                <hr>
-                <div class="summary-item">
-                    <div style="display:flex;align-items:center;">
-                        <img src="../../assets/img/<?php echo htmlspecialchars($card['image']); ?>" alt="<?php echo htmlspecialchars($card['name']); ?>">
-                        <div>
-                            <div><?php echo htmlspecialchars($card['name']); ?> (Card)</div>
-                            <?php if ($card_message): ?>
-                                <div style="font-size:12px;color:#888;">Message: <?php echo $card_message; ?></div>
-                            <?php endif; ?>
+                    <?php if ($item['card_name']): ?>
+                        <div class="summary-item" style="margin-left:40px;">
+                            <div style="display:flex;align-items:center;">
+                                <img src="../../assets/img/<?php echo htmlspecialchars($item['card_image']); ?>" alt="<?php echo htmlspecialchars($item['card_name']); ?>">
+                                <div>
+                                    <div><?php echo htmlspecialchars($item['card_name']); ?> (Card)</div>
+                                    <?php if ($item['card_message']): ?>
+                                        <div style="font-size:12px;color:#888;">Message: <?php echo htmlspecialchars($item['card_message']); ?></div>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                            <div><?php echo number_format($item['card_price']); ?> VND</div>
                         </div>
-                    </div>
-                    <div><?php echo number_format($card['price']); ?> VND</div>
-                </div>
-                <hr>
+                    <?php endif; ?>
+                    <hr>
+                <?php endforeach; ?>
             <?php endif; ?>
             <div class="summary-item">
                 <div>Shipping Fee</div>

@@ -1,13 +1,34 @@
 <?php
 // filepath: c:\xampp\htdocs\Flower_Shop\views\customer\orderhistory.php
 session_start();
-include '../../includes/header.php';
 include '../../connectdb.php';
+
 $current_user_id = $_SESSION['user_id'] ?? 0;
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancel_order_id'])) {
+    $cancel_order_id = intval($_POST['cancel_order_id']);
+    // Only allow cancelling own pending orders
+    $sql = "UPDATE orders SET status = 'Cancelled' WHERE id = $cancel_order_id AND user_id = $current_user_id AND status = 'Pending'";
+    $conn->query($sql);
+    // Optional: reload to update the list
+    header("Location: orderhistory.php?status=Pending");
+    exit;
+}
+
+// Confirm delivery for shipped orders
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_delivered_id'])) {
+    $confirm_order_id = intval($_POST['confirm_delivered_id']);
+    // Only allow confirming own shipped orders
+    $sql = "UPDATE orders SET status = 'Delivered' WHERE id = $confirm_order_id AND user_id = $current_user_id AND status = 'Shipped'";
+    $conn->query($sql);
+    // Optional: reload to update the list
+    header("Location: orderhistory.php?status=Delivered");
+    exit;
+}
 
 // Lấy status filter từ query string, mặc định là 'Pending'
 $status_filter = $_GET['status'] ?? 'Pending';
-$valid_status = ['Pending', 'Shipped', 'Delivered'];
+$valid_status = ['Pending', 'Shipped', 'Delivered', 'Cancelled'];
 if (!in_array($status_filter, $valid_status)) $status_filter = 'Pending';
 
 $conn->set_charset('utf8');
@@ -170,11 +191,13 @@ $conn->close();
     </style>
 </head>
 <body>
+    <?php include '../../includes/header.php';?>
 <div class="orderhistory-container">
     <div class="orderhistory-menu">
         <a href="?status=Pending" class="<?php if($status_filter=='Pending') echo 'active'; ?>">Pending</a>
         <a href="?status=Shipped" class="<?php if($status_filter=='Shipped') echo 'active'; ?>">Shipped</a>
         <a href="?status=Delivered" class="<?php if($status_filter=='Delivered') echo 'active'; ?>">Delivered</a>
+        <a href="?status=Cancelled" class="<?php if($status_filter=='Cancelled') echo 'active'; ?>">Cancelled</a>
     </div>
     <div class="order-list">
         <?php if (empty($orders)): ?>
@@ -191,12 +214,14 @@ $conn->close();
                         if ($order['status'] === 'Pending') $color = "#e5b600";
                         if ($order['status'] === 'Shipped') $color = "#1e90ff";
                         if ($order['status'] === 'Delivered') $color = "#2ecc40";
+                        if ($order['status'] === 'Cancelled') $color = "#d17c7c";
                         ?>
                         color:<?php echo $color; ?>;
                     ">
                         <?php echo htmlspecialchars($order['status']); ?>
                     </span>
                 </div>
+                
                 <div class="order-products">
                     <?php
                     $items = $order_items[$order['id']] ?? [];
@@ -205,12 +230,25 @@ $conn->close();
                         if (!$product) continue;
                     ?>
                     <div class="product-row">
+                        <?php if (strtolower($order['status']) === 'pending'): ?>
+                            <form method="post" action="" style="display:inline;">
+                                <input type="hidden" name="cancel_order_id" value="<?php echo $order['id']; ?>">
+                                <button type="submit" class="feedback-btn" style="margin-left:12px; background: none; width: 50px" onclick="return confirm('Are you sure you want to cancel this order?');"><img src="/flower_shop/assets/img/cross.png" width=100%></button>
+                            </form>
+                        <?php endif; ?>
+
                         <img class="product-img" src="../../assets/img/<?php echo htmlspecialchars($product['image']); ?>" alt="<?php echo htmlspecialchars($product['name']); ?>">
                         <div class="product-info">
                             <div class="product-name"><?php echo htmlspecialchars($product['name']); ?></div>
                             <div class="product-qty">x<?php echo $item['quantity']; ?></div>
                         </div>
                         <div class="product-price"><?php echo number_format($item['price']); ?> VND</div>
+                        <?php if (strtolower($order['status']) === 'shipped'): ?>
+                            <form method="post" action="" style="display:inline;">
+                                <input type="hidden" name="confirm_delivered_id" value="<?php echo $order['id']; ?>">
+                                <button type="submit" class="feedback-btn" style="margin-left:12px; background:none; width: 50px;" onclick="return confirm('Are you sure you want to confirm the order is delivered?');"><img src="/flower_shop/assets/img/check.png" width=100%></button>
+                            </form>
+                        <?php endif; ?>
                         <div class="product-feedback">
                             <?php if (strtolower($order['status']) === 'delivered'): ?>
                                 <a class="feedback-btn" href="review.php?order_id=<?php echo $order['id']; ?>&product_id=<?php echo $product['id']; ?>">Feedback</a>

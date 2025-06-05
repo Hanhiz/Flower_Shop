@@ -71,6 +71,7 @@ $result = $conn->query("SELECT * FROM products ORDER BY created_at DESC");
         <a href="mana_orders.php">Manage Orders</a>
         <a href="mana_products.php" class="active">Manage Products</a>
         <a href="mana_reviews.php">Manage Reviews</a>
+        <a href="/flower_shop/views/auth/logout.php" style="margin-left:auto;">Logout</a>
     </nav>
     <div class="container">
         <h2>Product Management</h2>

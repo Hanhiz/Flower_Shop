@@ -9,6 +9,22 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     exit;
 }
 
+// --- Handle order status update ---
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_id'], $_POST['status'])) {
+    $oid = intval($_POST['order_id']);
+    $status = $_POST['status'];
+    $allowed = ['pending', 'shipped', 'delivered', 'cancelled'];
+    if (in_array($status, $allowed)) {
+        $stmt = $conn->prepare("UPDATE orders SET status = ? WHERE id = ?");
+        $stmt->bind_param("si", $status, $oid);
+        $stmt->execute();
+        $stmt->close();
+    }
+    // Refresh to avoid resubmission
+    header("Location: mana_orders.php");
+    exit;
+}
+
 // Fetch all orders with customer info
 $sql = "
     SELECT o.id, o.order_date, o.status, o.total_amount, u.full_name, u.email, u.phone, u.address
@@ -84,6 +100,7 @@ if (isset($_GET['order_id'])) {
         <a href="mana_orders.php" class="active">Manage Orders</a>
         <a href="mana_products.php">Manage Products</a>
         <a href="mana_reviews.php">Manage Reviews</a>
+        <a href="/flower_shop/views/auth/logout.php" style="margin-left:auto;">Logout</a>
     </nav>
     <div class="container">
         <h2>Order Management</h2>
@@ -130,13 +147,12 @@ if (isset($_GET['order_id'])) {
                     <td><?php echo htmlspecialchars($row['address']); ?></td>
                     <td><?php echo number_format($row['total_amount']); ?> VND</td>
                     <td>
-                        <form method="post" action="update_order_status.php" style="margin:0;">
+                        <form method="post" action="" style="margin:0;">
                             <input type="hidden" name="order_id" value="<?php echo $row['id']; ?>">
                             <select name="status" class="status-select" onchange="this.form.submit()">
                                 <option value="pending" <?php if($row['status']=='pending') echo 'selected'; ?>>Pending</option>
-                                <option value="processing" <?php if($row['status']=='processing') echo 'selected'; ?>>Processing</option>
                                 <option value="shipped" <?php if($row['status']=='shipped') echo 'selected'; ?>>Shipped</option>
-                                <option value="completed" <?php if($row['status']=='completed') echo 'selected'; ?>>Completed</option>
+                                <option value="delivered" <?php if($row['status']=='delivered') echo 'selected'; ?>>Delivered</option>
                                 <option value="cancelled" <?php if($row['status']=='cancelled') echo 'selected'; ?>>Cancelled</option>
                             </select>
                         </form>

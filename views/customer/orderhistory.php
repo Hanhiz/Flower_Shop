@@ -45,123 +45,131 @@ if ($order_ids) {
 }
 $conn->close();
 ?>
-
-<style>
-.orderhistory-container {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 32px 0 48px 0;
-}
-.orderhistory-menu {
-    display: flex;
-    justify-content: center;
-    gap: 32px;
-    margin-bottom: 32px;
-}
-.orderhistory-menu a {
-    padding: 10px 32px;
-    /* border-radius: 6px 6px 0 0; */
-    color: #222;
-    font-weight: 500;
-    text-decoration: none;
-    font-size: 1.1rem;
-    /* border: 1px solid #f0e0de; */
-    border-bottom: none;
-    background: none;
-    transition: color 0.15s;
-}
-.orderhistory-menu a.active {
-    color: #222;
-    border-bottom: 2.5px solid #d17c7c;
-    border-radius: 0;
-    font-weight: 500;
-    background: none;
-}
-.order-list {
-    display: flex;
-    flex-direction: column;
-    gap: 28px;
-}
-.order-item {
-    background: #fff;
-    border-radius: 10px;
-    border: 1px solid #f0e0de;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-    margin-bottom: 0;
-    padding: 18px 24px;
-}
-.order-head {
-    display: flex;
-    align-items: center;
-    gap: 18px;
-    margin-bottom: 12px;
-}
-.order-id {
-    font-weight: bold;
-    font-size: 1.08rem;
-}
-.order-date {
-    color: #888;
-    font-size: 0.98rem;
-}
-.order-status {
-    margin-left: auto;
-    font-weight: 600;
-}
-.order-products {
-    border-top: 1px solid #eee;
-    padding-top: 12px;
-    margin-top: 8px;
-}
-.product-row {
-    display: flex;
-    align-items: center;
-    gap: 18px;
-    margin-bottom: 10px;
-}
-.product-img {
-    width: 60px;
-    height: 60px;
-    object-fit: cover;
-    border-radius: 6px;
-    background: #f5f5f5;
-    border: 1px solid #eee;
-}
-.product-info {
-    flex: 1;
-}
-.product-name {
-    font-weight: 500;
-    font-size: 1rem;
-}
-.product-qty {
-    color: #888;
-    font-size: 0.97rem;
-}
-.product-price {
-    color: #d17c7c;
-    font-weight: bold;
-    font-size: 1rem;
-    margin-left: 12px;
-}
-.product-feedback {
-    margin-left: 18px;
-}
-.feedback-btn {
-    background: #d17c7c;
-    color: #fff;
-    border: none;
-    border-radius: 6px;
-    padding: 5px 14px;
-    font-size: 0.98rem;
-    cursor: pointer;
-    transition: opacity 0.15s;
-    text-decoration: none;
-    display: inline-block;
-}
-.feedback-btn:hover { opacity: 0.85; }
-</style>
-
+<!DOCTYPE html>
+<html lang="en">   
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order History</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <style>
+    .orderhistory-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 32px 0 48px 0;
+        min-height: 200px;
+    }
+    .orderhistory-menu {
+        display: flex;
+        justify-content: center;
+        gap: 32px;
+        margin-bottom: 32px;
+    }
+    .orderhistory-menu a {
+        padding: 10px 32px;
+        /* border-radius: 6px 6px 0 0; */
+        color: #222;
+        font-weight: 500;
+        text-decoration: none;
+        font-size: 1.1rem;
+        /* border: 1px solid #f0e0de; */
+        border-bottom: none;
+        background: none;
+        transition: color 0.15s;
+    }
+    .orderhistory-menu a.active {
+        color: #222;
+        border-bottom: 2.5px solid #d17c7c;
+        border-radius: 0;
+        font-weight: 500;
+        background: none;
+    }
+    .order-list {
+        display: flex;
+        flex-direction: column;
+        gap: 28px;
+    }
+    .order-item {
+        background: #fff;
+        border-radius: 10px;
+        border: 1px solid #f0e0de;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        margin-bottom: 0;
+        padding: 18px 24px;
+    }
+    .order-head {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        margin-bottom: 12px;
+    }
+    .order-id {
+        font-weight: bold;
+        font-size: 1.08rem;
+    }
+    .order-date {
+        color: #888;
+        font-size: 0.98rem;
+    }
+    .order-status {
+        margin-left: auto;
+        font-weight: 600;
+    }
+    .order-products {
+        border-top: 1px solid #eee;
+        padding-top: 12px;
+        margin-top: 8px;
+    }
+    .product-row {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        margin-bottom: 10px;
+    }
+    .product-img {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 6px;
+        background: #f5f5f5;
+        border: 1px solid #eee;
+    }
+    .product-info {
+        flex: 1;
+    }
+    .product-name {
+        font-weight: 500;
+        font-size: 1rem;
+    }
+    .product-qty {
+        color: #888;
+        font-size: 0.97rem;
+    }
+    .product-price {
+        color: #d17c7c;
+        font-weight: bold;
+        font-size: 1rem;
+        margin-left: 12px;
+    }
+    .product-feedback {
+        margin-left: 18px;
+    }
+    .feedback-btn {
+        background: #d17c7c;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        padding: 5px 14px;
+        font-size: 0.98rem;
+        cursor: pointer;
+        transition: opacity 0.15s;
+        text-decoration: none;
+        display: inline-block;
+    }
+    .feedback-btn:hover { opacity: 0.85; }
+    </style>
+</head>
+<body>
 <div class="orderhistory-container">
     <div class="orderhistory-menu">
         <a href="?status=Pending" class="<?php if($status_filter=='Pending') echo 'active'; ?>">Pending</a>
@@ -216,5 +224,6 @@ $conn->close();
         <?php endif; ?>
     </div>
 </div>
-
+</body>
 <?php include '../../includes/footer.php'; ?>
+</html>

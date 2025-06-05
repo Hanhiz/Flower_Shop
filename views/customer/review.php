@@ -2,7 +2,7 @@
 ob_start();
 session_start();
 include '../../includes/header.php';
-
+include '../../connectdb.php';
 $success = false;
 $error = '';
 $product = null;
@@ -10,9 +10,6 @@ $product = null;
 $current_user_id = $_SESSION['user_id'] ?? 0;
 $product_id = isset($_GET['product_id']) ? intval($_GET['product_id']) : 0;
 
-// Kết nối CSDL
-$conn = new mysqli('localhost', 'root', '', 'flowershop');
-$conn->set_charset('utf8');
 if ($product_id) {
     $sql = "SELECT * FROM products WHERE id = $product_id";
     $result = $conn->query($sql);
@@ -365,7 +362,7 @@ body { background: #fff !important; }
     <form class="review-form" method="post" action="" enctype="multipart/form-data" id="reviewForm"
         <?php if($success || $already_reviewed) echo 'style="display:none"'; ?>>
         <div class="review-product-row">
-            <img class="review-product-img" src="../../assets/img/product<?php echo ($product_id%6+1); ?>.jpg" alt="">
+            <img class="review-product-img" src="../../assets/img/<?php echo htmlspecialchars($product['image']); ?>" alt="">
             <div class="review-product-name">
                 <?php echo $product ? htmlspecialchars($product['name']) : 'Product'; ?>
             </div>

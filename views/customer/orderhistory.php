@@ -2,7 +2,7 @@
 // filepath: c:\xampp\htdocs\Flower_Shop\views\customer\orderhistory.php
 session_start();
 include '../../includes/header.php';
-
+include '../../connectdb.php';
 $current_user_id = $_SESSION['user_id'] ?? 0;
 
 // Lấy status filter từ query string, mặc định là 'Pending'
@@ -10,8 +10,6 @@ $status_filter = $_GET['status'] ?? 'Pending';
 $valid_status = ['Pending', 'Shipped', 'Delivered'];
 if (!in_array($status_filter, $valid_status)) $status_filter = 'Pending';
 
-// Lấy danh sách orders theo status và user
-$conn = new mysqli('localhost', 'root', '', 'flowershop');
 $conn->set_charset('utf8');
 $orders = [];
 $sql = "SELECT * FROM orders WHERE user_id = $current_user_id AND status = '$status_filter' ORDER BY order_date DESC";
@@ -199,7 +197,7 @@ $conn->close();
                         if (!$product) continue;
                     ?>
                     <div class="product-row">
-                        <img class="product-img" src="../../assets/img/product<?php echo ($product['id']%6+1); ?>.jpg" alt="">
+                        <img class="product-img" src="../../assets/img/<?php echo htmlspecialchars($product['image']); ?>" alt="<?php echo htmlspecialchars($product['name']); ?>">
                         <div class="product-info">
                             <div class="product-name"><?php echo htmlspecialchars($product['name']); ?></div>
                             <div class="product-qty">x<?php echo $item['quantity']; ?></div>

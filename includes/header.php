@@ -1,5 +1,5 @@
 <?php
-// filepath: d:\Xampp\htdocs\flower_shop\includes\header.php
+    $currentPage = basename($_SERVER['PHP_SELF']);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -165,6 +165,19 @@
             align-self: center;
             line-height: 1;
         }
+        .user-icon:hover .dropdown {
+            display: block;
+        }
+        .user-icon .dropdown {
+            left: -50px;
+            top: 20px;
+            position: absolute;
+            background: #fff;
+            min-width: 130px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+            border-radius: 4px;
+            z-index: 10;
+        }
     </style>
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -181,19 +194,23 @@
             </div>
             <nav class="nav">
                 <div class="nav-item">
-                    <a href="#bouquet">BOUQUET</a>
+                    <a href="<?php echo ($currentPage == 'homepage.php') ? '#bouquet' : '/flower_shop/shop.php'; ?>">BOUQUET</a>
                     <div class="dropdown">
-                        <a href="#">Roses</a>
-                        <a href="#">Lilies</a>
-                        <a href="#">Sunflowers</a>
+                        <a href="/flower_shop/shop.php">All Bouquets</a>
                     </div>
                 </div>
                 <div class="nav-item">
-                    <a href="#collection">COLLECTION</a>
+                    <a href="<?php echo ($currentPage == 'homepage.php') ? '#collection' : '/flower_shop/views/customer/collection.php'; ?>">
+                        COLLECTION
+                    </a>
                     <div class="dropdown">
+                        <a href="/flower_shop/views/customer/collection.php">All collections</a>
                         <a href="#">Birthday</a>
                         <a href="#">Anniversary</a>
                         <a href="#">Congratulations</a>
+                        <a href="#">Parent's Day</a>
+                        <a href="#">Teacher's Day</a>
+                        <a href="#">International's Day</a>
                     </div>
                 </div>
                 <div class="nav-item">
@@ -225,6 +242,13 @@
                 <i class="fa-solid fa-cart-shopping"></i>
             </span>
             <?php if (isset($_SESSION['user_id'])): ?>
+                <div class="user-icon" style="position:relative; cursor:pointer;">
+                    <i class="fa-solid fa-user"></i>
+                    <div class="dropdown">
+                        <a href="/flower_shop/views/customer/account.php" style="padding:10px 20px; display:block; color:#222;">Profile</a>
+                        <a href="/flower_shop/views/customer/orderhistory.php" style="padding:10px 20px; display:block; color:#222;">My Orders</a>
+                    </div>
+                </div>
                 <a href="/flower_shop/views/auth/logout.php" class="sign-in"><span class="dot">•</span><b>LOGOUT</b></a>
             <?php else: ?>
                 <a href="/flower_shop/views/auth/login.php" class="sign-in"><span class="dot">•</span><b>SIGN-IN</b></a>

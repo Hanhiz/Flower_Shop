@@ -360,7 +360,7 @@ body { background: #fff !important; }
     <?php if ($error): ?>
         <div class="review-error"><?php echo htmlspecialchars($error); ?></div>
     <?php elseif ($already_reviewed): ?>
-        <div class="review-error">Bạn đã gửi feedback cho sản phẩm này rồi!</div>
+        <div class="review-error">You have already sent feedback for this product!</div>
     <?php endif; ?>
     <form class="review-form" method="post" action="" enctype="multipart/form-data" id="reviewForm"
         <?php if($success || $already_reviewed) echo 'style="display:none"'; ?>>
@@ -402,7 +402,7 @@ body { background: #fff !important; }
     </form>
 </div>
 
-<div class="review-toast" id="review-toast">Gửi feedback thành công!</div>
+<div class="review-toast" id="review-toast">Feedback sent successfully!</div>
 
 <script>
 document.querySelectorAll('.review-star').forEach(function(star, idx, stars) {

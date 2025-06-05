@@ -7,6 +7,87 @@ $shipping_fee = 30000;
 $total = 0;
 $cart_products = [];
 $card_message = '';
+$order_success = false;
+$account_created = false;
+$account_message = 'Your account created successfully! You can track your order after logging in with email: <b>$email</b> and password: <b>12345</b>';
+$order_error = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fullname'], $_POST['email'], $_POST['phone'], $_POST['address'])) {
+    $fullname = trim($_POST['fullname']);
+    $email = trim($_POST['email']);
+    $phone = trim($_POST['phone']);
+    $address = trim($_POST['address']);
+    $total_amount = floatval($_POST['total']);
+    $order_date = date('Y-m-d H:i:s');
+    $status = 'Pending';
+
+    // 1. If not logged in, create account if email not exists
+    if (!isset($_SESSION['user_id'])) {
+        $check = $conn->prepare("SELECT id FROM users WHERE email = ?");
+        $check->bind_param("s", $email);
+        $check->execute();
+        $check->store_result();
+        if ($check->num_rows == 0) {
+            // Create new user
+            $role = 'customer';
+            $password = '12345';
+            $stmt = $conn->prepare("INSERT INTO users (full_name, email, password, phone, address, role) VALUES (?, ?, ?, ?, ?, ?)");
+            $stmt->bind_param("ssssss", $fullname, $email, $password, $phone, $address, $role);
+            if ($stmt->execute()) {
+                $user_id = $stmt->insert_id;
+                $_SESSION['user_id'] = $user_id;
+                $account_created = true;
+                $account_message = "Your account created successfully! You can track your order after logging in with email: <b>$email</b> and password: <b>12345</b>";
+            }
+        } else {
+            // Email exists, fetch user_id for order
+            $check->bind_result($user_id);
+            $check->fetch();
+            $_SESSION['user_id'] = $user_id;
+        }
+        $check->close();
+    } else {
+        $user_id = $_SESSION['user_id'];
+    }
+    // 2. Insert order
+    $stmt = $conn->prepare("INSERT INTO orders (user_id, total_amount, order_date, status) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("idss", $user_id, $total_amount, $order_date, $status);
+    if ($stmt->execute()) {
+        $order_id = $stmt->insert_id;
+
+        // Insert order items
+        if (isset($_POST['checkout_items'])) {
+            // From cart
+            $checkout_items = explode(',', $_POST['checkout_items']);
+            $ids = implode(',', array_map('intval', $checkout_items));
+            $sql = "SELECT * FROM cart_items WHERE user_id = $user_id AND id IN ($ids)";
+            $result = $conn->query($sql);
+            while ($row = $result->fetch_assoc()) {
+                $stmt2 = $conn->prepare("INSERT INTO order_items (order_id, product_id, quantity, price, service_id, card_message) VALUES (?, ?, ?, ?, ?, ?)");
+                $stmt2->bind_param("iiiiis", $order_id, $row['product_id'], $row['quantity'], $row['price'], $row['service_id'], $row['card_message']);
+                $stmt2->execute();
+            }
+            // Remove from cart
+            $conn->query("DELETE FROM cart_items WHERE user_id = $user_id AND id IN ($ids)");
+        } else if (isset($_POST['product_id'])) {
+            // Direct buy
+            $product_id = intval($_POST['product_id']);
+            $quantity = intval($_POST['quantity']);
+            $card_id = isset($_POST['card_id']) && $_POST['card_id'] !== '' ? intval($_POST['card_id']) : null;
+            $card_message = $_POST['card_message'] ?? '';
+            // Get product price
+            $result = $conn->query("SELECT price FROM products WHERE id = $product_id");
+            $product = $result->fetch_assoc();
+            $price = $product['price'];
+            $stmt2 = $conn->prepare("INSERT INTO order_items (order_id, product_id, quantity, price, service_id, card_message) VALUES (?, ?, ?, ?, ?, ?)");
+            $stmt2->bind_param("iiiids", $order_id, $product_id, $quantity, $price, $card_id, $card_message);
+            $stmt2->execute();
+        }
+        $order_success = true;
+    } else {
+        $order_error = "Order failed. Please try again.";
+    }
+}
 
 if (isset($_POST['checkout_items'])) {
     // Coming from cart, multiple items
@@ -61,17 +142,55 @@ if (isset($_POST['checkout_items'])) {
     $total += $shipping_fee;
 }
 
-$user_fullname = $user_phone = $user_address = '';
+$user_fullname = $user_phone = $user_email = $user_address = '';
 if (isset($_SESSION['user_id'])) {
     $uid = $_SESSION['user_id'];
-    $user_result = $conn->query("SELECT full_name, phone, address FROM users WHERE id = $uid LIMIT 1");
+    $user_result = $conn->query("SELECT full_name, phone, email, address FROM users WHERE id = $uid LIMIT 1");
     if ($user_result && $user_result->num_rows > 0) {
         $user = $user_result->fetch_assoc();
         $user_fullname = $user['full_name'];
         $user_phone = $user['phone'];
+        $user_email = $user['email'];
         $user_address = $user['address'];
     }
 }
+
+if (isset($_GET['id'])) {
+    $product_id = intval($_GET['id']);
+    $quantity = isset($_GET['quantity']) ? intval($_GET['quantity']) : 1;
+    $card_id = isset($_GET['card']) ? intval($_GET['card']) : null;
+    $message = isset($_GET['message']) ? urldecode($_GET['message']) : '';
+
+    // Fetch product
+    $sql = "SELECT name, image, price FROM products WHERE id = $product_id";
+    $result = $conn->query($sql);
+    $product = $result ? $result->fetch_assoc() : null;
+
+    // Fetch card/service if selected
+    $card = null;
+    if ($card_id) {
+        $sql = "SELECT name, price, image FROM services WHERE id = $card_id";
+        $result = $conn->query($sql);
+        $card = $result ? $result->fetch_assoc() : null;
+    }
+
+    // Build $cart_products array for display
+    $cart_products = [];
+    if ($product) {
+        $cart_products[] = [
+            'product_name' => $product['name'],
+            'product_image' => $product['image'],
+            'product_price' => $product['price'],
+            'quantity' => $quantity,
+            'card_name' => $card['name'] ?? null,
+            'card_price' => $card['price'] ?? 0,
+            'card_image' => $card['image'] ?? null,
+            'card_message' => $message,
+        ];
+    }
+}
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -160,6 +279,18 @@ if (isset($_SESSION['user_id'])) {
 </head>
 <body>
     <?php include '../../includes/header.php'; ?>
+    <?php if ($account_created): ?>
+        <script>
+            alert("<?php echo addslashes($account_message); ?>");
+        </script>
+    <?php endif; ?>
+
+    <?php if ($order_success): ?>
+        <script>
+            alert("Your order has been placed successfully! You can track it in your account.");
+            window.location.href = "orderhistory.php"; // Redirect to order history
+        </script>
+    <?php endif; ?>
     <br>
     <a href="cart.php" style="text-decoration: none; color: #333; margin-left: 2%;">Cart</a> > Payment
     <h1>Complete Your Payment</h1>
@@ -167,23 +298,28 @@ if (isset($_SESSION['user_id'])) {
         <!-- Left: Customer Info -->
         <div class="pay-left">
             <h2>Customer Information</h2>
-            <form method="post" action="process_payment.php">
+            <form method="post" action="">
                 <label>Full Name:</label><br>
                 <input type="text" name="fullname" required value="<?php echo htmlspecialchars($user_fullname); ?>" placeholder="Enter your full name">
                 <br><label>Phone Number:</label><br>
                 <input type="text" name="phone" required value="<?php echo htmlspecialchars($user_phone); ?>" placeholder="Enter your phone number">
+                <br><label>Email:</label><br>
+                <input type="email" name="email" required value="<?php echo htmlspecialchars($user_email); ?>" placeholder="Enter your email"><br>
                 <br><label>Address:</label><br>
                 <input type="text" name="address" required value="<?php echo htmlspecialchars($user_address); ?>" placeholder="Enter your address">
                 <br><label>Note (optional):</label><br>
                 <textarea name="note" rows="2" placeholder="Leave your message here"></textarea>
                 <!-- Hidden fields to pass order info -->
-                <input type="hidden" name="product_id" value="<?php echo $product_id; ?>">
-                <input type="hidden" name="quantity" value="<?php echo $quantity; ?>">
-                <input type="hidden" name="card_id" value="<?php echo $card_id; ?>">
-                <input type="hidden" name="card_message" value="<?php echo $card_message; ?>">
-                <input type="hidden" name="total" value="<?php echo $total; ?>">
-                <input type="hidden" name="checkout_items" value="<?php echo implode(',', array_filter([$product_id, $card_id])); ?>">
-                <br><button type="submit" disabled>Pay Now</button>
+                 <?php if (isset($_GET['id'])): ?>
+                    <input type="hidden" name="product_id" value="<?php echo $product_id; ?>">
+                    <input type="hidden" name="quantity" value="<?php echo $quantity; ?>">
+                    <input type="hidden" name="card_id" value="<?php echo $card_id; ?>">
+                    <input type="hidden" name="card_message" value="<?php echo $card_message; ?>">
+                    <input type="hidden" name="total" value="<?php echo $total; ?>">
+                <?php elseif (isset($_POST['checkout_items'])): ?>
+                    <input type="hidden" name="checkout_items" value="<?php echo htmlspecialchars($_POST['checkout_items']); ?>">
+                <?php endif; ?>
+                <br><button type="submit" <?php if ($order_success) echo 'disabled'; ?>>Pay Now</button>
             </form>
         </div>
         <!-- Right: Payment Info -->

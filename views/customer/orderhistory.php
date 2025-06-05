@@ -62,12 +62,12 @@ $conn->close();
 }
 .orderhistory-menu a {
     padding: 10px 32px;
-    /* border-radius: 6px 6px 0 0; */ /* Xóa hoặc comment dòng này */
+    /* border-radius: 6px 6px 0 0; */
     color: #222;
     font-weight: 500;
     text-decoration: none;
     font-size: 1.1rem;
-    /* border: 1px solid #f0e0de; */ /* Xóa hoặc comment dòng này */
+    /* border: 1px solid #f0e0de; */
     border-bottom: none;
     background: none;
     transition: color 0.15s;
@@ -206,7 +206,9 @@ $conn->close();
                         </div>
                         <div class="product-price"><?php echo number_format($item['price']); ?> VND</div>
                         <div class="product-feedback">
-                            <a class="feedback-btn" href="review.php?order_id=<?php echo $order['id']; ?>&product_id=<?php echo $product['id']; ?>">Feedback</a>
+                            <?php if (strtolower($order['status']) === 'delivered'): ?>
+                                <a class="feedback-btn" href="review.php?order_id=<?php echo $order['id']; ?>&product_id=<?php echo $product['id']; ?>">Feedback</a>
+                            <?php endif; ?>
                         </div>
                     </div>
                     <?php endforeach; ?>

@@ -72,6 +72,41 @@ if (isset($_SESSION['user_id'])) {
         $user_address = $user['address'];
     }
 }
+
+if (isset($_GET['id'])) {
+    $product_id = intval($_GET['id']);
+    $quantity = isset($_GET['quantity']) ? intval($_GET['quantity']) : 1;
+    $card_id = isset($_GET['card']) ? intval($_GET['card']) : null;
+    $message = isset($_GET['message']) ? urldecode($_GET['message']) : '';
+
+    // Fetch product
+    $sql = "SELECT name, image, price FROM products WHERE id = $product_id";
+    $result = $conn->query($sql);
+    $product = $result ? $result->fetch_assoc() : null;
+
+    // Fetch card/service if selected
+    $card = null;
+    if ($card_id) {
+        $sql = "SELECT name, price, image FROM services WHERE id = $card_id";
+        $result = $conn->query($sql);
+        $card = $result ? $result->fetch_assoc() : null;
+    }
+
+    // Build $cart_products array for display
+    $cart_products = [];
+    if ($product) {
+        $cart_products[] = [
+            'product_name' => $product['name'],
+            'product_image' => $product['image'],
+            'product_price' => $product['price'],
+            'quantity' => $quantity,
+            'card_name' => $card['name'] ?? null,
+            'card_price' => $card['price'] ?? 0,
+            'card_image' => $card['image'] ?? null,
+            'card_message' => $message,
+        ];
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">

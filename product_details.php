@@ -46,6 +46,7 @@ if (isset($_POST['add_to_cart'])) {
 }
 
 $shipping_fee = 20000;
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -206,6 +207,7 @@ $shipping_fee = 20000;
                 <button 
                     type="button"
                     id="checkout-btn"
+                    href="/flower_shop/views/customer/pay.php?id=<?php echo $product_id; ?>"
                     style="width:30%; background-color:#e75480; color:white; padding:14px 20px; border:none; border-radius:4px; cursor:pointer; margin-left:10px;"
                 >Checkout</button>
             </form>
@@ -252,8 +254,8 @@ $shipping_fee = 20000;
             const quantity = document.getElementById('quantity').value || 1;
             const card = document.querySelector('input[name="card"]:checked');
             const cardId = card ? card.value : '';
-            const message = encodeURIComponent(document.querySelector('text[name="card_message"]').value || '');
-            let url = `./views/customer/pay.php?id=${productId}&quantity=${quantity}`;
+            const message = encodeURIComponent(document.querySelector('input[name="card_message"]').value || '');
+            let url = `/flower_shop/views/customer/pay.php?id=${productId}&quantity=${quantity}`;
             if (cardId) url += `&card=${cardId}`;
             if (message) url += `&message=${message}`;
             window.location.href = url;

@@ -4,7 +4,12 @@ session_start();
 include '../../connectdb.php';
 
 $error = '';
-$redirect = isset($_GET['redirect']) ? $_GET['redirect'] : (isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '/flower_shop/homepage.php');
+$referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '/flower_shop/homepage.php';
+if (strpos($referer, 'register.php') !== false) {
+    $redirect = '/flower_shop/homepage.php';
+} else {
+    $redirect = isset($_GET['redirect']) ? $_GET['redirect'] : $referer;
+}
 
 if (isset($_SESSION['user_id'])) {
     header("Location: $redirect");
@@ -70,7 +75,7 @@ include '../../includes/header.php'; ?>
                     <input class="login-checkbox" type="checkbox" id="remember" name="remember">
                     <label for="remember" style="font-size:12px; color:#222;">Remember me</label>
                 </div>
-                <a href="#" class="login-link">Forgot your password?</a>
+                <a href="forgot_pass.php" class="login-link">Forgot your password?</a>
             </div>
             <button class="login-btn" type="submit">Login</button>
         </form>

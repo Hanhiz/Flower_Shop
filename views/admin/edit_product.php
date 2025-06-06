@@ -269,6 +269,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($product['name']); ?>" required>
             </div>
             <div class="form-group">
+                <label for="price">Price (VND)</label>
+                <input type="number" id="price" name="price" min="0" step="1000" value="<?php echo htmlspecialchars($product['price']); ?>" required>
+            </div>
+            <div class="form-group">
                 <label for="description">Description</label>
                 <textarea id="description" name="description"><?php echo htmlspecialchars($product['description']); ?></textarea>
             </div>

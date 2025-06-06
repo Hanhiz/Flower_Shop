@@ -83,7 +83,7 @@ include '../../includes/header.php';
         </form>
     </div>
 </div>
-
+<?php include '../../includes/footer.php'; ?>
 <style>
 .register-bg {
     height: calc(100vh - 70px);
@@ -101,7 +101,7 @@ include '../../includes/header.php';
     background: #fff;
     border: 1px solid #222;
     border-radius: 12px;
-    max-width: 750px;
+    max-width: 700px;
     width: 100%;
     margin: 48px auto;
     padding: 48px 48px 36px 48px;
@@ -110,6 +110,7 @@ include '../../includes/header.php';
     display: flex;
     flex-direction: column;
     align-items: center;
+    height: 650px;
 }
 .register-title {
     font-family: 'Playfair Display', serif;
@@ -177,7 +178,7 @@ include '../../includes/header.php';
     width: 100%;
 }
 .register-create-btn {
-    width: 60%;
+    width: 150px;
     margin: 24px auto 0 auto;
     display: block;
     background: #fff;

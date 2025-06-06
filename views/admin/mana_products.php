@@ -67,9 +67,9 @@ $result = $conn->query("SELECT * FROM products ORDER BY created_at DESC");
 </head>
 <body>
     <nav class="admin-navbar">
-        <a href="dashboard.php" class="active">Dashboard</a>
+        <a href="dashboard.php">Dashboard</a>
         <a href="mana_orders.php">Manage Orders</a>
-        <a href="mana_products.php">Manage Products</a>
+        <a href="mana_products.php" class="active">Manage Products</a>
         <a href="mana_reviews.php">Manage Reviews</a>
         <a href="mana_users.php">Manage Users</a>
         <a href="mana_noti.php">Manage Notifications</a>
@@ -77,7 +77,7 @@ $result = $conn->query("SELECT * FROM products ORDER BY created_at DESC");
     </nav>
     <div class="container">
         <h2>Product Management</h2>
-        <a href="add_product.php" class="add-btn">+ Add Product</a>
+        <a href="add_new_product.php" class="add-btn">+ Add Product</a>
         <table>
             <tr>
                 <th>ID</th>

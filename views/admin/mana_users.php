@@ -92,7 +92,7 @@ while ($row = $result->fetch_assoc()) {
         .admin-navbar a:hover, .admin-navbar a.active {
             background: #d84372;
         }
-        body { background: #f8f8f8; font-family: 'Segoe UI', Arial, sans-serif; }
+        body { background: #f8f8f8; font-family: 'Segoe UI', Arial, sans-serif; margin: 0; padding: 0; }
         .container { max-width: 900px; margin: 40px auto; background: #fff; border-radius: 10px; box-shadow: 0 2px 12px #eee; padding: 32px; }
         h2 { color: #e75480; text-align: center; }
         table { width: 100%; border-collapse: collapse; margin-top: 24px; }
@@ -113,13 +113,12 @@ while ($row = $result->fetch_assoc()) {
     </style>
 </head>
 <body>
-    <?php include '../../includes/header.php'; ?>
     <nav class="admin-navbar">
-        <a href="dashboard.php" class="active">Dashboard</a>
+        <a href="dashboard.php">Dashboard</a>
         <a href="mana_orders.php">Manage Orders</a>
         <a href="mana_products.php">Manage Products</a>
         <a href="mana_reviews.php">Manage Reviews</a>
-        <a href="mana_users.php">Manage Users</a>
+        <a href="mana_users.php" class="active">Manage Users</a>
         <a href="mana_noti.php">Manage Notifications</a>
         <a href="/flower_shop/views/auth/logout.php" style="margin-left:auto;">Logout</a>
     </nav>
@@ -196,6 +195,5 @@ while ($row = $result->fetch_assoc()) {
             <?php endforeach; ?>
         </table>
     </div>
-    <?php include '../../includes/footer.php'; ?>
 </body>
 </html>

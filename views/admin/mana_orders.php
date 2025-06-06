@@ -116,8 +116,8 @@ if (isset($_GET['order_id'])) {
 </head>
 <body>
     <nav class="admin-navbar">
-        <a href="dashboard.php" class="active">Dashboard</a>
-        <a href="mana_orders.php">Manage Orders</a>
+        <a href="dashboard.php">Dashboard</a>
+        <a href="mana_orders.php"  class="active">Manage Orders</a>
         <a href="mana_products.php">Manage Products</a>
         <a href="mana_reviews.php">Manage Reviews</a>
         <a href="mana_users.php">Manage Users</a>

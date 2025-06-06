@@ -1,7 +1,6 @@
 <?php
 // filepath: c:\xampp\htdocs\Flower_Shop\views\admin\mana_reviews.php
 session_start();
-include '../../includes/header.php';
 include '../../connectdb.php';
 
 // Handle delete review (AJAX)
@@ -130,6 +129,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['reply_id'], $_POST['r
     body {
         font-family: 'Segoe UI', Arial, sans-serif;
         background: #fff;
+        margin: 0;
     }
     .admin-navbar {
             background: #e75480;
@@ -356,10 +356,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['reply_id'], $_POST['r
 </head>
 <body>
     <nav class="admin-navbar">
-        <a href="dashboard.php" class="active">Dashboard</a>
+        <a href="dashboard.php">Dashboard</a>
         <a href="mana_orders.php">Manage Orders</a>
         <a href="mana_products.php">Manage Products</a>
-        <a href="mana_reviews.php">Manage Reviews</a>
+        <a href="mana_reviews.php" class="active">Manage Reviews</a>
         <a href="mana_users.php">Manage Users</a>
         <a href="mana_noti.php">Manage Notifications</a>
         <a href="/flower_shop/views/auth/logout.php" style="margin-left:auto;">Logout</a>
@@ -562,6 +562,5 @@ function showToast(msg) {
     }, 1800);
 }
 </script>
-<?php include '../../includes/footer.php'; ?>
 </body>
 </html>

@@ -201,13 +201,13 @@
                         COLLECTION
                     </a>
                     <div class="dropdown">
-                        <a href="/flower_shop/views/customer/collection.php">All collections</a>
-                        <a href="#">Birthday</a>
-                        <a href="#">Anniversary</a>
-                        <a href="#">Congratulations</a>
-                        <a href="#">Parent's Day</a>
-                        <a href="#">Teacher's Day</a>
-                        <a href="#">International's Day</a>
+                        <a href="/flower_shop/views/customer/collection.php?c=all">All collections</a>
+                        <a href="/flower_shop/views/customer/collection.php?c=0">Birthday</a>
+                        <a href="/flower_shop/views/customer/collection.php?c=1">Anniversary</a>
+                        <a href="/flower_shop/views/customer/collection.php?c=2">Congratulations</a>
+                        <a href="/flower_shop/views/customer/collection.php?c=3">Parent's Day</a>
+                        <a href="/flower_shop/views/customer/collection.php?c=4">Teacher's Day</a>
+                        <a href="/flower_shop/views/customer/collection.php?c=5">International's Day</a>
                     </div>
                 </div>
                 <div class="nav-item">

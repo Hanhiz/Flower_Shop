@@ -18,6 +18,22 @@ $conn->close();
 
 // Xác định collection được chọn
 $selected = isset($_GET['c']) ? $_GET['c'] : 'all';
+
+// Lấy sản phẩm thuộc collection nếu đã chọn collection cụ thể
+$products = [];
+if (is_numeric($selected) && isset($collections[$selected])) {
+    $conn = new mysqli('localhost', 'root', '', 'flowershop');
+    $conn->set_charset('utf8');
+    $stmt = $conn->prepare("SELECT * FROM products WHERE collection_id = ?");
+    $stmt->bind_param("i", $collections[$selected]['id']);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    while ($row = $result->fetch_assoc()) {
+        $products[] = $row;
+    }
+    $stmt->close();
+    $conn->close();
+}
 ?>
 
 <style>
@@ -106,11 +122,50 @@ body {
     line-height: 1.3;
     font-family: 'Times New Roman', serif;
 }
+.shop-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    margin-top: 40px;
+}
+.shop-card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 12px #eee;
+    overflow: hidden;
+    text-align: center;
+    transition: box-shadow 0.2s;
+}
+.shop-card:hover {
+    box-shadow: 0 4px 24px #e75480aa;
+}
+.shop-card img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    display: block;
+}
+.shop-card-info {
+    padding: 16px 12px 18px 12px;
+}
+.shop-card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #e75480;
+}
+.shop-card-price {
+    font-size: 1rem;
+    color: #b97a56;
+    font-weight: 500;
+}
 @media (max-width: 900px) {
     .collection-grid {
         grid-template-columns: 1fr 1fr;
         gap: 20px;
     }
+    .shop-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
+    .shop-card img { height: 160px; }
 }
 @media (max-width: 600px) {
     .collection-container {
@@ -126,6 +181,8 @@ body {
     .collection-title {
         font-size: 1.2rem;
     }
+    .shop-grid { grid-template-columns: 1fr; gap: 16px; }
+    .shop-card img { height: 120px; }
 }
 </style>
 
@@ -146,7 +203,6 @@ body {
     </div>
     <div class="collection-grid">
         <?php
-        // Gán ảnh theo thứ tự collection1.png, collection2.png, ...
         if ($selected === 'all') {
             foreach ($collections as $idx => $col) {
                 $img = "../../assets/img/collection" . ($idx + 1) . ".png";
@@ -161,14 +217,25 @@ body {
                 echo '</div>';
             }
         } elseif (is_numeric($selected) && isset($collections[$selected])) {
-            $col = $collections[$selected];
-            $img = "../../assets/img/collection" . ($selected + 1) . ".png";
-            echo '<div class="collection-card">';
-            echo '<img src="'.$img.'" alt="'.htmlspecialchars($col['name']).'">';
-            echo '<div class="collection-card-info">';
-            echo '<div class="collection-card-label">COLLECTIONS</div>';
-            echo '<div class="collection-card-title">'.htmlspecialchars($col['name']).'</div>';
-            echo '</div></div>';
+            // Bỏ phần hiển thị ảnh collection, chỉ hiển thị sản phẩm
+            echo '<div class="shop-grid">';
+            if (empty($products)) {
+                echo '<div style="padding:32px;text-align:center;color:#888;">No products in this collection.</div>';
+            } else {
+                foreach ($products as $product) {
+                    $img = "/flower_shop/assets/img/products/" . htmlspecialchars($product['image']);
+                    echo '<div class="shop-card">';
+                    echo '<a href="product_detail.php?id=' . $product['id'] . '">';
+                    echo '<img src="' . $img . '" alt="' . htmlspecialchars($product['name']) . '">';
+                    echo '<div class="shop-card-info">';
+                    echo '<div class="shop-card-title">' . htmlspecialchars($product['name']) . '</div>';
+                    echo '<div class="shop-card-price">' . number_format($product['price']) . '₫</div>';
+                    echo '</div>';
+                    echo '</a>';
+                    echo '</div>';
+                }
+            }
+            echo '</div>';
         }
         ?>
     </div>

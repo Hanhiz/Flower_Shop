@@ -82,6 +82,10 @@ if (isset($_POST['change_password'])) {
         }
     }
 }
+$show_change_pass = false;
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['change_password'])) {
+    $show_change_pass = true;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -95,7 +99,7 @@ if (isset($_POST['change_password'])) {
             margin: 24px 0 10px 0;
             font-size: 1.08rem;
             color: #888;
-            text-align: center;
+            text-align: left;
         }
         .breadcrumbs a { color: #e75480; text-decoration: none; }
         .container {
@@ -111,6 +115,51 @@ if (isset($_POST['change_password'])) {
             margin-bottom: 22px;
             text-align: center;
             letter-spacing: 0.5px;
+        }
+        /* Vertical Navbar */
+        ul.navbar {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            width: 200px;
+            background-color: #fff;
+            position: fixed;
+            height: 100%;
+            overflow: auto;
+            left: 0;
+            z-index: 10;
+        }
+        ul.navbar li a {
+            display: block;
+            color: #000;
+            padding: 10px 18px;
+            text-decoration: none;
+            font-size: 16px;
+            width: 100%;
+        }
+        
+        ul.navbar li a.visited {
+            background-color: #e75480;
+            color: black;
+        }
+        ul.navbar li a:hover:not(.active) {
+            background-color: #f8eaea;
+            color: black;
+        }
+        ul.navbar .submenu {
+            display: block !important;
+            list-style-type: none;
+            padding-left: 18px;
+            background: none;
+            margin: 0;
+        }
+        ul.navbar .submenu.show {
+            display: block;
+        }
+        ul.navbar .submenu li a {
+            font-size: 15px;
+            padding-left: 32px;
+            background: none;
         }
         .profile-info {
             display: flex;
@@ -201,23 +250,40 @@ if (isset($_POST['change_password'])) {
         }
         .error-list { color: #c0392b; background: #fff0f0; }
         .success-msg { color: #219653; background: #f3fff3; }
+        .form-section { display: none; }
+        .form-section.active { display: block; }
         @media (max-width: 700px) {
             .container { padding: 18px 4vw; }
             .profile-info { flex-direction: column; gap: 16px; align-items: stretch; }
             .avatar-box { align-items: flex-start; }
+            ul.navbar { width: 100px; }
         }
         @media (max-width: 480px) {
             .container { padding: 8px 2vw; }
             .btn, .btn-secondary { width: 100%; padding: 13px 0; }
             .profile-actions { flex-direction: column; gap: 12px; }
+            ul.navbar { width: 100%; position: static; height: auto; }
         }
     </style>
 </head>
+<?php include '../../includes/header.php'; ?>
 <body>
-    <div class="breadcrumbs">
+    <ul class="navbar">
+        <li><a href="../../homepage.php">Home</a></li>
+        <li>
+            <span style="display:block;padding:10px 18px;color:#000;font-size:16px;">Account</span>
+            <ul class="submenu">
+                <li><a href="/flower_shop/views/customer/account.php">My Account</a></li>
+                <li><a href="/flower_shop/views/customer/orderhistory.php">My Orders</a></li>
+                <li><a href="#">Notification</a></li>
+            </ul>
+        </li>
+    </ul>
+    <div class="right" style="margin-left:220px;">
+    <div class="breadcrumbs" style="margin-left:20px;">
         <a href="../../homepage.php">Home</a> &gt; My Account
     </div>
-    <div class="container">
+    <div class="container" style="margin-left:220px;">
         <h2>My Account</h2>
         <div class="profile-info">
             <div class="avatar-box">
@@ -252,7 +318,10 @@ if (isset($_POST['change_password'])) {
                 </div>
             </form>
         </div>
-        <div class="form-section">
+        <div class="profile-actions">
+            <button type="button" id="show-change-pass" class="btn btn-secondary" style="margin-left:12px;" aria-expanded="false">Change Password</button>
+        </div>
+        <div class="form-section<?php if ($show_change_pass || $pass_errors || $pass_success) echo ' active'; ?>" id="change-pass-section">
             <form method="post" autocomplete="off">
                 <div class="form-title">Change Password</div>
                 <?php if ($pass_errors): ?>
@@ -278,9 +347,15 @@ if (isset($_POST['change_password'])) {
                 </div>
             </form>
         </div>
-        <div class="profile-actions">
-            <a href="orderhistory.php" class="btn">My Orders</a>
-        </div>
     </div>
+    </div>
+    <script>
+        // Toggle change password form
+        document.getElementById('show-change-pass').onclick = function() {
+            var section = document.getElementById('change-pass-section');
+            section.classList.toggle('active');
+            this.setAttribute('aria-expanded', section.classList.contains('active'));
+        };
+    </script>
 </body>
 </html>

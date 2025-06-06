@@ -223,7 +223,7 @@ body {
                 echo '<div style="padding:32px;text-align:center;color:#888;">No products in this collection.</div>';
             } else {
                 foreach ($products as $product) {
-                    $img = "/flower_shop/assets/img/products/" . htmlspecialchars($product['image']);
+                    $img = "/flower_shop/assets/img/" . htmlspecialchars($product['image']);
                     echo '<div class="shop-card">';
                     echo '<a href="product_detail.php?id=' . $product['id'] . '">';
                     echo '<img src="' . $img . '" alt="' . htmlspecialchars($product['name']) . '">';
@@ -239,6 +239,8 @@ body {
         }
         ?>
     </div>
+
+    
 </div>
 
 <?php include '../../includes/footer.php'; ?>

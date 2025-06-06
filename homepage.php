@@ -297,28 +297,38 @@ if (session_status() === PHP_SESSION_NONE) {
     <div class="containerb" id="collection">
         <center>
             <h3>Discover</h3>
-            <h2><img src="assets/img/flower_5768957.png" width=1.4%> Our Collection <img src="assets/img/flower_5768957.png" width=1.4%></h2>
+            <h2><img src="assets/img/flower_5768957.png" width=1.4%> Our Collections <img src="assets/img/flower_5768957.png" width=1.4%></h2>
         </center>
         <div class="collection1">
             <div class="container1">
-                <img src="assets/img/collection1.png" alt="Bouquet 1" style="width: 100%; object-fit: cover; border-radius: 8px;">
-                <div class="bottomleft">Collection<br><span style="font-size: 20pt;"><b>Anniversary Flowers</b></span></div>
+                <a href="views/customer/collection.php?c=1">
+                    <img src="assets/img/collection1.png" alt="Bouquet 1" style="width: 100%; object-fit: cover; border-radius: 8px;">
+                    <div class="bottomleft">Collection<br><span style="font-size: 20pt;"><b>Anniversary Flowers</b></span></div>
+                </a>
             </div>
             <div class="container1">
-                <img src="assets/img/collection2.png" alt="Bouquet 2" style="width: 100%; object-fit: cover; border-radius: 8px;">
-                <div class="bottomleft">Collection<br><span style="font-size: 20pt;"><b>Birthday Flowers</b></span></div>
+                <a href="views/customer/collection.php?c=2">
+                    <img src="assets/img/collection2.png" alt="Bouquet 2" style="width: 100%; object-fit: cover; border-radius: 8px;">
+                    <div class="bottomleft">Collection<br><span style="font-size: 20pt;"><b>Birthday Flowers</b></span></div>
+                </a>
             </div>
             <div class="container2">
-                <img src="assets/img/collection3.png" alt="Bouquet 3" style="width: 100%; height: 770px; object-fit: cover; border-radius: 8px;">
-                <div class="bottomleft">Collection<br><span style="font-size: 20pt;"><b>International Woman’s Day Flowers</b></span></div>
+                <a href="views/customer/collection.php?c=3">
+                    <img src="assets/img/collection3.png" alt="Bouquet 3" style="width: 100%; height: 770px; object-fit: cover; border-radius: 8px;">
+                    <div class="bottomleft">Collection<br><span style="font-size: 20pt;"><b>International Woman’s Day Flowers</b></span></div>
+                </a>
             </div>
             <div class="container2">
-                <img src="assets/img/collection4.png" alt="Bouquet 4" style="width: 100%; height: 770px; object-fit: cover; border-radius: 8px;">
-                <div class="bottomleft">Collection<br><span style="font-size: 20pt;"><b>Teacher’s Day Flowers</b></span></div>
+                <a href="views/customer/collection.php?c=4">
+                    <img src="assets/img/collection4.png" alt="Bouquet 4" style="width: 100%; height: 770px; object-fit: cover; border-radius: 8px;">
+                    <div class="bottomleft">Collection<br><span style="font-size: 20pt;"><b>Teacher’s Day Flowers</b></span></div>
+                </a>
             </div>
             <div class="container2">
-                <img src="assets/img/collection5.png" alt="Bouquet 5" style="width: 100%; height: 770px; object-fit: cover; border-radius: 8px;">
-                <div class="bottomleft">Collection<br><span style="font-size: 20pt;"><b>Parents’ Day Flowers</b></span></div>
+                <a href="views/customer/collection.php?c=5">
+                    <img src="assets/img/collection5.png" alt="Bouquet 5" style="width: 100%; height: 770px; object-fit: cover; border-radius: 8px;">
+                    <div class="bottomleft">Collection<br><span style="font-size: 20pt;"><b>Parents’ Day Flowers</b></span></div>
+                </a>
             </div>
         </div>
     </div>

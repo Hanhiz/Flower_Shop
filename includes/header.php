@@ -109,7 +109,7 @@
             display: flex;
             align-items: center;
             gap: 30px;
-            margin-left: 60px; /* Thêm dòng này để đẩy header-actions sang trái gần menu hơn */
+            margin-left: 60px;
         }
         .call {
             display: flex;
@@ -117,7 +117,7 @@
             text-decoration: none;
             color: #3c3c3c;
             font-size: 14px;
-            font-weight: 100; /* Montserrat Thin */
+            font-weight: 100; 
             letter-spacing: 1px;
             font-family: 'Montserrat', Verdana;
             color: #444;
@@ -127,7 +127,7 @@
             flex-direction: column;
             line-height: 1.2;
             font-size: 10px;
-            font-weight: 100; /* Montserrat Thin */
+            font-weight: 100; 
             color: #6f6f6f;
         }
         .call-icon {
@@ -151,7 +151,7 @@
             text-decoration: none;
             color: #3c3c3c;
             font-size: 14px;
-            font-weight: 100; /* Montserrat Thin */
+            font-weight: 100; 
             letter-spacing: 1px;
             font-family: 'Montserrat', Verdana;
             font-weight: 500;

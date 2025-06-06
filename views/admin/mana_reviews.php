@@ -131,17 +131,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['reply_id'], $_POST['r
         font-family: 'Segoe UI', Arial, sans-serif;
         background: #fff;
     }
+    .admin-navbar {
+            background: #e75480;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            height: 60px;
+        }
+        .admin-navbar a {
+            color: #fff;
+            text-decoration: none;
+            padding: 0 32px;
+            font-size: 18px;
+            line-height: 60px;
+            display: block;
+            transition: background 0.2s;
+        }
+        .admin-navbar a:hover, .admin-navbar a.active {
+            background: #d84372;
+        }
     .breadcrumbs {
         margin: 24px 0 10px 0;
         font-size: 1.08rem;
         color: #888;
     }
-    .breadcrumbs a { color: #d17c7c; text-decoration: none; }
+    .breadcrumbs a { color: #d84372; text-decoration: none; }
     .review-stats {
         margin-bottom: 18px;
         font-size: 1.08rem;
     }
-    .review-stats span { color: #d17c7c; font-weight: 500; }
+    .review-stats span { color: #d84372; font-weight: 500; }
     .review-filter {
         background: #faf6f8;
         border-radius: 8px;
@@ -160,7 +180,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['reply_id'], $_POST['r
         min-width: 170px;
     }
     .review-filter button {
-        background: #d17c7c;
+        background: #d84372;
         color: #fff;
         padding: 7px 18px;
         border-radius: 5px;
@@ -187,7 +207,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['reply_id'], $_POST['r
     }
     .review-table th {
         background: #f8eaea;
-        color: #d17c7c;
+        color: #d84372;
         font-weight: 600;
         text-align: left;
     }
@@ -201,7 +221,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['reply_id'], $_POST['r
         border: none;
         background: #f8eaea;
         cursor: pointer;
-        color: #d17c7c;
+        color: #d84372;
         font-size: 1.15rem;
         padding: 5px 10px;
         border-radius: 5px;
@@ -217,7 +237,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['reply_id'], $_POST['r
         gap: 10px;
     }
     .bulk-actions button {
-        background: #d17c7c;
+        background: #d84372;
         color: #fff;
         border: none;
         border-radius: 5px;
@@ -279,7 +299,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['reply_id'], $_POST['r
         border-radius: 6px;
         border: 1.5px solid #e2bcbc;
         background: #fff;
-        color: #d17c7c;
+        color: #d84372;
         text-decoration: none;
         font-weight: 500;
         text-align: center;
@@ -290,10 +310,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['reply_id'], $_POST['r
     }
     .pagination a:hover {
         background: #f8eaea;
-        color: #b35c5c;
+        color: #d84372;
     }
     .pagination .active {
-        background: #d17c7c;
+        background: #d84372;
         color: #fff;
         font-weight: bold;
         border-color: #d17c7c;

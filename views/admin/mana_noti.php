@@ -52,6 +52,26 @@ if (isset($_POST['delete_id'])) {
         .delete-btn {
             background: #d17c7c; color: #fff; border: none; border-radius: 4px; padding: 5px 12px; cursor: pointer;
         }
+        .admin-navbar {
+            background: #e75480;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            height: 60px;
+        }
+        .admin-navbar a {
+            color: #fff;
+            text-decoration: none;
+            padding: 0 32px;
+            font-size: 18px;
+            line-height: 60px;
+            display: block;
+            transition: background 0.2s;
+        }
+        .admin-navbar a:hover, .admin-navbar a.active {
+            background: #d84372;
+        }
         .delete-btn:hover { background: #b94a48; }
     </style>
 </head>

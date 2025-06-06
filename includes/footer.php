@@ -8,7 +8,7 @@
     footer {
       margin: 0;
       font-family: 'Abel';
-      color: #000; /* Đổi màu chữ thành đen */
+      color: #000; 
       background: #FAD1CC;
     }
     .footer-bg {
@@ -58,7 +58,7 @@
       font-weight: bold;
       margin-bottom: 10px;
       margin-top: 0;
-      color: #000; /* Đổi màu tiêu đề thành đen */
+      color: #000;
     }
     .footer-col ul {
       list-style: none;
@@ -69,10 +69,10 @@
       margin-bottom: 5px;
       font-size: 0.97rem;
       font-weight: normal;
-      color: #000; /* Đổi màu chữ thành đen */
+      color: #000; 
     }
     .footer-col ul li a {
-      color: #000; /* Đổi màu link thành đen */
+      color: #000; 
       text-decoration: none;
       transition: text-decoration 0.2s;
     }
@@ -91,11 +91,11 @@
       padding: 12px 0 0 0;
       text-align: center;
       font-size: 13px;
-      color: #000; /* Đổi màu chữ thành đen */
+      color: #000; 
       letter-spacing: 0.01em;
     }
     .footer-bottom a {
-      color: #000; /* Đổi màu link thành đen */
+      color: #000;
       text-decoration: none;
       margin: 0 18px;
       transition: text-decoration 0.2s;

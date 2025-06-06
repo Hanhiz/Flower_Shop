@@ -3,7 +3,7 @@
 session_start();
 include '../../connectdb.php';
 
-// Get the last page (referer) or default to homepage
+$error = '';
 $redirect = isset($_GET['redirect']) ? $_GET['redirect'] : (isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '/flower_shop/homepage.php');
 
 if (isset($_SESSION['user_id'])) {
@@ -11,7 +11,6 @@ if (isset($_SESSION['user_id'])) {
     exit;
 }
 
-$error = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim($_POST['email'] ?? '');
     $password = $_POST['password'] ?? '';
@@ -26,6 +25,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($password === $db_password) {
             $_SESSION['user_id'] = $user_id;
             $_SESSION['role'] = $role;
+
+            // Add login notification
+            $type = 'login';
+            $message = 'You have logged in successfully.';
+            $created_at = date('Y-m-d H:i:s');
+            $noti_stmt = $conn->prepare("INSERT INTO notifications (user_id, target_user_id, type, message, created_at) VALUES (?, ?, ?, ?, ?)");
+            $noti_stmt->bind_param("iisss", $user_id, $user_id, $type, $message, $created_at);
+            $noti_stmt->execute();
+            $noti_stmt->close();
+
+            $_SESSION['login_success'] = true;
+
             if ($role === 'admin') {
                 header("Location: /flower_shop/views/admin/dashboard.php");
             } else {
@@ -225,4 +236,30 @@ include '../../includes/header.php'; ?>
     z-index: 20;
     position: relative;
 }
+.login-toast {
+    position: fixed;
+    left: 24px;
+    bottom: 32px;
+    background: #2ecc40;
+    color: #fff;
+    padding: 16px 32px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    box-shadow: 0 2px 12px #aaa;
+    z-index: 9999;
+    opacity: 1;
+    transition: opacity 0.5s;
+}
 </style>
+<?php if (!empty($_SESSION['login_success'])): ?>
+    <div id="login-toast" class="login-toast">Login successful!</div>
+    <script>
+        setTimeout(function() {
+            document.getElementById('login-toast').style.opacity = '0';
+        }, 2000);
+        setTimeout(function() {
+            document.getElementById('login-toast').style.display = 'none';
+        }, 2500);
+    </script>
+    <?php unset($_SESSION['login_success']); ?>
+<?php endif; ?>

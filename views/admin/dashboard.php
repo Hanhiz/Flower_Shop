@@ -252,6 +252,8 @@ while ($row = $rating_result->fetch_assoc()) {
         <a href="mana_orders.php">Manage Orders</a>
         <a href="mana_products.php">Manage Products</a>
         <a href="mana_reviews.php">Manage Reviews</a>
+        <a href="mana_users.php">Manage Users</a>
+        <a href="mana_noti.php">Manage Notifications</a>
         <a href="/flower_shop/views/auth/logout.php" style="margin-left:auto;">Logout</a>
     </nav>
     <div class="dashboard-container">

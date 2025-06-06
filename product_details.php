@@ -155,6 +155,76 @@ $shipping_fee = 20000;
                     <?php echo number_format($product['price']); ?> VND
                 </span>
             </div>
+            <div style="margin-top:40px;">
+                <h3 style="color:#e75480;">Customer Reviews</h3>
+                <?php
+                    // Calculate average rating and total reviews
+                    $avg_sql = "SELECT AVG(rating) as avg_rating, COUNT(*) as total_reviews FROM reviews WHERE product_id = $product_id";
+                    $avg_result = $conn->query($avg_sql);
+                    $avg_row = $avg_result ? $avg_result->fetch_assoc() : null;
+                    $avg_rating = $avg_row && $avg_row['avg_rating'] ? round($avg_row['avg_rating'], 2) : 0;
+                    $total_reviews = $avg_row ? intval($avg_row['total_reviews']) : 0;
+                    ?>
+                    <div style="margin-bottom:18px;">
+                        <span style="font-size:1.25em;font-weight:bold;color:#d17c7c;">
+                            <?php echo $avg_rating; ?> / 5.0
+                        </span>
+                        <?php
+                        for ($i = 1; $i <= 5; $i++) {
+                            echo '<span style="color:' . ($i <= round($avg_rating) ? '#f7b731' : '#ddd') . ';font-size:1.2em;">&#9733;</span>';
+                        }
+                        ?>
+                        <span style="color:#888; font-size:1em; margin-left:10px;">
+                            (<?php echo $total_reviews; ?> review<?php echo $total_reviews == 1 ? '' : 's'; ?>)
+                        </span>
+                    </div>
+                <?php
+                $review_sql = "SELECT r.rating, r.comment, r.created_at, u.full_name 
+                            FROM reviews r 
+                            LEFT JOIN users u ON r.user_id = u.id 
+                            WHERE r.product_id = $product_id 
+                            ORDER BY r.created_at DESC";
+                $review_result = $conn->query($review_sql);
+                if ($review_result && $review_result->num_rows > 0): ?>
+                    <?php while($review = $review_result->fetch_assoc()): ?>
+                        <div style="border-bottom:1px solid #eee; padding:14px 0;">
+                            <div>
+                                <?php
+                                for ($i = 1; $i <= 5; $i++) {
+                                    echo '<span style="color:' . ($i <= $review['rating'] ? '#f7b731' : '#ddd') . ';font-size:1.1em;">&#9733;</span>';
+                                }
+                                ?>
+                                <span style="color:#888; font-size:0.97em; margin-left:10px;">
+                                    <?php echo htmlspecialchars($review['full_name'] ?? 'Customer'); ?> 
+                                    - <?php echo date('Y-m-d', strtotime($review['created_at'])); ?>
+                                </span>
+                            </div>
+                            <div style="margin-top:6px; color:#333;">
+                                <?php echo nl2br(htmlspecialchars($review['comment'])); ?>
+                            </div>
+                            <?php
+                            // Fetch images for this review
+                            $review_id_sql = "SELECT id FROM reviews WHERE product_id = $product_id AND user_id = (SELECT id FROM users WHERE full_name = '" . $conn->real_escape_string($review['full_name']) . "') AND created_at = '" . $review['created_at'] . "' LIMIT 1";
+                            $review_id_result = $conn->query($review_id_sql);
+                            $review_id_row = $review_id_result ? $review_id_result->fetch_assoc() : null;
+                            if ($review_id_row) {
+                                $img_sql = "SELECT image_path FROM review_images WHERE review_id = " . intval($review_id_row['id']);
+                                $img_result = $conn->query($img_sql);
+                                if ($img_result && $img_result->num_rows > 0) {
+                                    echo '<div style="margin-top:8px; display:flex; gap:10px; flex-wrap:wrap;">';
+                                    while ($img = $img_result->fetch_assoc()) {
+                                        echo '<img src="' . htmlspecialchars($img['image_path']) . '" alt="Review Image" style="width:80px; height:80px; object-fit:cover; border-radius:6px; border:1px solid #eee;">';
+                                    }
+                                    echo '</div>';
+                                }
+                            }
+                            ?>
+                        </div>
+                    <?php endwhile; ?>
+                <?php else: ?>
+                    <div style="color:#888; margin:18px 0;">No reviews yet for this product.</div>
+                <?php endif; ?>
+            </div>
         </div>
         <div class="product-detail-right">
             <p><?php echo nl2br(htmlspecialchars($product['description'])); ?>

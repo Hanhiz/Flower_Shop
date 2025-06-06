@@ -14,21 +14,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
     exit;
 }
 
-// Handle reply (AJAX)
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['reply_id'], $_POST['reply_content'])) {
-    $id = intval($_POST['reply_id']);
-    $reply = trim($_POST['reply_content']);
-    $now = date('Y-m-d H:i:s');
-    $stmt = $conn->prepare("UPDATE reviews SET admin_reply = ?, admin_created_at = ? WHERE id = ?");
-    $stmt->bind_param('ssi', $reply, $now, $id);
-    $stmt->execute();
-    // Return reply and created_at as JSON
-    echo json_encode([
-        'reply' => htmlspecialchars($reply),
-        'created_at' => date('Y-m-d H:i', strtotime($now))
-    ]);
-    exit;
-}
 
 // Handle filter/search
 $where = [];
@@ -106,184 +91,259 @@ $count_stmt->execute();
 $count_result = $count_stmt->get_result();
 $total_filtered = $count_result->fetch_assoc()['total'];
 $total_pages = max(1, ceil($total_filtered / $limit));
-?>
-<style>
-body {
-    font-family: 'Segoe UI', Arial, sans-serif;
-    background: #fff;
-}
-.breadcrumbs {
-    margin: 24px 0 10px 0;
-    font-size: 1.08rem;
-    color: #888;
-}
-.breadcrumbs a { color: #d17c7c; text-decoration: none; }
-.review-stats {
-    margin-bottom: 18px;
-    font-size: 1.08rem;
-}
-.review-stats span { color: #d17c7c; font-weight: 500; }
-.review-filter {
-    background: #faf6f8;
-    border-radius: 8px;
-    padding: 14px 18px;
-    margin-bottom: 18px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 14px;
-    align-items: center;
-}
-.review-filter input, .review-filter select {
-    padding: 7px 12px;
-    border-radius: 5px;
-    border: 1px solid #ddd;
-    font-size: 1rem;
-    min-width: 170px;
-}
-.review-filter button {
-    background: #d17c7c;
-    color: #fff;
-    padding: 7px 18px;
-    border-radius: 5px;
-    border: none;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: opacity 0.15s;
-}
-.review-filter button:hover { opacity: 0.85; }
-.review-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: #fff;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 2px 8px #eee;
-}
-.review-table th, .review-table td {
-    padding: 12px 14px;
-    border-bottom: 1px solid #f0e0de;
-    text-align: left;
-    font-size: 1.05rem;
-    vertical-align: top;
-}
-.review-table th {
-    background: #f8eaea;
-    color: #d17c7c;
-    font-weight: 600;
-    text-align: left;
-}
-.review-table tr:last-child td { border-bottom: none; }
-.review-table td {
-    background: #fff;
-}
-.review-actions button {
-    border: none;
-    background: #f8eaea;
-    cursor: pointer;
-    color: #d17c7c;
-    font-size: 1.15rem;
-    padding: 5px 10px;
-    border-radius: 5px;
-    margin-right: 4px;
-    transition: background 0.1s;
-}
-.review-actions button:hover {
-    background: #f2d6d6;
-}
-.bulk-actions {
-    margin: 16px 0 0 0;
-    display: flex;
-    gap: 10px;
-}
-.bulk-actions button {
-    background: #d17c7c;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    padding: 6px 18px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: opacity 0.15s;
-}
-.bulk-actions button:hover { opacity: 0.85; }
-.reply-box {
-    margin-top: 8px;
-    background: #f8f8f8;
-    border-radius: 6px;
-    padding: 10px 12px;
-    border: 1px solid #eee;
-    max-width: 350px;
-}
-.reply-content {
-    margin-top: 7px;
-    color: #219653;
-    font-size: 1.03em;
-    font-weight: 500;
-    background: none;
-    border: none;
-    padding: 0;
-    display: block;
-    max-width: 420px;
-    white-space: pre-line;
-}
-.reply-content .reply-date {
-    color: #888;
-    font-size: 0.97em;
-    font-weight: 400;
-    margin-left: 8px;
-}
-.pagination {
-    margin: 30px 0 30px 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 6px;
-    font-size: 1.08rem;
-}
-.pagination a, .pagination span {
-    min-width: 32px;
-    min-height: 32px;
-    line-height: 32px;
-    padding: 0;
-    border-radius: 6px;
-    border: 1.5px solid #e2bcbc;
-    background: #fff;
-    color: #d17c7c;
-    text-decoration: none;
-    font-weight: 500;
-    text-align: center;
-    display: inline-block;
-    box-sizing: border-box;
-    font-size: 1rem;
-    transition: background 0.15s, color 0.15s;
-}
-.pagination a:hover {
-    background: #f8eaea;
-    color: #b35c5c;
-}
-.pagination .active {
-    background: #d17c7c;
-    color: #fff;
-    font-weight: bold;
-    border-color: #d17c7c;
-    pointer-events: none;
-}
-.pagination .dots {
-    background: none;
-    border: none;
-    color: #bbb;
-    padding: 0 6px;
-    min-width: unset;
-    min-height: unset;
-    line-height: 32px;
-    font-size: 1.1em;
-}
-@media (max-width: 900px) {
-    .review-table th, .review-table td { font-size: 0.97rem; }
-    .review-filter { flex-direction: column; align-items: flex-start; }
-}
-</style>
+// Handle reply (AJAX)
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['reply_id'], $_POST['reply_content'])) {
+    $id = intval($_POST['reply_id']);
+    $reply = trim($_POST['reply_content']);
+    $now = date('Y-m-d H:i:s');
+    $stmt = $conn->prepare("UPDATE reviews SET admin_reply = ?, admin_created_at = ? WHERE id = ?");
+    $stmt->bind_param('ssi', $reply, $now, $id);
+    $stmt->execute();
 
+    // Get review info for notification
+    $review_info = $conn->query("SELECT user_id, product_id FROM reviews WHERE id = $id")->fetch_assoc();
+    if ($review_info) {
+        $type = 'admin_message';
+        $message = 'Admin replied to your review: ' . $reply;
+        $created_at = $now;
+        $noti_stmt = $conn->prepare("INSERT INTO notifications (user_id, target_user_id, product_id, type, message, created_at) VALUES (?, ?, ?, ?, ?, ?)");
+        $noti_stmt->bind_param("iiisss", $review_info['user_id'], $review_info['user_id'], $review_info['product_id'], $type, $message, $created_at);
+        $noti_stmt->execute();
+        $noti_stmt->close();
+    }
+
+    // Return reply and created_at as JSON
+    echo json_encode([
+        'reply' => htmlspecialchars($reply),
+        'created_at' => date('Y-m-d H:i', strtotime($now))
+    ]);
+    exit;
+}
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Manage Reviews</title>
+    <style>
+    body {
+        font-family: 'Segoe UI', Arial, sans-serif;
+        background: #fff;
+    }
+    .breadcrumbs {
+        margin: 24px 0 10px 0;
+        font-size: 1.08rem;
+        color: #888;
+    }
+    .breadcrumbs a { color: #d17c7c; text-decoration: none; }
+    .review-stats {
+        margin-bottom: 18px;
+        font-size: 1.08rem;
+    }
+    .review-stats span { color: #d17c7c; font-weight: 500; }
+    .review-filter {
+        background: #faf6f8;
+        border-radius: 8px;
+        padding: 14px 18px;
+        margin-bottom: 18px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        align-items: center;
+    }
+    .review-filter input, .review-filter select {
+        padding: 7px 12px;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+        font-size: 1rem;
+        min-width: 170px;
+    }
+    .review-filter button {
+        background: #d17c7c;
+        color: #fff;
+        padding: 7px 18px;
+        border-radius: 5px;
+        border: none;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: opacity 0.15s;
+    }
+    .review-filter button:hover { opacity: 0.85; }
+    .review-table {
+        width: 100%;
+        border-collapse: collapse;
+        background: #fff;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px #eee;
+    }
+    .review-table th, .review-table td {
+        padding: 12px 14px;
+        border-bottom: 1px solid #f0e0de;
+        text-align: left;
+        font-size: 1.05rem;
+        vertical-align: top;
+    }
+    .review-table th {
+        background: #f8eaea;
+        color: #d17c7c;
+        font-weight: 600;
+        text-align: left;
+    }
+    .review-table tr:last-child td { border-bottom: none; }
+    .review-table td {
+        background: #fff;
+    }
+    .review-table tr:nth-child(even) { background: #faf6f8; }
+    .review-table tr:hover td { background: #f5eaea; transition: background 0.2s; }
+    .review-actions button {
+        border: none;
+        background: #f8eaea;
+        cursor: pointer;
+        color: #d17c7c;
+        font-size: 1.15rem;
+        padding: 5px 10px;
+        border-radius: 5px;
+        margin-right: 4px;
+        transition: background 0.1s;
+    }
+    .review-actions button:hover {
+        background: #f2d6d6;
+    }
+    .bulk-actions {
+        margin: 16px 0 0 0;
+        display: flex;
+        gap: 10px;
+    }
+    .bulk-actions button {
+        background: #d17c7c;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 6px 18px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: opacity 0.15s;
+    }
+    .bulk-actions button:hover { opacity: 0.85; }
+    .reply-content {
+        margin-top: 10px;
+        color: #219653;
+        font-size: 1.05em;
+        font-weight: 500;
+        background: #f3fff3;
+        border-left: 4px solid #2ecc40;
+        border-radius: 5px;
+        padding: 8px 12px;
+        display: block;
+        max-width: 420px;
+        white-space: pre-line;
+        transition: background 0.2s;
+        animation: fadeIn 0.5s;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px);}
+        to { opacity: 1; transform: translateY(0);}
+    }
+    .reply-content .reply-date {
+        color: #888;
+        font-size: 0.97em;
+        font-weight: 400;
+        margin-left: 8px;
+    }
+    .reply-box {
+        margin-top: 8px;
+        margin-left: 70%;
+        background: #f8f8f8;
+        border-radius: 6px;
+        padding: 10px 12px;
+        border: 1px solid #eee;
+        max-width: 350px;
+        box-shadow: 0 2px 8px #e0f7e0;
+        animation: fadeIn 0.3s;
+    }
+    .pagination {
+        margin: 30px 0 30px 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 6px;
+        font-size: 1.08rem;
+    }
+    .pagination a, .pagination span {
+        min-width: 32px;
+        min-height: 32px;
+        line-height: 32px;
+        padding: 0;
+        border-radius: 6px;
+        border: 1.5px solid #e2bcbc;
+        background: #fff;
+        color: #d17c7c;
+        text-decoration: none;
+        font-weight: 500;
+        text-align: center;
+        display: inline-block;
+        box-sizing: border-box;
+        font-size: 1rem;
+        transition: background 0.15s, color 0.15s;
+    }
+    .pagination a:hover {
+        background: #f8eaea;
+        color: #b35c5c;
+    }
+    .pagination .active {
+        background: #d17c7c;
+        color: #fff;
+        font-weight: bold;
+        border-color: #d17c7c;
+        pointer-events: none;
+    }
+    .pagination .dots {
+        background: none;
+        border: none;
+        color: #bbb;
+        padding: 0 6px;
+        min-width: unset;
+        min-height: unset;
+        line-height: 32px;
+        font-size: 1.1em;
+    }
+    .toast {
+        position: fixed;
+        left: 50%;
+        bottom: 40px;
+        transform: translateX(-50%);
+        background: #2ecc40;
+        color: #fff;
+        padding: 14px 32px;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        box-shadow: 0 2px 12px #aaa;
+        z-index: 9999;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.4s;
+    }
+    .toast.show { opacity: 1; pointer-events: auto; }
+    @media (max-width: 900px) {
+        .review-table, .review-table th, .review-table td { font-size: 0.97rem; }
+        .review-table, .review-table th, .review-table td { display: block; width: 100%; }
+        .review-table th, .review-table td { box-sizing: border-box; }
+        .review-table tr { margin-bottom: 18px; border-radius: 10px; box-shadow: 0 2px 8px #eee; }
+    }
+</style>
+</head>
+<body>
+    <nav class="admin-navbar">
+        <a href="dashboard.php" class="active">Dashboard</a>
+        <a href="mana_orders.php">Manage Orders</a>
+        <a href="mana_products.php">Manage Products</a>
+        <a href="mana_reviews.php">Manage Reviews</a>
+        <a href="mana_users.php">Manage Users</a>
+        <a href="mana_noti.php">Manage Notifications</a>
+        <a href="/flower_shop/views/auth/logout.php" style="margin-left:auto;">Logout</a>
+    </nav>
 <div class="breadcrumbs">
     <a href="dashboard.php">Dashboard</a> &gt; Review Management
 </div>
@@ -353,7 +413,11 @@ body {
             <td class="review-actions">
                 <button type="button" onclick="deleteReview(<?php echo $r['id']; ?>)" title="Delete">&#128465;</button>
                 <button type="button" onclick="showReplyBox(<?php echo $r['id']; ?>)" title="Reply">&#128172;</button>
-                <div class="reply-box" id="reply-box-<?php echo $r['id']; ?>" style="display:none;">
+            </td>
+        </tr>
+        <tr id="reply-row-<?php echo $r['id']; ?>" style="display:none;">
+            <td colspan="8">
+                <div class="reply-box" id="reply-box-<?php echo $r['id']; ?>">
                     <textarea id="reply-text-<?php echo $r['id']; ?>" rows="2" style="width:98%;resize:vertical;" placeholder="Type your reply..."></textarea>
                     <div style="margin-top:6px;">
                         <button type="button" onclick="sendReply(<?php echo $r['id']; ?>)" style="background:#2ecc40;color:#fff;padding:4px 14px;border-radius:4px;border:none;">Send</button>
@@ -429,17 +493,24 @@ function deleteReview(id) {
     }
 }
 function showReplyBox(id) {
-    document.getElementById('reply-box-' + id).style.display = 'block';
+    // Hide all other reply boxes
+    document.querySelectorAll('tr[id^="reply-row-"]').forEach(row => row.style.display = 'none');
+    document.getElementById('reply-row-' + id).style.display = 'table-row';
+    setTimeout(function() {
+        document.getElementById('reply-text-' + id).focus();
+    }, 100);
 }
 function hideReplyBox(id) {
-    document.getElementById('reply-box-' + id).style.display = 'none';
+    document.getElementById('reply-row-' + id).style.display = 'none';
 }
 function sendReply(id) {
+    var btn = document.querySelector('#reply-box-' + id + ' button[onclick^="sendReply"]');
     var content = document.getElementById('reply-text-' + id).value.trim();
     if(!content) {
         alert('Please enter your reply!');
         return;
     }
+    btn.disabled = true;
     fetch(window.location.href, {
         method: 'POST',
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
@@ -447,12 +518,30 @@ function sendReply(id) {
     })
     .then(res => res.json())
     .then(data => {
-        document.getElementById('reply-box-' + id).style.display = 'none';
-        var replyDiv = document.getElementById('reply-content-' + id);
-        replyDiv.innerHTML = 'Admin reply: <span>' + data.reply + '</span> <span class="reply-date">(' + data.created_at + ')</span>';
-        replyDiv.style.display = 'block';
-        document.getElementById('reply-text-' + id).value = '';
+        showToast('Reply sent!');
+        setTimeout(function() {
+            location.reload();
+        }, 900); // Wait for toast to show, then reload
+    })
+    .finally(() => {
+        btn.disabled = false;
     });
+}
+function showToast(msg) {
+    var toast = document.getElementById('toast');
+    if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'toast';
+        toast.className = 'toast';
+        document.body.appendChild(toast);
+    }
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(function() {
+        toast.classList.remove('show');
+    }, 1800);
 }
 </script>
 <?php include '../../includes/footer.php'; ?>
+</body>
+</html>

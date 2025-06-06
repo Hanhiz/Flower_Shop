@@ -109,7 +109,6 @@ if (isset($_GET['id'])) {
     }
 }
 
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -222,7 +221,7 @@ if (isset($_GET['id'])) {
                     <input type="hidden" name="quantity" value="<?php echo $quantity; ?>">
                     <input type="hidden" name="card_id" value="<?php echo $card_id; ?>">
                     <input type="hidden" name="card_message" value="<?php echo $card_message; ?>">
-                    <input type="hidden" name="total" value="<?php echo $total; ?>">
+                    <input type="hidden" name="total_amount" value="<?php echo $total; ?>">
                 <?php elseif (isset($_POST['checkout_items'])): ?>
                     <input type="hidden" name="checkout_items" value="<?php echo htmlspecialchars($_POST['checkout_items']); ?>">
                 <?php endif; ?>

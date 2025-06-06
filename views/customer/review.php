@@ -21,9 +21,13 @@ if ($product_id) {
 // Kiểm tra đã feedback chưa
 $already_reviewed = false;
 if ($current_user_id && $product_id) {
-    $check = $conn->query("SELECT id FROM reviews WHERE user_id = $current_user_id AND product_id = $product_id");
-    if ($check && $check->num_rows > 0) {
-        $already_reviewed = true;
+    $order_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+    $already_reviewed = false;
+    if ($current_user_id && $product_id && $order_id) {
+        $check = $conn->query("SELECT id FROM reviews WHERE user_id = $current_user_id AND product_id = $product_id AND id = $order_id");
+        if ($check && $check->num_rows > 0) {
+            $already_reviewed = true;
+        }
     }
 }
 
@@ -56,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$already_reviewed) {
 
         // Xử lý upload hình ảnh
         if (!empty($_FILES['review_images']['name'][0])) {
-            $upload_dir = '../../uploads/review_images/';
+            $upload_dir = '/flower_shop/assets/img/review/';
             if (!is_dir($upload_dir)) mkdir($upload_dir, 0777, true);
             foreach ($_FILES['review_images']['tmp_name'] as $idx => $tmp_name) {
                 $file_name = basename($_FILES['review_images']['name'][$idx]);
@@ -66,11 +70,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$already_reviewed) {
                 $new_name = uniqid('review_') . '.' . $ext;
                 $target = $upload_dir . $new_name;
                 if (move_uploaded_file($tmp_name, $target)) {
-                    $img_path = 'uploads/review_images/' . $new_name;
+                    $img_path = '/flower_shop/assets/img/review/' . $new_name;
                     $conn->query("INSERT INTO review_images (review_id, image_path, created_at) VALUES ($review_id, '$img_path', NOW())");
                 }
             }
         }
+
+        // Add notification for successful review
+        $type = 'review';
+        $message = 'Thank you for reviewing "' . htmlspecialchars($product['name']) . '"!';
+        $created_at = date('Y-m-d H:i:s');
+        $noti_stmt = $conn->prepare("INSERT INTO notifications (user_id, target_user_id, product_id, type, message, created_at) VALUES (?, ?, ?, ?, ?, ?)");
+        $noti_stmt->bind_param("iiisss", $current_user_id, $current_user_id, $product_id, $type, $message, $created_at);
+        $noti_stmt->execute();
+        $noti_stmt->close();
 
         $success = true;
         $stmt->close();

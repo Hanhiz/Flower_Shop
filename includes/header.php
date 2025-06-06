@@ -233,6 +233,17 @@
             <span class="icon-cart" style="cursor:pointer;"
                 onclick="
                     <?php if (isset($_SESSION['user_id'])): ?>
+                        window.location.href='/flower_shop/views/customer/noti.php';
+                    <?php else: ?>
+                        alert('You need to log in first!');
+                    <?php endif; ?>
+                "
+            >
+            <i class="fa-solid fa-bell"></i>
+            </span>
+            <span class="icon-cart" style="cursor:pointer;"
+                onclick="
+                    <?php if (isset($_SESSION['user_id'])): ?>
                         window.location.href='/flower_shop/views/customer/cart.php';
                     <?php else: ?>
                         alert('You need to log in first!');

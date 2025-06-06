@@ -5,13 +5,14 @@ include '../../includes/header.php';
 include '../../connectdb.php';	
 // Giả lập thông tin đơn hàng vừa thanh toán thành công
 $order_id = $_GET['order_id'] ?? 0;
-
+$order_success = false;
+$account_created = false;
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fullname'], $_POST['email'], $_POST['phone'], $_POST['address'])) {
     $fullname = trim($_POST['fullname']);
     $email = trim($_POST['email']);
     $phone = trim($_POST['phone']);
     $address = trim($_POST['address']);
-    $total_amount = floatval($_POST['total']);
+    $total_amount = floatval($_POST['total_amount'] ?? 0);
     $order_date = date('Y-m-d H:i:s');
     $status = 'Pending';
     $account_created = false;
@@ -50,6 +51,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fullname'], $_POST['e
     if ($stmt->execute()) {
         $order_id = $stmt->insert_id;
 
+        // Add notification for new order (pending)
+        $type = 'order_status';
+        $message = 'Your order #' . $order_id . ' has been placed and is pending confirmation.';
+        $created_at = date('Y-m-d H:i:s');
+        $noti_stmt = $conn->prepare("INSERT INTO notifications (user_id, target_user_id, order_id, type, message, created_at) VALUES (?, ?, ?, ?, ?, ?)");
+        $noti_stmt->bind_param("iiisss", $user_id, $user_id, $order_id, $type, $message, $created_at);
+        $noti_stmt->execute();
+        $noti_stmt->close();
+
         // Insert order items
         if (isset($_POST['checkout_items'])) {
             // From cart
@@ -70,20 +80,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fullname'], $_POST['e
             $quantity = intval($_POST['quantity']);
             $card_id = isset($_POST['card_id']) && $_POST['card_id'] !== '' ? intval($_POST['card_id']) : null;
             $card_message = $_POST['card_message'] ?? '';
+            $service_id = isset($_POST['service_id']) && $_POST['service_id'] !== '' ? intval($_POST['service_id']) : null;
             // Get product price
             $result = $conn->query("SELECT price FROM products WHERE id = $product_id");
             $product = $result->fetch_assoc();
-            $price = $product['price'];
-            $stmt2 = $conn->prepare("INSERT INTO order_items (order_id, product_id, quantity, price, service_id, card_message) VALUES (?, ?, ?, ?, ?, ?)");
-            $stmt2->bind_param("iiiids", $order_id, $product_id, $quantity, $price, $card_id, $card_message);
-            $stmt2->execute();
-        }
-        $order_success = true;
+            if (!$product || !isset($product['price'])) {
+                $order_error = "Product not found or price missing.";
+            } else {
+                $price = floatval($product['price']);
+                $stmt2 = $conn->prepare("INSERT INTO order_items (order_id, product_id, quantity, price, service_id, card_message) VALUES (?, ?, ?, ?, ?, ?)");
+                if ($service_id === null) {
+                    $stmt2->bind_param("iiiids", $order_id, $product_id, $quantity, $price, $service_id, $card_message);
+                } else {
+                    $stmt2->bind_param("iiiids", $order_id, $product_id, $quantity, $price, $service_id, $card_message);
+                }
+                $stmt2->execute();
+                $order_success = true;
+            }
     } else {
         $order_error = "Order failed. Please try again.";
     }
+    }
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -155,6 +173,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fullname'], $_POST['e
 .processpay-btn:hover {
     opacity: 0.85;
 }
+.order-toast {
+    position: fixed;
+    left: 24px;
+    bottom: 32px;
+    background: #2ecc40;
+    color: #fff;
+    padding: 16px 32px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    box-shadow: 0 2px 12px #aaa;
+    z-index: 9999;
+    opacity: 1;
+    transition: opacity 0.5s;
+}
 </style>
 <body>
 <?php if ($account_created): ?>
@@ -162,6 +194,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fullname'], $_POST['e
             alert("<?php echo addslashes($account_message); ?>");
         </script>
     <?php endif; ?>
+
+<?php if (!empty($order_success)): ?>
+    <div id="order-toast" class="order-toast">Your order has been placed and is pending confirmation.</div>
+    <script>
+        setTimeout(function() {
+            document.getElementById('order-toast').style.opacity = '0';
+        }, 2000);
+        setTimeout(function() {
+            document.getElementById('order-toast').style.display = 'none';
+        }, 2500);
+    </script>
+<?php endif; ?>
+
 <div class="processpay-container">
     <div class="processpay-icon">
         <!-- Biểu tượng thành công -->
@@ -183,6 +228,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fullname'], $_POST['e
         <a href="../../homepage.php" class="processpay-btn" style="background:#fff;color:#d17c7c;border:1.5px solid #d17c7c;">Back to homepage</a>
     </div>
 </div>
-</boody>
+</body>
 <?php include '../../includes/footer.php'; ?>
 </html>

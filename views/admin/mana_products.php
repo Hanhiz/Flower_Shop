@@ -67,10 +67,12 @@ $result = $conn->query("SELECT * FROM products ORDER BY created_at DESC");
 </head>
 <body>
     <nav class="admin-navbar">
-        <a href="dashboard.php">Dashboard</a>
+        <a href="dashboard.php" class="active">Dashboard</a>
         <a href="mana_orders.php">Manage Orders</a>
-        <a href="mana_products.php" class="active">Manage Products</a>
+        <a href="mana_products.php">Manage Products</a>
         <a href="mana_reviews.php">Manage Reviews</a>
+        <a href="mana_users.php">Manage Users</a>
+        <a href="mana_noti.php">Manage Notifications</a>
         <a href="/flower_shop/views/auth/logout.php" style="margin-left:auto;">Logout</a>
     </nav>
     <div class="container">

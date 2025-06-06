@@ -14,11 +14,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_id'], $_POST['s
     $oid = intval($_POST['order_id']);
     $status = $_POST['status'];
     $allowed = ['pending', 'shipped', 'delivered', 'cancelled'];
+
+    // Get current status and user_id before update
+    $cur = $conn->prepare("SELECT status, user_id FROM orders WHERE id = ?");
+    $cur->bind_param("i", $oid);
+    $cur->execute();
+    $cur->bind_result($old_status, $user_id);
+    $cur->fetch();
+    $cur->close();
+
     if (in_array($status, $allowed)) {
         $stmt = $conn->prepare("UPDATE orders SET status = ? WHERE id = ?");
         $stmt->bind_param("si", $status, $oid);
         $stmt->execute();
         $stmt->close();
+
+        // Add notification if status changes from pending to shipped
+        if ($old_status === 'pending' && $status === 'shipped') {
+            $type = 'order_status';
+            $message = 'Your order #' . $oid . ' has been shipped.';
+            $created_at = date('Y-m-d H:i:s');
+            $noti_stmt = $conn->prepare("INSERT INTO notifications (user_id, target_user_id, order_id, type, message, created_at) VALUES (?, ?, ?, ?, ?, ?)");
+            $noti_stmt->bind_param("iiisss", $user_id, $user_id, $oid, $type, $message, $created_at);
+            $noti_stmt->execute();
+            $noti_stmt->close();
+        }
     }
     // Refresh to avoid resubmission
     header("Location: mana_orders.php");
@@ -96,10 +116,12 @@ if (isset($_GET['order_id'])) {
 </head>
 <body>
     <nav class="admin-navbar">
-        <a href="dashboard.php">Dashboard</a>
-        <a href="mana_orders.php" class="active">Manage Orders</a>
+        <a href="dashboard.php" class="active">Dashboard</a>
+        <a href="mana_orders.php">Manage Orders</a>
         <a href="mana_products.php">Manage Products</a>
         <a href="mana_reviews.php">Manage Reviews</a>
+        <a href="mana_users.php">Manage Users</a>
+        <a href="mana_noti.php">Manage Notifications</a>
         <a href="/flower_shop/views/auth/logout.php" style="margin-left:auto;">Logout</a>
     </nav>
     <div class="container">

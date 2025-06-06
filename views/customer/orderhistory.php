@@ -10,6 +10,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancel_order_id'])) {
     // Only allow cancelling own pending orders
     $sql = "UPDATE orders SET status = 'Cancelled' WHERE id = $cancel_order_id AND user_id = $current_user_id AND status = 'Pending'";
     $conn->query($sql);
+    
+    // Add notification for cancelled order
+    $type = 'order_status';
+    $message = 'You have cancelled order #' . $cancel_order_id . '.';
+    $created_at = date('Y-m-d H:i:s');
+    $noti_stmt = $conn->prepare("INSERT INTO notifications (user_id, target_user_id, order_id, type, message, created_at) VALUES (?, ?, ?, ?, ?, ?)");
+    $noti_stmt->bind_param("iiisss", $current_user_id, $current_user_id, $cancel_order_id, $type, $message, $created_at);
+    $noti_stmt->execute();
+    $noti_stmt->close();
+
     // Optional: reload to update the list
     header("Location: orderhistory.php?status=Pending");
     exit;
@@ -21,6 +31,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_delivered_id'
     // Only allow confirming own shipped orders
     $sql = "UPDATE orders SET status = 'Delivered' WHERE id = $confirm_order_id AND user_id = $current_user_id AND status = 'Shipped'";
     $conn->query($sql);
+
+    // Add notification for delivered order
+    $type = 'order_status';
+    $message = 'You have confirmed delivery for order #' . $confirm_order_id . '.';
+    $created_at = date('Y-m-d H:i:s');
+    $noti_stmt = $conn->prepare("INSERT INTO notifications (user_id, target_user_id, order_id, type, message, created_at) VALUES (?, ?, ?, ?, ?, ?)");
+    $noti_stmt->bind_param("iiisss", $current_user_id, $current_user_id, $confirm_order_id, $type, $message, $created_at);
+    $noti_stmt->execute();
+    $noti_stmt->close();
+
     // Optional: reload to update the list
     header("Location: orderhistory.php?status=Delivered");
     exit;

@@ -233,10 +233,37 @@ if (session_status() === PHP_SESSION_NONE) {
             font-size: 12px;
             margin-left: 5px;
         }
+        .login-toast {
+            position: fixed;
+            left: 24px;
+            bottom: 32px;
+            background: #2ecc40;
+            color: #fff;
+            padding: 16px 32px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            box-shadow: 0 2px 12px #aaa;
+            z-index: 9999;
+            width: 300px;
+            opacity: 1;
+            transition: opacity 0.5s;
+        }
     </style>
 </head>
 <body>
     <?php include 'includes/header.php'; ?>
+    <?php if (!empty($_SESSION['login_success'])): ?>
+        <div id="login-toast" class="login-toast"><img src="/flower_shop/assets/img/bell.png" style = "width: 6%; margin-right:20px;" >Login successful!</div>
+        <script>
+            setTimeout(function() {
+                document.getElementById('login-toast').style.opacity = '0';
+            }, 2000);
+            setTimeout(function() {
+                document.getElementById('login-toast').style.display = 'none';
+            }, 2500);
+        </script>
+        <?php unset($_SESSION['login_success']); ?>
+    <?php endif; ?>
     <header>
         <img src="assets/img/home_banner.jpg" alt="Flower Shop" style="width: 40%; height: 500px; object-fit: cover; justify-content: right; border-radius: 8px; position: absolute; right: 0; top: 0px; margin-right: 0px;">
         <h1>Blossom Flower Shop</h1>

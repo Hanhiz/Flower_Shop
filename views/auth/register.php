@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($stmt->num_rows > 0) {
             $error = "Email already exists.";
         } else {
-            $stmt = $conn->prepare("INSERT INTO users (full_name, email, password, phone, address, role) VALUES (?, ?, ?, ?, ?, 'user')");
+            $stmt = $conn->prepare("INSERT INTO users (full_name, email, password, phone, address, role) VALUES (?, ?, ?, ?, ?, 'customer')");
             $stmt->bind_param("sssss", $full_name, $email, $password, $phone, $address);
             if ($stmt->execute()) {
                 header("Location: login.php?registered=1");

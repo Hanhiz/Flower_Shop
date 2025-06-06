@@ -73,7 +73,7 @@ $result = $conn->query("SELECT * FROM products ORDER BY created_at DESC");
         <a href="mana_reviews.php">Manage Reviews</a>
         <a href="mana_users.php">Manage Users</a>
         <a href="mana_noti.php">Manage Notifications</a>
-        <a href="/flower_shop/views/auth/logout.php" style="margin-left:auto;">Logout</a>
+        <a href="/flower_shop/views/auth/logout.php" style="margin-left:auto;" onclick="return confirm('Are you sure you want to logout?');">Logout</a>
     </nav>
     <div class="container">
         <h2>Product Management</h2>

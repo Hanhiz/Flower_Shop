@@ -213,8 +213,8 @@
                 <div class="nav-item">
                     <a href="#about">OUR STORY</a>
                     <div class="dropdown">
-                        <a href="#">About Us</a>
-                        <a href="#">Our Team</a>
+                        <a href="/flower_shop/views/customer/about_us.php">About Us</a>
+                        <a href="/flower_shop/views/customer/our_team.php">Our Team</a>
                     </div>
                 </div>
             </nav>
@@ -257,7 +257,7 @@
                         <a href="/flower_shop/views/customer/orderhistory.php" style="padding:10px 20px; display:block; color:#222;">My Orders</a>
                     </div>
                 </div>
-                <a href="/flower_shop/views/auth/logout.php" class="sign-in"><span class="dot">•</span><b>LOGOUT</b></a>
+                <a href="/flower_shop/views/auth/logout.php" class="sign-in" onclick="return confirm('Are you sure you want to logout?');"><span class="dot">•</span><b>LOGOUT</b></a>
             <?php else: ?>
                 <a href="/flower_shop/views/auth/login.php" class="sign-in"><span class="dot">•</span><b>SIGN-IN</b></a>
             <?php endif; ?>

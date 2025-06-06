@@ -202,23 +202,6 @@ $shipping_fee = 20000;
                             <div style="margin-top:6px; color:#333;">
                                 <?php echo nl2br(htmlspecialchars($review['comment'])); ?>
                             </div>
-                            <?php
-                            // Fetch images for this review
-                            $review_id_sql = "SELECT id FROM reviews WHERE product_id = $product_id AND user_id = (SELECT id FROM users WHERE full_name = '" . $conn->real_escape_string($review['full_name']) . "') AND created_at = '" . $review['created_at'] . "' LIMIT 1";
-                            $review_id_result = $conn->query($review_id_sql);
-                            $review_id_row = $review_id_result ? $review_id_result->fetch_assoc() : null;
-                            if ($review_id_row) {
-                                $img_sql = "SELECT image_path FROM review_images WHERE review_id = " . intval($review_id_row['id']);
-                                $img_result = $conn->query($img_sql);
-                                if ($img_result && $img_result->num_rows > 0) {
-                                    echo '<div style="margin-top:8px; display:flex; gap:10px; flex-wrap:wrap;">';
-                                    while ($img = $img_result->fetch_assoc()) {
-                                        echo '<img src="' . htmlspecialchars($img['image_path']) . '" alt="Review Image" style="width:80px; height:80px; object-fit:cover; border-radius:6px; border:1px solid #eee;">';
-                                    }
-                                    echo '</div>';
-                                }
-                            }
-                            ?>
                         </div>
                     <?php endwhile; ?>
                 <?php else: ?>

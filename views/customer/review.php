@@ -18,21 +18,19 @@ if ($product_id) {
     }
 }
 
-// Kiểm tra đã feedback chưa
+// Check if user has already reviewed this product
 $already_reviewed = false;
 if ($current_user_id && $product_id) {
-    $order_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
-    $already_reviewed = false;
-    if ($current_user_id && $product_id && $order_id) {
-        $check = $conn->query("SELECT id FROM reviews WHERE user_id = $current_user_id AND product_id = $product_id AND id = $order_id");
-        if ($check && $check->num_rows > 0) {
-            $already_reviewed = true;
-        }
+    $today = date('Y-m-d');
+    $check = $conn->query("SELECT id FROM reviews WHERE user_id = $current_user_id AND product_id = $product_id AND DATE(created_at) = '$today'");
+    if ($check && $check->num_rows > 0) {
+        $already_reviewed = true;
     }
 }
 
 // Handle submit
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$already_reviewed) {
+    error_log(print_r($_FILES, true));
     $rating = intval($_POST['rating'] ?? 0);
     $comment = trim($_POST['comment'] ?? '');
 
@@ -57,21 +55,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$already_reviewed) {
             $stmt->execute();
             $review_id = $conn->insert_id;
         }
-
-        // Xử lý upload hình ảnh
+        error_log("review_id: " . $review_id);
+        error_log(print_r($_FILES, true));
+        // Upload images
         if (!empty($_FILES['review_images']['name'][0])) {
-            $upload_dir = '/flower_shop/assets/img/review/';
+            $upload_dir = $_SERVER['DOCUMENT_ROOT'] . '/flower_shop/assets/img/review/';
             if (!is_dir($upload_dir)) mkdir($upload_dir, 0777, true);
             foreach ($_FILES['review_images']['tmp_name'] as $idx => $tmp_name) {
+                if ($_FILES['review_images']['error'][$idx] !== UPLOAD_ERR_OK) continue;
                 $file_name = basename($_FILES['review_images']['name'][$idx]);
                 $ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
                 $allowed = ['jpg','jpeg','png','gif','webp'];
                 if (!in_array($ext, $allowed)) continue;
+                if (!@getimagesize($tmp_name)) continue;
+                if ($_FILES['review_images']['size'][$idx] > 2 * 1024 * 1024) continue; 
                 $new_name = uniqid('review_') . '.' . $ext;
                 $target = $upload_dir . $new_name;
                 if (move_uploaded_file($tmp_name, $target)) {
                     $img_path = '/flower_shop/assets/img/review/' . $new_name;
-                    $conn->query("INSERT INTO review_images (review_id, image_path, created_at) VALUES ($review_id, '$img_path', NOW())");
+                    $sql = "INSERT INTO review_images (review_id, image_path, created_at) VALUES ($review_id, '$img_path', NOW())";
+                    if (!$conn->query($sql)) {
+                        error_log("Insert failed: " . $conn->error);
+                    }
                 }
             }
         }
@@ -87,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$already_reviewed) {
 
         $success = true;
         $stmt->close();
-        $already_reviewed = true; // Đánh dấu đã feedback để ẩn form luôn
+        $already_reviewed = true; 
     }
 }
 

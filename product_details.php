@@ -60,7 +60,7 @@ $shipping_fee = 20000;
                 clear: both;
                 margin: 0;
                 background-color: #fff;
-                font-family: Arial, sans-serif;
+                font-family: 'Times New Roman', serif;
             }
             .product-detail {
                 width: 90%;

@@ -69,7 +69,7 @@ $total_pages = ceil($total_products / $per_page);
     <style>
         body { 
             background: #fff; 
-            font-family: 'Montserrat', sans-serif; 
+            font-family: 'Times New Roman', serif;
         }
         .shop-main { 
             display: flex; 
@@ -187,7 +187,8 @@ $total_pages = ceil($total_products / $per_page);
 </head>
 <body>
     <?php include 'includes/header.php'; ?>
-    <h1 style="text-align:center; margin: 20px 0; color: #e75480;">Shop - All Products</h1>
+    <h1 style="text-align:center; margin: 40px 0 20px 0;">ALL BOUQUETS</h1>
+    <p style="text-align:center;">We design bouquets the French way, using seasons and our Parisian roots as inspiration.</p>
     <form class="search-bar" method="get" action="shop.php">
         <input type="text" name="search" placeholder="Search products..." value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
         <button buttontype="submit"><a href="shop.php" style="color:#e75480; text-align:center;">Reset</a></button>
@@ -199,11 +200,11 @@ $total_pages = ceil($total_products / $per_page);
             <input type="hidden" name="collection_id" value="<?php echo isset($_GET['collection_id']) ? intval($_GET['collection_id']) : ''; ?>">
             <div style="margin-bottom:12px;">
                 <label>Min price:</label>
-                <input type="number" name="min_price" placeholder="Min" min="0" value="<?php echo isset($_GET['min_price']) ? intval($_GET['min_price']) : ''; ?>">
+                <input type="number" step="10000" min="0" name="min_price" placeholder="Min" min="0" value="<?php echo isset($_GET['min_price']) ? intval($_GET['min_price']) : ''; ?>">
             </div>
             <div style="margin-bottom:12px;">
                 <label>Max price:</label>
-                <input type="number" name="max_price" placeholder="Max" min="0" value="<?php echo isset($_GET['max_price']) ? intval($_GET['max_price']) : ''; ?>">
+                <input type="number" step="10000" min="0" name="max_price" placeholder="Max" min="0" value="<?php echo isset($_GET['max_price']) ? intval($_GET['max_price']) : ''; ?>">
             </div>
             <div style="margin-bottom:18px;">
                 <label for="collection_id"><b>Occasion:</b></label>

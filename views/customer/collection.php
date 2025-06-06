@@ -1,4 +1,5 @@
 <?php
+session_start();
 // filepath: c:\xampp\htdocs\Flower_Shop\views\customer\collection.php
 include '../../includes/header.php';
 
@@ -150,11 +151,14 @@ body {
             foreach ($collections as $idx => $col) {
                 $img = "../../assets/img/collection" . ($idx + 1) . ".png";
                 echo '<div class="collection-card">';
+                echo '<a href="?c=' . $idx . '">';
                 echo '<img src="'.$img.'" alt="'.htmlspecialchars($col['name']).'">';
                 echo '<div class="collection-card-info">';
                 echo '<div class="collection-card-label">COLLECTIONS</div>';
                 echo '<div class="collection-card-title">'.htmlspecialchars($col['name']).'</div>';
-                echo '</div></div>';
+                echo '</div>';
+                echo '</a>';
+                echo '</div>';
             }
         } elseif (is_numeric($selected) && isset($collections[$selected])) {
             $col = $collections[$selected];

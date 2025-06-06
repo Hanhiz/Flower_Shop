@@ -194,10 +194,7 @@
             </div>
             <nav class="nav">
                 <div class="nav-item">
-                    <a href="<?php echo ($currentPage == 'homepage.php') ? '#bouquet' : '/flower_shop/shop.php'; ?>">BOUQUET</a>
-                    <div class="dropdown">
-                        <a href="/flower_shop/shop.php">All Bouquets</a>
-                    </div>
+                    <a href="/flower_shop/shop.php">BOUQUET</a>
                 </div>
                 <div class="nav-item">
                     <a href="<?php echo ($currentPage == 'homepage.php') ? '#collection' : '/flower_shop/views/customer/collection.php'; ?>">

@@ -172,7 +172,7 @@ if ($col_result && $col_result->num_rows > 0) {
     <h1 style="text-align:center; margin: 20px 0; color: #e75480;">Shop - All Products</h1>
     <form class="search-bar" method="get" action="shop.php">
         <input type="text" name="search" placeholder="Search products..." value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
-        <button buttontype="submit"><a href="shop.php" style="margin-left:10px; color:#e75480;">Reset</a></button>
+        <button buttontype="submit"><a href="shop.php" style="color:#e75480; text-align:center;">Reset</a></button>
     </form>
     <div class="shop-main">
         <form class="sidebar" method="get" action="shop.php">

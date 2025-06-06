@@ -24,7 +24,7 @@ $products = [];
 if (is_numeric($selected) && isset($collections[$selected])) {
     $conn = new mysqli('localhost', 'root', '', 'flowershop');
     $conn->set_charset('utf8');
-    $stmt = $conn->prepare("SELECT * FROM products WHERE collection_id = ?");
+    $stmt = $conn->prepare("SELECT * FROM products WHERE collection_id = ? AND stock > 0");
     $stmt->bind_param("i", $collections[$selected]['id']);
     $stmt->execute();
     $result = $stmt->get_result();

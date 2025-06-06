@@ -4,7 +4,7 @@ session_start();
 include 'connectdb.php';
 
 // Handle search and filter
-$where = "WHERE status = 1";
+$where = "WHERE status = 1 AND stock > 0";
 $params = [];
 if (!empty($_GET['search'])) {
     $where .= " AND name LIKE ?";

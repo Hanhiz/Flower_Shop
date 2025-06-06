@@ -98,7 +98,15 @@ $result = $conn->query("SELECT * FROM products ORDER BY created_at DESC");
                 </td>
                 <td><?php echo htmlspecialchars($row['name']); ?></td>
                 <td><?php echo number_format($row['price']); ?></td>
-                <td><?php echo $row['status'] ? 'Active' : 'Inactive'; ?></td>
+                <td>
+                    <?php
+                        if (isset($row['stock']) && $row['stock'] == 0) {
+                            echo '<span style="color:#e75480;font-weight:bold;">Out of Stock</span>';
+                        } else {
+                            echo '<span style="color:#388e3c;font-weight:bold;">In Stock</span>';
+                        }
+                    ?>
+                </td>
                 <td><?php echo $row['created_at']; ?></td>
                 <td>
                     <a href="edit_product.php?id=<?php echo $row['id']; ?>" class="action-btn" style="background:#2196F3;">Edit</a>

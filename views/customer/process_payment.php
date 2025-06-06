@@ -80,6 +80,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fullname'], $_POST['e
                     $stmt2 = $conn->prepare("INSERT INTO order_items (order_id, product_id, quantity, price, service_id, card_message) VALUES (?, ?, ?, ?, ?, ?)");
                     $stmt2->bind_param("iiiiis", $order_id, $row['product_id'], $row['quantity'], $price, $row['service_id'], $row['card_message']);
                     $stmt2->execute();
+                    // Reduce stock
+                    $update_stock = $conn->prepare("UPDATE products SET stock = stock - ? WHERE id = ?");
+                    $update_stock->bind_param("ii", $row['quantity'], $row['product_id']);
+                    $update_stock->execute();
+                    $update_stock->close();
                 }
                 // Remove from cart
                 $conn->query("DELETE FROM cart_items WHERE user_id = $user_id AND id IN ($ids)");
@@ -104,6 +109,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fullname'], $_POST['e
                 $stmt2->bind_param("iiiids", $order_id, $product_id, $quantity, $price, $service_id, $card_message);
                 $stmt2->execute();
                 $order_success = true;
+                // Reduce stock
+                $update_stock = $conn->prepare("UPDATE products SET stock = stock - ? WHERE id = ?");
+                $update_stock->bind_param("ii", $quantity, $product_id);
+                $update_stock->execute();
+                $update_stock->close();
             }
         } else {
             $order_error = "Order failed. Please try again.";

@@ -74,7 +74,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
     }
-
+    // Auto-set status to out_of_stock if stock is 0
+    if ($stock == 0) {
+        $status = 'out_of_stock';
+    }
     // Update DB
     if (!$errors) {
         $edit_at = date('Y-m-d H:i:s');

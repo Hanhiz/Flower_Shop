@@ -128,6 +128,12 @@ body {
     gap: 32px;
     margin-top: 40px;
 }
+.shop-products-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    margin-top: 40px;
+}
 .shop-card {
     background: #fff;
     border-radius: 10px;
@@ -135,18 +141,25 @@ body {
     overflow: hidden;
     text-align: center;
     transition: box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+    height: 480px;
 }
 .shop-card:hover {
     box-shadow: 0 4px 24px #e75480aa;
 }
 .shop-card img {
     width: 100%;
-    height: 220px;
+    height: 400px;
     object-fit: cover;
     display: block;
 }
 .shop-card-info {
     padding: 16px 12px 18px 12px;
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
 }
 .shop-card-title {
     font-size: 1.1rem;
@@ -160,28 +173,11 @@ body {
     font-weight: 500;
 }
 @media (max-width: 900px) {
-    .collection-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 20px;
-    }
-    .shop-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
+    .shop-products-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
     .shop-card img { height: 160px; }
 }
 @media (max-width: 600px) {
-    .collection-container {
-        padding: 16px 0 24px 0;
-    }
-    .collection-grid {
-        grid-template-columns: 1fr;
-        gap: 16px;
-    }
-    .collection-card img {
-        height: 160px;
-    }
-    .collection-title {
-        font-size: 1.2rem;
-    }
-    .shop-grid { grid-template-columns: 1fr; gap: 16px; }
+    .shop-products-grid { grid-template-columns: 1fr; gap: 16px; }
     .shop-card img { height: 120px; }
 }
 </style>
@@ -201,9 +197,10 @@ body {
         EXPLORE OUR FLOWER COLLECTION<br>
         FOR ALL OCCASIONS
     </div>
-    <div class="collection-grid">
+    <div>
         <?php
         if ($selected === 'all') {
+            echo '<div class="collection-grid">';
             foreach ($collections as $idx => $col) {
                 $img = "../../assets/img/collection" . ($idx + 1) . ".png";
                 echo '<div class="collection-card">';
@@ -216,9 +213,10 @@ body {
                 echo '</a>';
                 echo '</div>';
             }
+            echo '</div>';
         } elseif (is_numeric($selected) && isset($collections[$selected])) {
             // Bỏ phần hiển thị ảnh collection, chỉ hiển thị sản phẩm
-            echo '<div class="shop-grid">';
+            echo '<div class="shop-products-grid">';
             if (empty($products)) {
                 echo '<div style="padding:32px;text-align:center;color:#888;">No products in this collection.</div>';
             } else {

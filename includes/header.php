@@ -253,8 +253,8 @@
                 <div class="user-icon" style="position:relative; cursor:pointer;">
                     <i class="fa-solid fa-user"></i>
                     <div class="dropdown">
-                        <a href="/flower_shop/views/customer/account.php" style="padding:10px 20px; display:block; color:#222;">Profile</a>
-                        <a href="/flower_shop/views/customer/orderhistory.php" style="padding:10px 20px; display:block; color:#222;">My Orders</a>
+                        <a href="/flower_shop/views/customer/account.php" style="padding:10px 20px; display:block; text-decoration:none; color:#222;">Profile</a>
+                        <a href="/flower_shop/views/customer/orderhistory.php" style="padding:10px 20px; display:block; text-decoration:none; color:#222;">My Orders</a>
                     </div>
                 </div>
                 <a href="/flower_shop/views/auth/logout.php" class="sign-in" onclick="return confirm('Are you sure you want to logout?');"><span class="dot">•</span><b>LOGOUT</b></a>

@@ -101,6 +101,7 @@ while ($row = $result->fetch_assoc()) {
         .admin-row { background: #f8eaea; color: #e75480; }
         .action-btn {
             background: #e75480; color: #fff; border: none; border-radius: 4px; padding: 5px 12px; cursor: pointer;
+            text-decoration: none;
         }
         .action-btn:hover { background: #b94a48; }
         .edit-form input[type="text"], .edit-form input[type="email"] {

@@ -56,11 +56,13 @@ $result = $conn->query("SELECT * FROM products ORDER BY created_at DESC");
         .action-btn {
             background: #e75480; color: #fff; border: none; border-radius: 4px;
             padding: 6px 14px; cursor: pointer; transition: background 0.2s;
+            text-decoration: none;
         }
         .action-btn:hover { background: #d84372; }
         .add-btn {
             background: #4CAF50; color: #fff; border: none; border-radius: 4px;
             padding: 8px 18px; cursor: pointer; margin-bottom: 18px; float: right;
+            text-decoration: none;
         }
         .add-btn:hover { background: #388e3c; }
     </style>

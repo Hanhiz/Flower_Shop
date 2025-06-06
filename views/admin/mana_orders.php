@@ -106,6 +106,7 @@ if (isset($_GET['order_id'])) {
         .view-btn {
             background: #e75480; color: #fff; border: none; border-radius: 4px;
             padding: 6px 14px; cursor: pointer; transition: background 0.2s;
+            text-decoration: none;
         }
         .view-btn:hover { background: #d84372; }
         .status-select { padding: 4px 8px; border-radius: 4px; }
@@ -171,7 +172,9 @@ if (isset($_GET['order_id'])) {
                     <td>
                         <form method="post" action="" style="margin:0;">
                             <input type="hidden" name="order_id" value="<?php echo $row['id']; ?>">
-                            <select name="status" class="status-select" onchange="this.form.submit()">
+                            <select name="status" class="status-select"
+                                onchange="this.form.submit()"
+                                <?php if($row['status']=='delivered' || $row['status']=='cancelled') echo 'disabled'; ?>>
                                 <option value="pending" <?php if($row['status']=='pending') echo 'selected'; ?>>Pending</option>
                                 <option value="shipped" <?php if($row['status']=='shipped') echo 'selected'; ?>>Shipped</option>
                                 <option value="delivered" <?php if($row['status']=='delivered') echo 'selected'; ?>>Delivered</option>

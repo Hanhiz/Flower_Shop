@@ -275,7 +275,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['change_password'])) {
             <ul class="submenu">
                 <li><a href="/flower_shop/views/customer/account.php">My Account</a></li>
                 <li><a href="/flower_shop/views/customer/orderhistory.php">My Orders</a></li>
-                <li><a href="#">Notification</a></li>
+                <li><a href="/flower_shop/views/customer/noti.php">Notification</a></li>
             </ul>
         </li>
     </ul>

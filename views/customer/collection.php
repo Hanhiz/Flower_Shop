@@ -223,7 +223,7 @@ body {
                 foreach ($products as $product) {
                     $img = "/flower_shop/assets/img/" . htmlspecialchars($product['image']);
                     echo '<div class="shop-card">';
-                    echo '<a href="product_detail.php?id=' . $product['id'] . '">';
+                    echo '<a href="/flower_shop/product_details.php?id=' . $product['id'] . '">';
                     echo '<img src="' . $img . '" alt="' . htmlspecialchars($product['name']) . '">';
                     echo '<div class="shop-card-info">';
                     echo '<div class="shop-card-title">' . htmlspecialchars($product['name']) . '</div>';

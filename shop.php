@@ -23,7 +23,13 @@ if (!empty($_GET['collection_id'])) {
     $params[] = intval($_GET['collection_id']);
 }
 
-$sql = "SELECT id, name, image, price, description FROM products $where ORDER BY created_at DESC";
+// Pagination setup
+$per_page = 12;
+$page = isset($_GET['page']) && is_numeric($_GET['page']) ? intval($_GET['page']) : 1;
+if ($page < 1) $page = 1;
+$offset = ($page - 1) * $per_page;
+
+$sql = "SELECT id, name, image, price, description FROM products $where ORDER BY created_at DESC LIMIT $per_page OFFSET $offset";
 $stmt = $conn->prepare($sql);
 
 // Bind params dynamically
@@ -41,6 +47,18 @@ if ($col_result && $col_result->num_rows > 0) {
         $collections[] = $row;
     }
 }
+
+// Count total products for pagination
+$count_sql = "SELECT COUNT(*) as total FROM products $where";
+$count_stmt = $conn->prepare($count_sql);
+if ($params) {
+    $types = str_repeat('s', count($params));
+    $count_stmt->bind_param($types, ...$params);
+}
+$count_stmt->execute();
+$count_result = $count_stmt->get_result();
+$total_products = $count_result->fetch_assoc()['total'];
+$total_pages = ceil($total_products / $per_page);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -219,6 +237,21 @@ if ($col_result && $col_result->num_rows > 0) {
             </div>
         </div>
     </div>
+    <?php if ($total_pages > 1): ?>
+    <div class="pagination" style="margin: 32px 0; display: flex; justify-content: center; gap: 8px;">
+        <?php for ($p = 1; $p <= $total_pages; $p++): ?>
+            <?php
+            // Preserve other query params
+            $query = $_GET;
+            $query['page'] = $p;
+            $url = 'shop.php?' . http_build_query($query);
+            ?>
+            <a href="<?php echo $url; ?>" style="padding:8px 14px;border-radius:4px;<?php if($p == $page) echo 'background:#e75480;color:#fff;'; else echo 'background:#fff;color:#e75480;border:1px solid #e75480;'; ?>">
+                <?php echo $p; ?>
+            </a>
+        <?php endfor; ?>
+    </div>
+    <?php endif; ?>
     <?php include 'includes/footer.php'; ?>
 </body>
 </html>

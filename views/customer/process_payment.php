@@ -3,7 +3,6 @@
 session_start();
 include '../../includes/header.php';
 include '../../connectdb.php';	
-// Giả lập thông tin đơn hàng vừa thanh toán thành công
 $order_id = $_GET['order_id'] ?? 0;
 $order_success = false;
 $account_created = false;
@@ -209,7 +208,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fullname'], $_POST['e
 
 <div class="processpay-container">
     <div class="processpay-icon">
-        <!-- Biểu tượng thành công -->
         <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
             <circle cx="24" cy="24" r="24" fill="#eafbe7"/>
             <path d="M15 25.5L21 31.5L33 19.5" stroke="#2ecc40" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>

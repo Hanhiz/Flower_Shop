@@ -215,7 +215,6 @@ body {
             }
             echo '</div>';
         } elseif (is_numeric($selected) && isset($collections[$selected])) {
-            // Bỏ phần hiển thị ảnh collection, chỉ hiển thị sản phẩm
             echo '<div class="shop-products-grid">';
             if (empty($products)) {
                 echo '<div style="padding:32px;text-align:center;color:#888;">No products in this collection.</div>';

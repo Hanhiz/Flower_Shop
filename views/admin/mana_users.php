@@ -72,6 +72,26 @@ while ($row = $result->fetch_assoc()) {
     <meta charset="UTF-8">
     <title>Manage Users</title>
     <style>
+        .admin-navbar {
+            background: #e75480;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            height: 60px;
+        }
+        .admin-navbar a {
+            color: #fff;
+            text-decoration: none;
+            padding: 0 32px;
+            font-size: 18px;
+            line-height: 60px;
+            display: block;
+            transition: background 0.2s;
+        }
+        .admin-navbar a:hover, .admin-navbar a.active {
+            background: #d84372;
+        }
         body { background: #f8f8f8; font-family: 'Segoe UI', Arial, sans-serif; }
         .container { max-width: 900px; margin: 40px auto; background: #fff; border-radius: 10px; box-shadow: 0 2px 12px #eee; padding: 32px; }
         h2 { color: #e75480; text-align: center; }

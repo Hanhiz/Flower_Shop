@@ -425,7 +425,7 @@ document.querySelectorAll('.review-star').forEach(function(star, idx, stars) {
     });
 });
 
-// 4 slot image logic: 1 add, 3 preview (managed by selectedFiles array)
+// 4 slot image logic: 1 add, 3 preview 
 const imgInput = document.getElementById('review-img-input');
 const addImgPlus = document.getElementById('addimg-plus');
 const imgSlots = [

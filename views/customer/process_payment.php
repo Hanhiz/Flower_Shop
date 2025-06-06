@@ -63,16 +63,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fullname'], $_POST['e
         if (isset($_POST['checkout_items'])) {
             // From cart
             $checkout_items = explode(',', $_POST['checkout_items']);
-            $ids = implode(',', array_map('intval', $checkout_items));
-            $sql = "SELECT * FROM cart_items WHERE user_id = $user_id AND id IN ($ids)";
-            $result = $conn->query($sql);
-            while ($row = $result->fetch_assoc()) {
-                $stmt2 = $conn->prepare("INSERT INTO order_items (order_id, product_id, quantity, price, service_id, card_message) VALUES (?, ?, ?, ?, ?, ?)");
-                $stmt2->bind_param("iiiiis", $order_id, $row['product_id'], $row['quantity'], $row['price'], $row['service_id'], $row['card_message']);
-                $stmt2->execute();
+            $ids_array = array_filter(array_map('intval', $checkout_items));
+            if (!empty($ids_array)) {
+                $ids = implode(',', $ids_array);
+                // Fetch cart items for this user and these IDs
+                $result = $conn->query("SELECT * FROM cart_items WHERE user_id = $user_id AND id IN ($ids)");
+                while ($row = $result->fetch_assoc()) {
+                    // Get product price from products table
+                    $product_id = $row['product_id'];
+                    $product_result = $conn->query("SELECT price FROM products WHERE id = $product_id");
+                    $product = $product_result->fetch_assoc();
+                    if (!$product || !isset($product['price'])) {
+                        continue; // Skip this cart item
+                    }
+                    $price = $product['price'];
+                    $stmt2 = $conn->prepare("INSERT INTO order_items (order_id, product_id, quantity, price, service_id, card_message) VALUES (?, ?, ?, ?, ?, ?)");
+                    $stmt2->bind_param("iiiiis", $order_id, $row['product_id'], $row['quantity'], $price, $row['service_id'], $row['card_message']);
+                    $stmt2->execute();
+                }
+                // Remove from cart
+                $conn->query("DELETE FROM cart_items WHERE user_id = $user_id AND id IN ($ids)");
+            } else {
+                $order_error = "No valid cart items selected.";
             }
-            // Remove from cart
-            $conn->query("DELETE FROM cart_items WHERE user_id = $user_id AND id IN ($ids)");
         } else if (isset($_POST['product_id'])) {
             // Direct buy
             $product_id = intval($_POST['product_id']);
@@ -88,19 +101,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fullname'], $_POST['e
             } else {
                 $price = floatval($product['price']);
                 $stmt2 = $conn->prepare("INSERT INTO order_items (order_id, product_id, quantity, price, service_id, card_message) VALUES (?, ?, ?, ?, ?, ?)");
-                if ($service_id === null) {
-                    $stmt2->bind_param("iiiids", $order_id, $product_id, $quantity, $price, $service_id, $card_message);
-                } else {
-                    $stmt2->bind_param("iiiids", $order_id, $product_id, $quantity, $price, $service_id, $card_message);
-                }
+                $stmt2->bind_param("iiiids", $order_id, $product_id, $quantity, $price, $service_id, $card_message);
                 $stmt2->execute();
                 $order_success = true;
             }
-    } else {
-        $order_error = "Order failed. Please try again.";
-    }
+        } else {
+            $order_error = "Order failed. Please try again.";
+        }
     }
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
